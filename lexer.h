@@ -25,6 +25,7 @@
 # include <sys/stat.h>
 # include <curses.h>
 # include <term.h>
+# include <ctype.h>
 
 typedef struct s_token
 {
@@ -64,4 +65,8 @@ t_token *ft_token_last(t_token *head);
 void    ft_token_add_back(t_token **stack, t_token *new);
 int	    ft_strcmp(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
+t_token *first_parse(char *input);
+
+void    s_quotes(char *input, int *i, t_token **new);
+void    d_quotes(char *input, int *i, t_token **new);
 #endif

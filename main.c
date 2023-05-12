@@ -12,56 +12,42 @@
 
 #include "lexer.h"
 
-void    quote_split(t_token **tokens)
-{
-    int is_quote;
-    t_token *tmp;
+// static void make_tokens(char *input)
+// {
+//     t_token *tokens;
+//     t_token *new;
+//     int     i;
+//     char    **tmp;
 
-    tmp = (*tokens);
-    while (tmp != NULL)
-    {
-        if ()
-    }
-}
-
-t_token **make_tokens(char *input)
-{
-    t_token **tokens;
-    t_token *new;
-    int     i;
-    char    **tmp;
-
-    i = 0;
-    tokens = (t_token **)malloc(sizeof(t_token *));
-    tokens = NULL;
-    tmp = ft_split(input, ' ');
-    while (tmp[i++])
-    {
-        new = ft_new_token(tmp[i]);
-        ft_token_add_back(tokens, new);
-    }
-    quote_split(tokens);
-    return (tokens);
-}
+//     i = -1;
+//     tokens = malloc(sizeof(t_token));
+//     tokens = NULL;
+//     tmp = ft_split(input, ' ');
+//     while (tmp[++i] != NULL)
+//     {
+//         new = ft_new_token(tmp[i]);
+//         ft_token_add_back(&tokens, new);
+//     }
+// }
 
 int main(int ac, char **av, char **envp)
 {
     char    *input;
-    t_token **check;     //for testing
+    t_token    *check;
 
     (void)ac;
     (void)av;
-    (void)envp; 
+    (void)envp;
     while ((input = readline("Minishell ")) != NULL)
     {
         add_history(input);
-        check = make_tokens(input);
+        check = first_parse(input);
         free(input);
     }
-    while((*check) != NULL)
-    {
-        printf("%s\n", (*check)->data);
-        (*check) = (*check)->next;
-    }
+    // while(check != NULL)
+    // {
+    //     printf("%s\n", check->data);
+    //     check = check->next;
+    // }
     return (0);
 }
