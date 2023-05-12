@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_list_utils.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/11 12:44:48 by jfrances          #+#    #+#             */
+/*   Updated: 2023/05/11 12:44:50 by jfrances         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lexer.h"
 
 t_token	*ft_new_token(char *content)
@@ -54,17 +66,17 @@ void	ft_token_add_back(t_token **stack, t_token *new)
 	}
 }
 
-// int	ft_lstsize(t_list *head)
-// {
-// 	size_t	i;
-// 	t_list	*tmp;
+int	ft_token_size(t_token *head)
+{
+	size_t	i;
+	t_token	*tmp;
 
-// 	tmp = head;
-// 	i = 0;
-// 	while (tmp)
-// 	{
-// 		tmp = tmp->next;
-// 		i++;
-// 	}
-// 	return (i);
-// }
+	tmp = head;
+	i = 0;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	return (i);
+}
