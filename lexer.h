@@ -63,10 +63,12 @@ typedef struct  s_table
 t_token *ft_new_token(char *content);
 t_token *ft_token_last(t_token *head);
 void    ft_token_add_back(t_token **stack, t_token *new);
+int	ft_token_size(t_token *head);
 int	    ft_strcmp(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
 t_token *first_parse(char *input);
+size_t  ft_strlen(const char *str);
 
-void    s_quotes(char *input, int *i, t_token **new);
-void    d_quotes(char *input, int *i, t_token **new);
+int    s_quotes(char *input, int i, t_token **new);
+int    d_quotes(char *input, int i, t_token **new);
 #endif

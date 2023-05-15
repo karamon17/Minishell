@@ -38,13 +38,15 @@ int main(int ac, char **av, char **envp)
     (void)ac;
     (void)av;
     (void)envp;
-    while ((input = readline("Minishell ")) != NULL)
+    while ((input = readline("Minishell $")) != NULL)
     {
         add_history(input);
+        if (ft_strcmp(input, "exit") == 0)
+            break ;
         check = first_parse(input);
         free(input);
     }
-    // while(check != NULL)
+    // while (check != NULL)
     // {
     //     printf("%s\n", check->data);
     //     check = check->next;

@@ -19,7 +19,7 @@ t_token	*ft_new_token(char *content)
 	new = (t_token *) malloc(sizeof(*new));
 	if (!new)
 		return (NULL);
-	new->data = content;
+	new->data = content;	
 	new->type = -1;
 	new->next = NULL;
 	return (new);
