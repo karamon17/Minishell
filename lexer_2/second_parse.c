@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   second_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/15 16:54:06 by jfrances         ###   ########.fr       */
+/*   Created: 2023/05/15 16:54:58 by jfrances          #+#    #+#             */
+/*   Updated: 2023/05/15 16:54:59 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "../lexer.h"
 
-int main(int ac, char **av, char **envp)
+void    second_parse(t_token **tokens)
 {
-    char    *input;
-    t_token    *check;
-
-    (void)ac;
-    (void)av;
-    (void)envp;
-    while ((input = readline("Minishell $")) != NULL)
+    t_token *head;
+    head = (*tokens);
+    while(head != NULL)
     {
-        add_history(input);
-        if (ft_strcmp(input, "exit") == 0)
-            break ;
-        check = first_parse(input);
-        free(input);
+        is_b_in(&head);
+        is_pipe(&head);
+        //is_r_dir(&head);
+        is_option(&head);
+        //is_delimeter(&head);
+        is_env(&head);
+        if(head->type == -1)
+            head->type = TEXT;
+        head = head->next;
     }
-    return (0);
 }

@@ -6,12 +6,21 @@
 /*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 19:35:11 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/09 19:35:13 by jfrances         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:54:02 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
+
+# define B_IN 0
+# define PIPE 1
+# define R_DIR 2
+# define OPT 3
+# define DELIM 4
+# define TEXT 5
+# define ENV 6
+
 
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -60,15 +69,20 @@ typedef struct  s_table
     int minus;
 }               t_table;
 
-t_token *ft_new_token(char *content);
-t_token *ft_token_last(t_token *head);
-void    ft_token_add_back(t_token **stack, t_token *new);
-int	ft_token_size(t_token *head);
-int	    ft_strcmp(char *s1, char *s2);
-char	**ft_split(char const *s, char c);
-t_token *first_parse(char *input);
-size_t  ft_strlen(const char *str);
-
-int    s_quotes(char *input, int i, t_token **new);
-int    d_quotes(char *input, int i, t_token **new);
+//lexer_1/lex_split_first.c
+int         grab_pipe(char *input, int i, t_token **new);
+int         d_quotes(char *input, int i, t_token **new);
+int         append_word(char *input, int i, t_token **new);
+int         s_quotes(char *input, int i, t_token **new);
+t_token    *first_parse(char *input);
+//lexer_1/lex_utils.c
+int	        ft_strcmp(char *s1, char *s2);
+char	    *ft_substr(char const *s, unsigned int start, size_t len);
+size_t      ft_strlen(const char *str);
+char	    *ft_strjoin(char const *s1, char const *s2);
+//lexer_1/token_list_utils.c
+t_token	    *ft_new_token(char *content);
+t_token	    *ft_token_last(t_token *head);
+void	    ft_token_add_back(t_token **stack, t_token *new);
+int	        ft_token_size(t_token *head);
 #endif
