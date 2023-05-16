@@ -20,6 +20,7 @@
 # define DELIM 4
 # define TEXT 5
 # define ENV 6
+# define HDOC 7
 
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -50,23 +51,23 @@ typedef struct s_tree
     struct s_tree   *right;
 }               t_tree;
 
-typedef struct s_env
+// typedef struct s_env
 
-{
-    char            *name;
-    char            *content;
-    int             is_env;
-    struct s_env    *next;
-}           t_env;
+// {
+//     char            *name;
+//     char            *content;
+//     int             is_env;
+//     struct s_env    *next;
+// }           t_env;
 
-typedef struct  s_table
-{
-    int state;
-    int event;
-    int action;
-    int next;
-    int minus;
-}               t_table;
+// typedef struct  s_table
+// {
+//     int state;
+//     int event;
+//     int action;
+//     int next;
+//     int minus;
+// }               t_table;
 
 typedef struct s_shell
 {

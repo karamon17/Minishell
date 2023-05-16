@@ -52,41 +52,49 @@ void    is_env(t_token **head)
         (*head)->type = ENV;
 }
 
+void    is_option(t_token **head)
+{
+    int i;
 
+    i = -1;
+    while ((*head)->data[++i])
+    {
+        if ((*head)->data[i] == '-' && i == 0)
+        {
+            if ((*head)->data[i + 1] != '\0')
+            {
+                (*head)->type = OPT;
+                break ;
+            }
+        }
+    }
+}
 
+void    is_redir(t_token **head)
+{
+    int i;
+    
+    i = -1;
+    while ((*head)->data[++i])
+    {
+        if ((*head)->data[i] == '>')
+        {
+            if((*head)->data[i + 1] != '\0' && (*head)->data[i + 1] != '>')
+            {
+                (*head)->type = R_DIR;
+                break ;
+            }
+        }
+        if ((*head)->data[i] == '<')
+        {
+            if((*head)->data[i + 1] != '\0' && (*head)->data[i + 1] != '<')
+            {
+                (*head)->type = R_DIR;
+                break ;
+            }
+        }
+    }
+}
 
-
-// void    is_r_dir(t_token **head)                //Function will require subfunctions and a count of redirects
-// {                                               //Maybe split redirects into additional nodes for the ACBT(?)
-//     int i;
-
-//     i = 0;
-//     while ((*head)->data[i] != '\0')
-//     {
-//         if ((*head)->data[i] == '>' && (*head)->data[i + 1] == '>')
-//         {
-//             (*head)->type = PIPE;
-//             break ;
-//         }
-//         i++;
-//     }
-// }
-
-// void    is_delimiter(t_token **head)                //Function will require subfunctions and a count of delimeters i.e. "<<a>>b<<c"
-// {                                                   //Maybe split delimeters into additional nodes for the ACBT(?)
-//     int i;
-
-//     i = 0;
-//     while ((*head)->data[i] != '\0')
-//     {
-//         if ((*head)->data[i] == '>' && (*head)->data[i + 1] == '>')
-//         {
-//             (*head)->type = PIPE;
-//             break ;
-//         }
-//         i++;
-//     }
-// }
-
-//NOTE: POSSIBLE SOLUTION IS TO LOOP THROUGH LINKED LIST AND STORE INTO A SECOND LINKED LIST (OUR ABSTRACT COMMAND BINARY TREE)
+//NOTE: POSSIBLE SOLUTION IS TO LOOP THROUGH LINKED LIST AND STORE INTO A SECOND LINKED LIST (OUR ABSTRACT SYNTAX TREE)
 //AFTER FREE FIRST LINKED LIST SEND NEW LIST TO EXECUTION PHASE. 

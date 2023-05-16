@@ -24,7 +24,7 @@ void    shell_loop(t_token *tokens)
     t_token     *check;
     char        *input;
 
-    while ((input = readline("Minishell $")) != NULL)
+    while ((input = readline("Minishell $>")) != NULL)
     {
         add_history(input);
         if (ft_strcmp(input, "exit") == 0)

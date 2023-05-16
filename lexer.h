@@ -62,4 +62,6 @@ void    is_env(t_token **head);
 
 //lexer2
 void    second_parse(t_token **tokens);
+void    is_redir(t_token **head);
+void    is_option(t_token **head);
 #endif

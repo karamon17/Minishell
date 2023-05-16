@@ -20,8 +20,8 @@ void    second_parse(t_token **tokens)
     {
         is_b_in(&head);
         is_pipe(&head);
-        //is_r_dir(&head);
-        //is_option(&head);
+        is_option(&head);
+        is_redir(&head);
         //is_delimeter(&head);
         is_env(&head);
         if (head->type == -1)
