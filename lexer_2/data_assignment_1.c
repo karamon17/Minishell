@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   data_assignment_1.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/16 14:15:54 by jfrances          #+#    #+#             */
+/*   Updated: 2023/05/16 14:16:01 by jfrances         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../lexer.h"
 
 void    is_b_in(t_token **head)
@@ -23,7 +35,7 @@ void    is_pipe(t_token **head)
     int i;
 
     i = 0;
-    while ((*head)->data[i] != '\0')
+    while ((*head)->data[i])
     {
         if ((*head)->data[i] == '|')
         {
@@ -39,6 +51,8 @@ void    is_env(t_token **head)
     if (getenv((*head)->data) != NULL)
         (*head)->type = ENV;
 }
+
+
 
 
 
