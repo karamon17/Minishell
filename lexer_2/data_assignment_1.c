@@ -96,5 +96,30 @@ void    is_redir(t_token **head)
     }
 }
 
+void    is_delimeter(t_token **head)
+{
+    int i;
+    
+    i = -1;
+    while ((*head)->data[++i])
+    {
+        if ((*head)->data[i] == '>')
+        {
+            if((*head)->data[i + 1] != '\0' && (*head)->data[i + 1] == '>')
+            {
+                (*head)->type = R_DIR;
+                break ;
+            }
+        }
+        if ((*head)->data[i] == '<')
+        {
+            if((*head)->data[i + 1] != '\0' && (*head)->data[i + 1] == '<')
+            {
+                (*head)->type = R_DIR;
+                break ;
+            }
+        }
+    }
+}
 //NOTE: POSSIBLE SOLUTION IS TO LOOP THROUGH LINKED LIST AND STORE INTO A SECOND LINKED LIST (OUR ABSTRACT SYNTAX TREE)
 //AFTER FREE FIRST LINKED LIST SEND NEW LIST TO EXECUTION PHASE. 

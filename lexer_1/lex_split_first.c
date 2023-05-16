@@ -63,8 +63,6 @@ t_token    *first_parse(char *input, t_token *tokens)
             i = s_quotes(input, i + 1, &new);
         else if (input[i] == '"')
             i = d_quotes(input, i + 1, &new);
-        // else if (input[i] == '<<' || input[i] == '>>' || input[i] == '>' || intput[i] == '<')
-        //     i = heredoc_delim_chk(input, i, &new);
         else if (input[i] != ' ')
            i = append_word(input, i + 1, &new);
         ft_token_add_back(&tokens, new);
