@@ -32,5 +32,19 @@ void    second_parse(t_token **tokens)
 
 void    gen_ast(t_token **tokens, **tree)
 {
-
+    (*tree) = ft_ntree_node((*token)->data);
+    (*token) = (*token)->next;
+    while ((*token != NULL))
+    {
+        if ((*token)->type == CMD)
+        {
+            (*tree)->left = ft_ntree_node((*token)->data, (*token)->type);
+            (*tree) = (*tree)->left;
+        }
+        else if ((*token)->type == PIPE)
+        {
+            (*tree)->right = ft_ntree_node((*token)->data, (*token)->type);
+            (*tree) = (*tree)->right;
+        }
+    }
 }
