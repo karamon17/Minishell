@@ -54,6 +54,7 @@ t_token	    *ft_new_token(char *content);
 t_token	    *ft_token_last(t_token *head);
 void	    ft_token_add_back(t_token **stack, t_token *new);
 int	        ft_token_size(t_token *head);
+char        *double_strjoin(char *tmp, char *input, int *j);
 
 //lexer_2/data_assignment_1.c
 void    is_b_in(t_token **head);

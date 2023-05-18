@@ -52,23 +52,23 @@ void    is_env(t_token **head)
         (*head)->type = ENV;
 }
 
-void    is_option(t_token **head)
-{
-    int i;
+// void    is_option(t_token **head)
+// {
+//     int i;
 
-    i = -1;
-    while ((*head)->data[++i])
-    {
-        if ((*head)->data[i] == '-' && i == 0)
-        {
-            if ((*head)->data[i + 1] != '\0')
-            {
-                (*head)->type = OPT;
-                break ;
-            }
-        }
-    }
-}
+//     i = -1;
+//     while ((*head)->data[++i])
+//     {
+//         if ((*head)->data[i] == '-' && i == 0)
+//         {
+//             if ((*head)->data[i + 1] != '\0')
+//             {
+//                 (*head)->type = OPT;
+//                 break ;
+//             }
+//         }
+//     }
+// }
 
 void    is_redir(t_token **head)
 {

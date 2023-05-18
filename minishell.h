@@ -18,7 +18,7 @@
 # define R_DIR 2
 # define OPT 3
 # define DELIM 4
-# define TEXT 5
+# define ARGUMENT 5
 # define ENV 6
 # define HDOC 7
 

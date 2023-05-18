@@ -19,7 +19,7 @@ void    ft_error_exit(char *str)
     exit(1);
 }
 
-void    shell_loop(t_token *tokens)
+void    shell_loop(t_token *tokens, cmd_tree)
 {
     t_token     *check;
     char        *input;
@@ -30,6 +30,7 @@ void    shell_loop(t_token *tokens)
         if (ft_strcmp(input, "exit") == 0)
             break ;
         check = first_parse(input, tokens);
+        gen_ast(check, cmd_tree);
         free(input);
     }
 }
@@ -50,7 +51,7 @@ t_shell    *initalize_shell(t_shell *shell)
     {
         free(shell->tokens);
         free(shell);
-        ft_error_exit("Malloc Error: ABCT Struct");
+        ft_error_exit("Malloc Error: AST Struct");
     }
     shell->tokens = NULL;
     shell->cmd_tree = NULL;
@@ -67,6 +68,6 @@ int main(int ac, char **av)
     if (ac > 1)
          exit (1);
     shell = initalize_shell(shell);
-    shell_loop(shell->tokens);
+    shell_loop(shell->tokens, shell->cmd_tree);
     return (0);
 }

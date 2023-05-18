@@ -20,12 +20,17 @@ void    second_parse(t_token **tokens)
     {
         is_b_in(&head);
         is_pipe(&head);
-        is_option(&head);
+        //is_option(&head);
         is_redir(&head);
-        is_delimeter(&head);
+        //is_delimeter(&head);
         is_env(&head);
         if (head->type == -1)
-            head->type = TEXT;
+            head->type = ARGUMENT;
         head = head->next;
     }
+}
+
+void    gen_ast(t_token **tokens, **tree)
+{
+
 }
