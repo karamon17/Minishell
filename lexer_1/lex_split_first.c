@@ -17,22 +17,48 @@
 char *add_white_space(char *input, int j)
 {
     char *tmp;
+    int tmp_size = 0;
 
-    tmp = (char *)malloc(sizeof(char));
-    tmp = "";
+    while (input[j])
+    {
+        if (input[j] == '|')
+            tmp_size += 2; // Additional space for "|"
+        else if ((input[j] == '<' && input[j + 1] != '<') || (input[j] == '>' && input[j + 1] != '>'))
+            tmp_size += 2; // Additional space for "<" or ">"
+        else if ((input[j] == '<' && input[j - 1] == '<') || (input[j] == '>' && input[j - 1] == '>'))
+            tmp_size += 2; // Additional space for "<<" or ">>"
+        tmp_size++; // Space for the current character
+        j++;
+    }
+
+    tmp = (char *)malloc((tmp_size + 1) * sizeof(char)); // Allocate memory for the resulting string
+    if (!tmp)
+    {
+        // Handle memory allocation error
+        return NULL;
+    }
+
+    tmp[0] = '\0'; // Initialize the string as an empty string
+
+    j = 0; // Reset the iterator
     while (input[j])
     {
         if (input[j] == '|')
             tmp = double_strjoin(tmp, input, &j);
-        if ((input[j] == '<' && input[j + 1] != '<') || (input[j] == '>' && input[j + 1] != '>'))
+        else if ((input[j] == '<' && input[j + 1] != '<') || (input[j] == '>' && input[j + 1] != '>'))
             tmp = double_strjoin(tmp, input, &j);
         else if ((input[j] == '<' && input[j - 1] == '<') || (input[j] == '>' && input[j - 1] == '>'))
             tmp = double_strjoin(tmp, input, &j);
-        tmp = ft_strjoin(tmp, ft_substr(input, j, 1));
-        j++;
+        else
+        {
+            tmp = ft_strjoin(tmp, ft_substr(input, j, 1));
+            j++;
+        }
     }
-    return (tmp);
+
+    return tmp;
 }
+
 
 int d_quotes(char *input, int i, t_token **new)
 {
@@ -43,7 +69,6 @@ int d_quotes(char *input, int i, t_token **new)
     }
     if (input[i] != '\0')
          (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
-    (*new)->type = TEXT;
     return (i);
 }
 
@@ -54,7 +79,6 @@ int append_word(char *input, int i, t_token **new)
         (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
         i++;
     }
-    (*new)->type = TEXT;
     return (i);
 }
 
@@ -67,10 +91,6 @@ int s_quotes(char *input, int i, t_token **new)
     }
     if (input[i] != '\0')
          (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
-    if (ft_strcmp((*new)->data, "$"))
-        (*new)->type = ENV;
-    else
-        (*new)->type = TEXT;
     return (i);
 }
 
@@ -97,13 +117,6 @@ t_token    *first_parse(char *input, t_token *tokens)
            i = append_word(tmp, i + 1, &new);
         ft_token_add_back(&tokens, new);
         i++;
-    }
-    second_parse(&tokens);
-    while (tokens != NULL)
-    {
-        printf("{%s}\n", tokens->data);
-        printf("[%d]\n", tokens->type);
-        tokens = tokens->next;
     }
     return (tokens);
 }

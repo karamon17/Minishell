@@ -1,15 +1,14 @@
 #include "../minishell.h"
 
-t_tree	*ft_ntree_node(char *content, int type)
-{
-	t_token	*new;
+t_tree *createNode(char *data, t_tree *left, t_tree *right) {
+    t_tree *node = (t_tree*)malloc(sizeof(t_tree));
+    node->data = data;
+    node->left = left;
+    node->right = right;
+    return node;
+}
 
-	new = (t_token *) malloc(sizeof(*new));
-	if (!new)
-		return (NULL);
-	new->data = content;	
-	new->type = type;
-	new->left = NULL;
-    new->right = NULL
-	return (new);
+t_tree *createLeafNode(char *data) 
+{
+    return createNode(data, NULL, NULL);
 }

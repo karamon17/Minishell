@@ -36,6 +36,7 @@
 # include <term.h>
 # include <ctype.h>
 
+t_token    *initalize_tokens(t_token **tokens);
 //lexer_1/lex_split_first.c
 int         grab_pipe(char *input, int i, t_token **new);
 int         d_quotes(char *input, int i, t_token **new);

@@ -39,39 +39,16 @@
 typedef struct s_token
 {
     char        *data;
-    int         type;
     struct s_token  *next;  
 }               t_token;
 
 typedef struct s_tree
 {
     void            *data;
-    int             type;
     struct s_tree   *left;
     struct s_tree   *right;
 }               t_tree;
 
-// typedef struct s_env
-
-// {
-//     char            *name;
-//     char            *content;
-//     int             is_env;
-//     struct s_env    *next;
-// }           t_env;
-
-// typedef struct  s_table
-// {
-//     int state;
-//     int event;
-//     int action;
-//     int next;
-//     int minus;
-// }               t_table;
-
-typedef struct s_shell
-{
-    struct s_token *tokens;
-    struct s_tree  *cmd_tree;
-}               t_shell;
+t_tree* buildAST(t_token **tokens);
+void printAST(t_tree *root);
 #endif
