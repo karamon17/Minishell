@@ -30,16 +30,11 @@ char *add_white_space(char *input, int j)
         tmp_size++; // Space for the current character
         j++;
     }
-
     tmp = (char *)malloc((tmp_size + 1) * sizeof(char)); // Allocate memory for the resulting string
     if (!tmp)
-    {
         // Handle memory allocation error
         return NULL;
-    }
-
     tmp[0] = '\0'; // Initialize the string as an empty string
-
     j = 0; // Reset the iterator
     while (input[j])
     {
@@ -55,10 +50,8 @@ char *add_white_space(char *input, int j)
             j++;
         }
     }
-
     return tmp;
 }
-
 
 int d_quotes(char *input, int i, t_token **new)
 {
@@ -96,6 +89,7 @@ int s_quotes(char *input, int i, t_token **new)
 
 t_token    *first_parse(char *input, t_token *tokens)
 {
+    int     check = 0;
     t_token *new;
     int     i;
     int     j;
@@ -115,8 +109,12 @@ t_token    *first_parse(char *input, t_token *tokens)
             i = d_quotes(input, i + 1, &new);
         else if (tmp[i] != ' ')
            i = append_word(tmp, i + 1, &new);
-        ft_token_add_back(&tokens, new);
+        if (check == 0)
+            tokens = new;
+        if (check != 0)
+            ft_token_add_back(&tokens, new);
         i++;
+        check++;
     }
     return (tokens);
 }

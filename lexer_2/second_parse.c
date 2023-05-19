@@ -44,8 +44,8 @@ t_tree* buildAST(t_token **tokens)
 {
     t_tree  *node;
     t_token *current;
-    // Check for NULL or empty token
-    if (*tokens == NULL || (*tokens)->data == NULL)
+    //Check for NULL or empty token
+    if (*tokens == NULL)
     {   
         printf("Tokens are NULL");
         return NULL;
@@ -72,7 +72,7 @@ void printAST(t_tree *root)
         return;
 
     printAST(root->left);
-    printf("%s ", (char*)root->data);
+    printf("%s\n", (char*)root->data);
     printAST(root->right);
 }
 

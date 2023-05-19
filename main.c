@@ -31,7 +31,11 @@ void    shell_loop(t_token **tokens)
         if (ft_strcmp(input, "exit") == 0)
             break ;
         check = first_parse(input, *tokens);
-        printf("%s\n", check->next->data);
+        // while (check != NULL)
+        // {
+        //     printf("[%s]\n", check->data);
+        //     check = check->next;
+        // }
         ast = buildAST(&check);
         printAST(ast);
         free(input);
