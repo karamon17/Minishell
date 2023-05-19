@@ -19,8 +19,9 @@ void    ft_error_exit(char *str)
     exit(1);
 }
 
-void    shell_loop(t_token *tokens, cmd_tree)
+void    shell_loop(t_token **tokens)
 {
+    t_tree      *ast;
     t_token     *check;
     char        *input;
 
@@ -29,45 +30,34 @@ void    shell_loop(t_token *tokens, cmd_tree)
         add_history(input);
         if (ft_strcmp(input, "exit") == 0)
             break ;
-        check = first_parse(input, tokens);
-        gen_ast(check, cmd_tree);
+        check = first_parse(input, *tokens);
+        printf("%s\n", check->next->data);
+        ast = buildAST(&check);
+        printAST(ast);
         free(input);
     }
 }
 
-t_shell    *initalize_shell(t_shell *shell)
+t_token    *initalize_tokens(t_token **tokens)
 {
-    shell = malloc(sizeof(t_shell));
-    if (!shell)
-        ft_error_exit("Malloc Error: Shell Struct");
-    shell->tokens = malloc(sizeof(t_token));
-    if (!shell->tokens)
-    {
-        free(shell);
-        ft_error_exit("Malloc Error: Tokens Struct");
-    }
-    shell->cmd_tree = malloc(sizeof(t_tree));
-    if (!shell->cmd_tree)
-    {
-        free(shell->tokens);
-        free(shell);
-        ft_error_exit("Malloc Error: AST Struct");
-    }
-    shell->tokens = NULL;
-    shell->cmd_tree = NULL;
-    return (shell);
+    if ((*tokens) == NULL)
+        (*tokens) = malloc(sizeof(t_token));
+    if (!tokens)
+        ft_error_exit("Malloc Error: Token Struct");
+    (*tokens)->next = NULL;
+    (*tokens)->data = NULL;
+    return (*tokens);
 }
 
 int main(int ac, char **av)
 {
-    t_shell     *shell;
+    t_token *tokens;
     
-    (void)ac;
     (void)av;
-    shell = NULL;
+    tokens = NULL;
     if (ac > 1)
          exit (1);
-    shell = initalize_shell(shell);
-    shell_loop(shell->tokens, shell->cmd_tree);
+    tokens = initalize_tokens(&tokens);
+    shell_loop(&tokens);
     return (0);
 }
