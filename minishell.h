@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/13 17:39:10 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/13 19:15:18 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
+/*   Updated: 2023/05/16 14:15:28 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# define B_IN 0
+# define PIPE 1
+# define R_DIR 2
+# define OPT 3
+# define DELIM 4
+# define ARGUMENT 5
+# define ENV 6
+# define HDOC 7
 
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -27,11 +35,43 @@
 # include <curses.h>
 # include <term.h>
 # include <ctype.h>
-#include "libft/libft.h"
 
-char **env;
+typedef struct s_token
+{
+    char        *data;
+    int         type;
+    struct s_token  *next;  
+}               t_token;
 
-int ft_cd(char **args);
-void execute_pwd();
+typedef struct s_tree
+{
+    void            *data;
+    int             type;
+    struct s_tree   *left;
+    struct s_tree   *right;
+}               t_tree;
 
+// typedef struct s_env
+
+// {
+//     char            *name;
+//     char            *content;
+//     int             is_env;
+//     struct s_env    *next;
+// }           t_env;
+
+// typedef struct  s_table
+// {
+//     int state;
+//     int event;
+//     int action;
+//     int next;
+//     int minus;
+// }               t_table;
+
+typedef struct s_shell
+{
+    struct s_token *tokens;
+    struct s_tree  *cmd_tree;
+}               t_shell;
 #endif
