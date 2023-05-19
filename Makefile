@@ -4,11 +4,11 @@ SRCS = $(wildcard *.c)
 
 OBJS = $(SRCS:.c=.o)
 
-HEADER = lexer.h
+HEADER = minishell.h
 
 LIBFT	=	libft/libft.a
 
-FLAGS = -Wall -Wextra -Werror -g -Llibft -lft
+FLAGS = -Wall -Wextra -Werror -g 
 
 all: $(NAME)
 
@@ -16,10 +16,10 @@ all: $(NAME)
 	cc $(FLAGS) -c $< -o $@
 
 $(NAME): $(HEADER) $(OBJS) $(LIBFT)
-	cc $(FLAGS) $(OBJS) -o $(NAME) $(LIBFT)
+	cc $(FLAGS) $(OBJS) -Llibft -lft -lreadline -o $(NAME) 
 
 $(LIBFT) : 
-			make -C ./libft
+		make -C ./libft
 
 clean:
 	rm -f $(OBJS)

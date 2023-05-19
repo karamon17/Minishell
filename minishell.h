@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 17:39:10 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/13 17:39:16 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/13 19:15:18 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,8 @@
 #include "libft/libft.h"
 
 char **env;
+
+int ft_cd(char **args);
+void execute_pwd();
 
 #endif
