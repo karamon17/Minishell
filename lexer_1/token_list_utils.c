@@ -20,7 +20,6 @@ t_token	*ft_new_token(char *content)
 	if (!new)
 		return (NULL);
 	new->data = content;	
-	new->type = -1;
 	new->next = NULL;
 	return (new);
 }
