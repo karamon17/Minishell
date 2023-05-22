@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 19:35:11 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/15 16:54:02 by jfrances         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:38:10 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,6 @@
 # define ENV 6
 
 # include "minishell.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <sys/wait.h>
-# include <unistd.h>
-# include <dirent.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <stdlib.h>
-# include <signal.h>
-# include <sys/stat.h>
-# include <curses.h>
-# include <term.h>
-# include <ctype.h>
 
 t_token    *initalize_tokens(t_token **tokens);
 //lexer_1/lex_split_first.c

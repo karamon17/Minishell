@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   second_parse.c                                     :+:      :+:    :+:   */
+/*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/15 16:54:58 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/22 13:33:29 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/05/20 19:21:32 by gkhaishb          #+#    #+#             */
+/*   Updated: 2023/05/20 19:23:05 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#ifndef STRUCT_H
+# define STRUCT_H
 
-// void    parse_ast(t_tree *ast)
-// {
-    
-// }
+typedef struct s_minishell {
+	char				**envp;
+}	t_minishell;
+
+#endif

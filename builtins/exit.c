@@ -6,13 +6,14 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/15 14:17:01 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:23:58 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int ft_exit(char **args)
 {
-    exit(0);
+    (void)args;
+	exit(0);
 }

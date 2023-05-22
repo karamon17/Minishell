@@ -6,11 +6,11 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 17:42:58 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/15 13:55:44 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:21:40 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void ft_pwd()
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/16 14:15:28 by jfrances         ###   ########.fr       */
+/*   Updated: 2023/05/22 17:45:58 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 # include <curses.h>
 # include <term.h>
 # include <ctype.h>
+# include "struct.h"
+# include "libft/libft.h"
 
 typedef struct s_token
 {
@@ -51,4 +53,9 @@ typedef struct s_tree
 
 t_tree* buildAST(t_token **tokens);
 void printAST(t_tree *root);
+int	ft_cd(t_minishell *shell, t_token *token);
+int	execute_builtin(t_minishell *shell, t_token *token);
+char *ft_getenv(t_minishell *shell, char *name);
+char **envdup(char **env);
+
 #endif

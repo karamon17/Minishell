@@ -1,7 +1,5 @@
-#include "../lexer.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "../minishell.h"
 
 // Structure for tokens obtained from lexical analysis
 // typedef struct s_token 
