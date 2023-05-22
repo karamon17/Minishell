@@ -16,49 +16,64 @@ void    ft_error_exit(char *str)
 {
     while (*str)
         write(2, str++, 1);
-    exit(1);
 }
 
-void    shell_loop(t_token **tokens)
+void    shell_loop(t_shell **shell)
 {
-    t_tree      *ast;
-    t_token     *check;
+    //t_token     *check;
     char        *input;
 
-    while ((input = readline("Minishell $>")) != NULL)
+    while ((input = readline("Minishell $>")) != NULL && (*shell)->err_stat == 0)
     {
         add_history(input);
         if (ft_strcmp(input, "exit") == 0)
             break ;
-        check = first_parse(input, *tokens);
+        (*shell)->tokens = first_parse(input, (*shell)->tokens);
         free(input);
-        ast = buildAST(&check);
-        //printAST(ast);
-        parse_ast(ast);
-        free(ast);
+        (*shell)->ast = buildAST(&(*shell)->tokens);
+        printAST((*shell)->ast);
+        //parse_ast(ast);
+        free((*shell)->ast);
     }
 }
 
-t_token    *initalize_tokens(t_token **tokens)
+t_token *initialize_tokens(t_token *tokens)
 {
-    if ((*tokens) == NULL)
-        (*tokens) = malloc(sizeof(t_token));
+    tokens = malloc(sizeof(t_token));
     if (!tokens)
+    {
+        // Handle memory allocation failure
         ft_error_exit("Malloc Error: Token Struct");
-    (*tokens)->next = NULL;
-    (*tokens)->data = NULL;
-    return (*tokens);
+    }
+    tokens->next = NULL;
+    tokens->data = NULL;
+    return (tokens);
 }
 
-int main(int ac, char **av)
+void    init_shell(t_shell **shell)
+{   
+    (*shell) = malloc(sizeof(t_shell));
+    if (!(*shell))
+        (*shell)->err_stat = -1;
+    else
+    {
+        (*shell)->err_stat = 0;        //Initial exit status, if there is an error, update err_stat and exit with that code
+        (*shell)->tokens = initialize_tokens((*shell)->tokens);
+        (*shell)->env_lst = NULL;
+    }
+}
+
+int main(int ac, char **av, char **envp)
 {
-    t_token *tokens;
+    t_shell *shell;
     
     (void)av;
-    tokens = NULL;
-    if (ac > 1)
-         exit (1);
-    tokens = initalize_tokens(&tokens);
-    shell_loop(&tokens);
-    return (0);
+    (void)ac;
+    shell = NULL;
+    init_shell(&shell);
+    (void)envp[0];
+    //get_env_var(&(shell->env_lst), envp);     //Store ENV variables
+    //avletsnel_sh_lvl(shell.env_lst);          //When the shell is called the ENV variable shell level should increase by 1. NOT YET IMPLEMENTED WIP
+    shell_loop(&shell);                         //Main loop where input is read and tokens are generated
+    exit(shell->err_stat);
 }

@@ -49,6 +49,29 @@ typedef struct s_tree
     struct s_tree   *right;
 }               t_tree;
 
+typedef struct s_env
+{
+    struct s_env	*next;
+	char			*key;
+    char			**tmp;
+	char			*value;
+    char			*tmp0;
+	char			*tmp1;
+    char			*tmp2;
+	int				flag;
+	int				i;
+	int				pop;
+	int				exflag;
+}	t_env;
+
+typedef struct s_shell
+{
+    struct s_tree   *ast;
+    struct s_token  *tokens;
+    struct s_env    *env_lst;
+    int             err_stat;
+}               t_shell;
+
 t_tree* buildAST(t_token **tokens);
 void printAST(t_tree *root);
 #endif
