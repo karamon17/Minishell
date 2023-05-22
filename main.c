@@ -32,7 +32,7 @@ void    shell_loop(t_shell **shell)
         free(input);
         (*shell)->ast = buildAST(&(*shell)->tokens);
         printAST((*shell)->ast);
-        printENV((*shell)->env_lst);
+        //printENV((*shell)->env_lst);
         //parse_ast(ast);
         free((*shell)->ast);
     }
@@ -74,7 +74,7 @@ int main(int ac, char **av, char **envp)
     init_shell(&shell);
     (void)envp[0];
     get_env_var(&(shell->env_lst), envp);     //Store ENV variables in ENV linked list
-    //avletsnel_sh_lvl(shell.env_lst);          //When the shell is called the ENV variable shell level should increase by 1. NOT YET IMPLEMENTED WIP
+    aveletsnel_shvl(shell->env_lst);          //When the shell is called the ENV variable shell level should increase by 1. NOT YET IMPLEMENTED WIP
     shell_loop(&shell);                         //Main loop where input is read and tokens are generated
     exit(shell->err_stat);
 }

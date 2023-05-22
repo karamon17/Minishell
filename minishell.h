@@ -75,5 +75,14 @@ typedef struct s_shell
 t_tree* buildAST(t_token **tokens);
 void printAST(t_tree *root);
 void    get_env_var(t_env **env_lst, char **envp);
-void    printENV(t_env *env_lst);
+//void    printENV(t_env *env_lst);
+int	ft_atoi(const char *str);
+char	*ft_strdup(const char *s1);
+char	*ft_itoa(int n);
+void    aveletsnel_shvl(t_env *env_lst);
+char    *find_env_val(t_env *env_lst, char *key);
+t_env	*ft_add_new_env(char *key, char *value, int flag);
+t_env	*ft_add_env_back(t_env *env_list, char *key, char *value, int flag);
+void    get_env_var(t_env **env_lst, char **envp);
+size_t  ft_strlen(const char *str);
 #endif

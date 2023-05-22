@@ -1,32 +1,40 @@
 #include "../lexer.h"
 
-void    printENV(t_env *env_lst)
+void    aveletsnel_shvl(t_env *env_lst)
 {
-    t_env   *tmp;
+    char    *val;
+    char    *tmp;
+    int     lvl;
 
-    tmp = env_lst;
-    while (tmp != NULL)
-    {
-        printf("[Key == %s, value == %s, flag == %d]\n", env_lst->key, env_lst->value, env_lst->flag);
-        tmp = tmp->next;
-    }
+    val = find_env_val(env_lst, "SHLVL");
+    if (!val)
+        return ;
+    lvl = ft_atoi(val + 1);
+    free(val);
+    while (env_lst && env_lst->next)
+	{
+		if (ft_strcmp("SHLVL", env_lst->key) == 0)
+		{
+			tmp = ft_itoa(lvl);
+			env_lst->value = tmp;
+			return ;
+		}
+		env_lst = env_lst->next;
+	}
 }
 
-char	*ft_strdup(const char *s1)
+char    *find_env_val(t_env *env_lst, char *key)
 {
-	char	*ptr;
-	int		i;
-	int		len;
+    t_env	*head;
 
-	len = ft_strlen(s1);
-	i = 0;
-	ptr = (char *)malloc(sizeof(char) * len + 1);
-	if (!ptr)
+	if (!key || key[0] == '$')
 		return (NULL);
-	while (*s1)
-		ptr[i++] = *s1++;
-	ptr[i] = '\0';
-	return (ptr);
+	head = env_lst;
+	while (head && ft_strcmp(head->key, key))
+		head = head->next;
+	if (!head)
+		return (NULL);
+	return (head->value);
 }
 
 t_env	*ft_add_new_env(char *key, char *value, int flag)
@@ -72,8 +80,6 @@ void    get_env_var(t_env **env_lst, char **envp)
 	char	*key;
 	char	*value;
 
-	// key = NULL;
-	// value = NULL;
 	i = 0;
 	*env_lst = NULL;
 	while (envp[i])
