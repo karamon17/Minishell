@@ -15,21 +15,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Structure for tokens obtained from lexical analysis
-// typedef struct s_token 
-// {
-//     char *data;
-//     struct s_token *next;
-// } t_token;
-
-// Structure for the Abstract Syntax Tree (AST) node
-// typedef struct s_tree 
-// {
-//     void *data;
-//     struct s_tree *left;
-//     struct s_tree *right;
-// } t_tree;
-
 // Function to create a new AST node
 t_tree* createNode(void *data, t_tree *left, t_tree *right) {
     t_tree *node = (t_tree*)malloc(sizeof(t_tree));
