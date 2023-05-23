@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void    parse_ast(t_tree *ast)
-{
+// void    parse_ast(t_tree *ast)
+// {
     
-}
+// }

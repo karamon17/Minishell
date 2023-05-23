@@ -32,7 +32,6 @@ char *add_white_space(char *input, int j)
     }
     tmp = (char *)malloc((tmp_size + 1) * sizeof(char)); // Allocate memory for the resulting string
     if (!tmp)
-        // Handle memory allocation error
         return NULL;
     tmp[0] = '\0'; // Initialize the string as an empty string
     j = 0; // Reset the iterator

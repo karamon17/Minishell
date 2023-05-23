@@ -13,14 +13,6 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-# define B_IN 0
-# define PIPE 1
-# define R_DIR 2
-# define OPT 3
-# define DELIM 4
-# define TEXT 5
-# define ENV 6
-
 # include "minishell.h"
 # include <readline/readline.h>
 # include <readline/history.h>

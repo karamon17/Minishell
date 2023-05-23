@@ -29,9 +29,10 @@ void    shell_loop(t_shell **shell)
         if (ft_strcmp(input, "exit") == 0)
             break ;
         (*shell)->tokens = first_parse(input, (*shell)->tokens);
+        printf("%s\n", (*shell)->tokens->next->data);
         free(input);
         (*shell)->ast = buildAST(&(*shell)->tokens);
-        printAST((*shell)->ast);
+        //printAST((*shell)->ast);
         //printENV((*shell)->env_lst);
         //parse_ast(ast);
         free((*shell)->ast);

@@ -18,9 +18,8 @@
 # define R_DIR 2
 # define OPT 3
 # define DELIM 4
-# define ARGUMENT 5
-# define ENV 6
-# define HDOC 7
+# define ENV 5
+# define HDOC 6
 
 # include <readline/readline.h>
 # include <readline/history.h>
