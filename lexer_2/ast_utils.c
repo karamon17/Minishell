@@ -1,20 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 14:43:08 by jfrances          #+#    #+#             */
+/*   Updated: 2023/05/22 19:22:01 by gkhaishb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../lexer.h"
 
 #include "../minishell.h"
-
-// Structure for tokens obtained from lexical analysis
-// typedef struct s_token 
-// {
-//     char *data;
-//     struct s_token *next;
-// } t_token;
-
-// Structure for the Abstract Syntax Tree (AST) node
-// typedef struct s_tree 
-// {
-//     void *data;
-//     struct s_tree *left;
-//     struct s_tree *right;
-// } t_tree;
 
 // Function to create a new AST node
 t_tree* createNode(void *data, t_tree *left, t_tree *right) {

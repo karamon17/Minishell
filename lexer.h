@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 19:35:11 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/22 13:38:10 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/23 14:49:55 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 
 # include "minishell.h"
 
-t_token    *initalize_tokens(t_token **tokens);
+t_token    *initialize_tokens(t_token *tokens);
 //lexer_1/lex_split_first.c
 int         grab_pipe(char *input, int i, t_token **new);
 int         d_quotes(char *input, int i, t_token **new);
 int         append_word(char *input, int i, t_token **new);
 int         s_quotes(char *input, int i, t_token **new);
-t_token    *first_parse(char *input, t_token *tokens);
+t_token    *first_parse(char *input);
 
 //lexer_1/lex_utils.c
 int	        ft_strcmp(char *s1, char *s2);

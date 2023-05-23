@@ -6,64 +6,64 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/22 18:54:02 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/23 15:06:53 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_changepwd(t_minishell *shell, char *cmd)
+void ft_changepwd(t_shell *shell)
 {
-	char **envp;
 	char buf[PATH_MAX];
-	int i;
+	t_env *tmp;
 
-	i = 0;
-	envp = shell->envp;
+	tmp = shell->env_lst;
 	getcwd(buf, PATH_MAX);
-	while(envp[i])
+	while(tmp)
 	{
-		if (!ft_strncmp(envp[i], "OLDPWD", 6))
-			exit(0);
-		i++;
+		if (!ft_strncmp(tmp->key, "OLDPWD", 6))
+			break;
+		tmp = tmp->next;
 	}
-	envp[i] = ft_strjoin("OLDPWD=", buf);
-	i = 0;
-	while(envp[i])
+	tmp->value = ft_strdup(buf);
+	tmp = shell->env_lst;
+	while(tmp)
 	{
-		if (!ft_strncmp(envp[i], "PWD", 3))
-			exit(0);
-		i++;
+		if (!ft_strncmp(tmp->key, "PWD", 3))
+			break;
+		tmp = tmp->next;
 	}
-	envp[i] = ft_strjoin("PWD=", cmd);
+	tmp->value = ft_strdup(buf);
 }
 
-void printenv(t_minishell *shell)
+void printenv(t_shell *shell)
 {
-	int i = 0;
-	while (shell->envp[i])
+	while (shell->env_lst)
 	{
-		printf("%s\n", shell->envp[i]);
-		i++;
+		printf("%s\n", shell->env_lst->key);
+		printf("%s\n", shell->env_lst->value);
+		shell->env_lst = shell->env_lst->next;
 	}
 }
 
-int	ft_cd(t_minishell *shell, t_token *token)
+int	ft_cd(t_shell *shell)
 {
 	char		*cmd;
 	//int			error;
 
-	if (!token->next->data || (token->next->data[0] == '~' && !token->next->data[1]))
+	printf("%s\n", shell->tokens->data);
+	printf("%s\n", shell->tokens->next->data);
+	if (!shell->tokens->next->data || (shell->tokens->next->data[0] == '~' && !shell->tokens->next->data[1]))
 		cmd = ft_getenv(shell, "HOME");
-	else if((token->next->data[0] == '~' && token->next->data[1]))
-		cmd = ft_strjoin(ft_getenv(shell, "HOME"), token->next->data + 1);
+	else if((shell->tokens->next->data[0] == '~' && shell->tokens->next->data[1]))
+		cmd = ft_strjoin(ft_getenv(shell, "HOME"), shell->tokens->next->data + 1);
 	else
-		cmd = token->next->data;
-	printf("%s\n", cmd);
+		cmd = shell->tokens->next->data;
+	//printf("%s\n", cmd);
 	if (!access(cmd, F_OK))
 	{
 		chdir(cmd);
-		ft_changepwd(shell, cmd);
+		ft_changepwd(shell);
 		printenv(shell);
 	}
 	return (0);

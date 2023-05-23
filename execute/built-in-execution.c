@@ -6,14 +6,14 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:24:02 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/22 18:53:00 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/23 12:56:35 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	execute_builtin(t_minishell *shell, t_token *token)
+int	execute_builtin(t_shell *shell)
 {
-	ft_cd(shell, token);
+	ft_cd(shell);
 	return (0);
 }
