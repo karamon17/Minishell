@@ -13,7 +13,7 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-# include "minishell.h"
+# include "../minishell.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lexer.h"
+#include "lexer.h"
 
 t_token	*ft_new_token(char *content)
 {

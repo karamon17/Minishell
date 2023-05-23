@@ -21,6 +21,7 @@
 # define ENV 5
 # define HDOC 6
 
+# include "lexer_1/lexer.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
@@ -62,6 +63,22 @@ typedef struct s_env
 	int				pop;
 	int				exflag;
 }	t_env;
+
+enum e_flag
+{
+	WORD = -1,
+	WHITE_SPACE = ' ',
+	NEW_LINE = '\n',
+	QOUTE = '\'',
+	DOUBLE_QUOTE = '\"',
+	ESCAPE = '\\',
+	ENV = '$',
+	PIPE_LINE = '|',
+	REDIR_IN = '<',
+	REDIR_OUT = '>',
+	HERE_DOC,
+	DREDIR_OUT,
+}   t_flag;
 
 typedef struct s_shell
 {

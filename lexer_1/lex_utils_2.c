@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "lexer.h"
 
 int	ft_atoi(const char *str)
 {

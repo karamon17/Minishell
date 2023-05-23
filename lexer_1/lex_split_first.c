@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lexer.h"
+#include "lexer.h"
 
 //after first pass check for pipes
 
