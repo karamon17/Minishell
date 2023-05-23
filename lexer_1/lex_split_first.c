@@ -20,39 +20,38 @@
 //     char *tmp;
 //     int tmp_size = 0;
 
-//     while (input[j])
-//     {
-//         if (input[j] == '|')
-//             tmp_size += 2; // Additional space for "|"
-//         else if ((input[j] == '<' && input[j + 1] != '<') || (input[j] == '>' && input[j + 1] != '>'))
-//             tmp_size += 2; // Additional space for "<" or ">"
-//         else if ((input[j] == '<' && input[j - 1] == '<') || (input[j] == '>' && input[j - 1] == '>'))
-//             tmp_size += 2; // Additional space for "<<" or ">>"
-//         tmp_size++; // Space for the current character
-//         j++;
-//     }
-//     tmp = (char *)malloc((tmp_size + 1) * sizeof(char)); // Allocate memory for the resulting string
-//     if (!tmp)
-//         // Handle memory allocation error
-//         return NULL;
-//     tmp[0] = '\0'; // Initialize the string as an empty string
-//     j = 0; // Reset the iterator
-//     while (input[j])
-//     {
-//         if (input[j] == '|')
-//             tmp = double_strjoin(tmp, input, &j);
-//         else if ((input[j] == '<' && input[j + 1] != '<') || (input[j] == '>' && input[j + 1] != '>'))
-//             tmp = double_strjoin(tmp, input, &j);
-//         else if ((input[j] == '<' && input[j - 1] == '<') || (input[j] == '>' && input[j - 1] == '>'))
-//             tmp = double_strjoin(tmp, input, &j);
-//         else
-//         {
-//             tmp = ft_strjoin(tmp, ft_substr(input, j, 1));
-//             j++;
-//         }
-//     }
-//     return tmp;
-// }
+    while (input[j])
+    {
+        if (input[j] == '|')
+            tmp_size += 2; // Additional space for "|"
+        else if ((input[j] == '<' && input[j + 1] != '<') || (input[j] == '>' && input[j + 1] != '>'))
+            tmp_size += 2; // Additional space for "<" or ">"
+        else if ((input[j] == '<' && input[j - 1] == '<') || (input[j] == '>' && input[j - 1] == '>'))
+            tmp_size += 2; // Additional space for "<<" or ">>"
+        tmp_size++; // Space for the current character
+        j++;
+    }
+    tmp = (char *)malloc((tmp_size + 1) * sizeof(char)); // Allocate memory for the resulting string
+    if (!tmp)
+        return NULL;
+    tmp[0] = '\0'; // Initialize the string as an empty string
+    j = 0; // Reset the iterator
+    while (input[j])
+    {
+        if (input[j] == '|')
+            tmp = double_strjoin(tmp, input, &j);
+        else if ((input[j] == '<' && input[j + 1] != '<') || (input[j] == '>' && input[j + 1] != '>'))
+            tmp = double_strjoin(tmp, input, &j);
+        else if ((input[j] == '<' && input[j - 1] == '<') || (input[j] == '>' && input[j - 1] == '>'))
+            tmp = double_strjoin(tmp, input, &j);
+        else
+        {
+            tmp = ft_strjoin(tmp, ft_substr(input, j, 1));
+            j++;
+        }
+    }
+    return tmp;
+}
 
 // int d_quotes(char *input, int i, t_token **new)
 // {

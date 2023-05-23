@@ -28,10 +28,17 @@ t_tree* buildAST(t_token **tokens)
 {
     t_tree  *node;
     t_token *current;
+    t_token *head;
+    static int  i = 0;
 
+    if (i == 0)
+        head = *tokens;
     //Check for NULL or empty token
     if (!(*tokens) ||  (*tokens)->data == NULL)
+    {   
+        (*tokens) = head;
         return NULL;
+    }
 
     // Get the current token
     current = *tokens;
@@ -41,9 +48,9 @@ t_tree* buildAST(t_token **tokens)
     node = createNode(current->data, NULL, NULL);
 
     // Recursively build the left and right subtrees
+    i++;
     node->left = buildAST(tokens);
     node->right = buildAST(tokens);
-
     return node;
 }
 

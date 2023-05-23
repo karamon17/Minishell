@@ -6,11 +6,14 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:54:58 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/22 13:33:29 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/23 15:37:59 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+#include <stdio.h>
+#include <stdlib.h>
 
 // void    parse_ast(t_tree *ast)
 // {
