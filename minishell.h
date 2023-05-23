@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/23 12:56:51 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/23 16:09:54 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void printAST(t_tree *root);
 int	ft_cd(t_shell *shell);
 int	execute_builtin(t_shell *shell);
 char *ft_getenv(t_shell *shell, char *name);
-char **envdup(char **env);
 
 void    get_env_var(t_env **env_lst, char **envp);
 //void    printENV(t_env *env_lst);

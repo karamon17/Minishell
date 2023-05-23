@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/23 15:39:17 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/23 16:28:07 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ void    shell_loop(t_shell **shell)
         if (ft_strncmp(input, "exit", 4) == 0)
             break ;
         (*shell)->tokens = first_parse(input, (*shell)->tokens);
-        printf("%s\n", (*shell)->tokens->next->data);
+        tmp = (*shell)->tokens;
         free(input);
         (*shell)->ast = buildAST(&(*shell)->tokens);
+		(*shell)->tokens = tmp;
         //printAST((*shell)->ast);
         //printENV((*shell)->env_lst);
         //parse_ast(ast);                         

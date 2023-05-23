@@ -9,8 +9,8 @@
             "request": "launch",
             "name": "Debug",
             "args": [],
-            "cwd": "/Users/jfrances/Desktop/m_parse",
-            "program": "/Users/jfrances/Desktop/m_parse/minishell"
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/minishell"
         }
     ]
 }
