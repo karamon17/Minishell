@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:36:20 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/23 13:34:13 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:54:37 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 char *ft_getenv(t_shell *shell, char *name)
 {
-	while (shell->env_lst)
+	t_env *current;
+	
+	current = shell->env_lst;
+	while (current)
 	{
-		if (!ft_strncmp(shell->env_lst->key, name, ft_strlen(name)))
-			return (shell->env_lst->value);
-		shell->env_lst = shell->env_lst->next;
+		if (!ft_strncmp(current->key, name, ft_strlen(name)))
+			return (current->value);
+		current = current->next;
 	}
 	return (0);
 }
