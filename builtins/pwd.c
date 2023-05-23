@@ -6,13 +6,13 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 17:42:58 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/22 13:21:40 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/23 19:20:44 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_pwd()
+void ft_pwd(void)
 {
     char cwd[PATH_MAX];
 	
