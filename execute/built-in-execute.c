@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:24:02 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/24 17:30:59 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:33:50 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,7 @@ int	execute_builtin(t_shell *shell)
 		ft_exit(shell);
 	else if (!ft_strncmp(tmp->data, "unset", 5))
 		ft_unset(shell);
+	else if (!ft_strncmp(tmp->data, "export", 6))
+		ft_export(shell);
 	return (0);
 }
