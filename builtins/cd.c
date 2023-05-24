@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/23 19:06:23 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/24 17:18:02 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,13 @@ void ft_changepwd(t_shell *shell)
 	free(to_free);
 }
 
-// void printenv(t_shell *shell)
-// {
-// 	t_env *current;
-
-// 	current = shell->env_lst;
-// 	while (current)
-// 	{
-// 		printf("%s=", current->key);
-// 		printf("%s\n", current->value);
-// 		current = current->next;
-// 	}
-// }
-
 int	ft_cd(t_shell *shell)
 {
-	char		*cmd;
-	//int			error;
+	char	*cmd;
 	
-	if (!shell->tokens->next->data || (shell->tokens->next->data[0] == '~' && !shell->tokens->next->data[1]))
+	if (!shell->tokens->next)
+		return (0);
+	else if (shell->tokens->next->data[0] == '~' && !shell->tokens->next->data[1])
 		cmd = ft_getenv(shell, "HOME");
 	else if((shell->tokens->next->data[0] == '~' && shell->tokens->next->data[1]))
 		cmd = ft_strjoin(ft_getenv(shell, "HOME"), shell->tokens->next->data + 1);
@@ -79,8 +67,6 @@ int	ft_cd(t_shell *shell)
 	{
 		chdir(cmd);
 		ft_changepwd(shell);
-		//printenv(shell);
-	}
-	
+	}	
 	return (0);
 }

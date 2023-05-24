@@ -1,27 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env-controller.c                                   :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 19:36:20 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/24 17:02:06 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/05/24 16:58:14 by gkhaishb          #+#    #+#             */
+/*   Updated: 2023/05/24 17:35:56 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char *ft_getenv(t_shell *shell, char *name)
+void delnode(t_shell *shell, t_env *env)
 {
-	t_env *current;
-	
-	current = shell->env_lst;
-	while (current)
+	t_env *tmp;
+
+	tmp = shell->env_lst;
+	while (tmp->next != env)
+		tmp = tmp->next;
+	tmp->next = env->next;
+	free(env);
+}
+
+void ft_unset(t_shell *shell)
+{
+	t_token *tmp;
+	t_env *env;
+
+	tmp = shell->tokens;
+	env = shell->env_lst;
+	while (tmp)
 	{
-		if (!ft_strncmp(current->key, name, ft_strlen(name)))
-			return (current->value);
-		current = current->next;
+		while (env)
+		{
+			if (!ft_strncmp(tmp->next->data, env->key, ft_strlen(env->key)))
+				delnode(shell, env);
+			env = env->next;
+		}
+		tmp = tmp->next;
 	}
-	return (0);
+
 }

@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/23 16:28:07 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/24 15:10:59 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void    shell_loop(t_shell **shell)
 		t_token *tmp;
 
         add_history(input);
-        if (ft_strncmp(input, "exit", 4) == 0)
-            break ;
+        //if (ft_strncmp(input, "exit", 4) == 0)
+          //  break ;
         (*shell)->tokens = first_parse(input, (*shell)->tokens);
         tmp = (*shell)->tokens;
         free(input);

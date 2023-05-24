@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/23 19:20:54 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/24 17:31:12 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,8 @@ t_env	*ft_add_env_back(t_env *env_list, char *key, char *value, int flag);
 void    get_env_var(t_env **env_lst, char **envp);
 size_t  ft_strlen(const char *str);
 void 	ft_pwd(void);
+void 	ft_env(t_shell *shell);
+int		ft_exit(t_shell *shell);
+void 	ft_unset(t_shell *shell);
 
 #endif
