@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/24 18:50:21 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/25 11:35:06 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,6 @@ void 	ft_env(t_shell *shell);
 int		ft_exit(t_shell *shell);
 void 	ft_unset(t_shell *shell);
 int 	ft_export(t_shell *shell);
+int 	ft_echo(t_shell *shell);
 
 #endif
