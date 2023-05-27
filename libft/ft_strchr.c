@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gkhaishb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/15 13:55:15 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/27 13:28:23 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/01/23 17:37:04 by gkhaishb          #+#    #+#             */
+/*   Updated: 2023/01/23 17:37:06 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-int ft_echo(t_shell *shell)
+char	*ft_strchr(const char *s, int c)
 {
-	t_token *tokens;
+	char	c1;
 
-	tokens = shell->tokens->next;
-	if (!tokens)
-		printf("\n");
-	if (!ft_strncmp(tokens->data, "-n", 2))
-		while(tokens)
-		{
-			printf("%s\n", tokens->data);
-			tokens = tokens->next;
-		}
+	c1 = c;
+	while (*s && c1 != *s)
+		s++;
+	if (c1 == *s)
+		return ((char *)s);
 	return (0);
 }

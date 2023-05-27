@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gkhaishb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/15 13:55:15 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/27 13:28:23 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/01/23 17:54:44 by gkhaishb          #+#    #+#             */
+/*   Updated: 2023/01/23 17:54:47 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-int ft_echo(t_shell *shell)
+char	*ft_strrchr(const char *s, int c)
 {
-	t_token *tokens;
+	int		i;
+	char	c1;
 
-	tokens = shell->tokens->next;
-	if (!tokens)
-		printf("\n");
-	if (!ft_strncmp(tokens->data, "-n", 2))
-		while(tokens)
-		{
-			printf("%s\n", tokens->data);
-			tokens = tokens->next;
-		}
+	c1 = c;
+	i = ft_strlen(s);
+	while (i && c1 != s[i])
+		i--;
+	if (c1 == s[i])
+		return ((char *)&(s[i]));
 	return (0);
 }

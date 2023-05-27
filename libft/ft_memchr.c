@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gkhaishb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/15 13:55:15 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/27 13:28:23 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/01/25 12:48:55 by gkhaishb          #+#    #+#             */
+/*   Updated: 2023/01/25 12:49:54 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-int ft_echo(t_shell *shell)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	t_token *tokens;
+	size_t	i;
 
-	tokens = shell->tokens->next;
-	if (!tokens)
-		printf("\n");
-	if (!ft_strncmp(tokens->data, "-n", 2))
-		while(tokens)
-		{
-			printf("%s\n", tokens->data);
-			tokens = tokens->next;
-		}
+	i = 0;
+	while (i < n)
+	{
+		if (((unsigned char *)s)[i] == (unsigned char)c)
+			return ((void *)(s + i));
+		i++;
+	}
 	return (0);
 }
