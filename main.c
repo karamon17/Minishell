@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/25 12:22:21 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/27 14:54:12 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void    shell_loop(t_shell **shell)
     {
 		t_token *tmp;
 
-        add_history(input);
+        add_history(vinput);
         (*shell)->tokens = first_parse(input, (*shell)->tokens);
         tmp = (*shell)->tokens;
         free(input);
