@@ -142,7 +142,6 @@ t_token *first_parse(char *input, t_token *tokens) {
             while (tmp[i + 1] == ' ') 
                 i++;
         }
-
         if (new->data[0] != '\0') 
         {
             if (check > 0) 

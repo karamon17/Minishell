@@ -35,6 +35,7 @@
 # include <curses.h>
 # include <term.h>
 # include <ctype.h>
+# include <string.h>
 
 typedef struct s_token
 {

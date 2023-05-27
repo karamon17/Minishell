@@ -27,7 +27,7 @@ void    shell_loop(t_shell **shell)
     {
         add_history(input);
         check = first_parse(input, (*shell)->tokens);
-        //check = stugel((*shell)->tokens);
+        check = stugel(check);
         free(input);
         while (check)
         {
