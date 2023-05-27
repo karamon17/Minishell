@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+# include "minishell.h"
 
 void    ft_error_exit(char *str)
 {
@@ -20,18 +20,20 @@ void    ft_error_exit(char *str)
 
 void    shell_loop(t_shell **shell)
 {
-    //t_token     *check;
+    t_token     *check;
     char        *input;
 
     while ((input = readline("Minishell $>")) != NULL && (*shell)->err_stat == 0)
     {
         add_history(input);
-        if (ft_strcmp(input, "exit") == 0)
-            break ;
-        (*shell)->tokens = first_parse(input, (*shell)->tokens);
+        check = first_parse(input, (*shell)->tokens);
+        //check = stugel((*shell)->tokens);
         free(input);
-        //printENV((*shell)->env_lst);
-        free((*shell)->ast);
+        while (check)
+        {
+            printf("%s\n", check->data);
+            check = check->next;
+        }
     }
 }
 

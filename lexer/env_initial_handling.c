@@ -1,4 +1,4 @@
-#include "lexer.h"
+#include "../minishell.h"
 
 void    aveletsnel_shvl(t_env *env_lst)
 {
