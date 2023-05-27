@@ -20,20 +20,20 @@ void    ft_error_exit(char *str)
 
 void    shell_loop(t_shell **shell)
 {
-    t_token     *check;
+    t_token     *new;
     char        *input;
 
-    while ((input = readline("Minishell $>")) != NULL && (*shell)->err_stat == 0)
+    (*shell)->err_stat = 0;
+    while (1)
     {
+        input = readline("Minishell $>");
+        if ((*shell)->err_stat != 0)
+            exit((*shell)->err_stat); //implement a function to free data later
         add_history(input);
-        check = first_parse(input, (*shell)->tokens);
-        check = stugel(check);
+        new = first_parse(input, (*shell)->tokens);
+        new = stugel(new);
+        new = env_check(new);
         free(input);
-        while (check)
-        {
-            printf("%s\n", check->data);
-            check = check->next;
-        }
     }
 }
 

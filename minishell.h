@@ -129,4 +129,13 @@ void    is_env(t_token **head);
 void    second_parse(t_token **tokens);
 void    is_redir(t_token **head);
 void    is_option(t_token **head);
+
+void 	ft_pwd(void);
+void 	ft_env(t_shell *shell);
+int		ft_exit(t_shell *shell);
+void 	ft_unset(t_shell *shell);
+int 	ft_export(t_shell *shell);
+int 	ft_echo(t_shell *shell);
+int		ft_cd(t_shell *shell);
+char *ft_getenv(t_shell *shell, char *name);
 #endif

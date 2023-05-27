@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRCS = $(wildcard *.c) $(wildcard execute/*.c) $(wildcard lexer/*.c) $(wildcard parser/*.c) ##$(wildcard utils/*.c) $(wildcard builtins/*.c)
+SRCS = $(wildcard *.c) $(wildcard execute/*.c) $(wildcard lexer/*.c) $(wildcard parser/*.c) $(wildcard utils/*.c) $(wildcard builtins/*.c)
 
 OBJS = $(SRCS:.c=.o)
 
