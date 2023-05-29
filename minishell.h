@@ -137,5 +137,6 @@ void 	ft_unset(t_shell *shell);
 int 	ft_export(t_shell *shell);
 int 	ft_echo(t_shell *shell);
 int		ft_cd(t_shell *shell);
-char *ft_getenv(t_shell *shell, char *name);
+char 	*ft_getenv(t_shell *shell, char *name);
+t_token *env_check(t_token *tokens);
 #endif

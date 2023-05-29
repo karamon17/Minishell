@@ -33,6 +33,11 @@ void    shell_loop(t_shell **shell)
         new = first_parse(input, (*shell)->tokens);
         new = stugel(new);
         new = env_check(new);
+        // while (new)
+        // {
+        //     printf("%s\n", new->data);
+        //     new = new->next;
+        // }
         free(input);
     }
 }
