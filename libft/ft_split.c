@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 12:54:02 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/01/27 12:54:05 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:43:31 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,21 +96,4 @@ char	**ft_split(char const *s, char c)
 	}
 	new[i] = 0;
 	return (new);
-}
-#include <stdio.h>
-int main()
-{
-	char **str = ft_split("gevorg\nmargo\nrobert\n", '\n');
-	if (str)
-    {
-        int i = 0;
-        while (str[i])
-        {
-            printf("%s\n", str[i]);
-            free(str[i]);
-            i++;
-        }
-        free(str);
-    }
-    return 0;
 }
