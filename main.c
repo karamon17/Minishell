@@ -12,6 +12,24 @@
 
 # include "minishell.h"
 
+#define RED_COLOR   "\x1B[31m"
+#define GRN_COLOR "\x1B[32m"
+#define RESET_COLOR "\x1B[0m"
+
+void    print_cool_head(void)
+{
+    printf(RED_COLOR "----------------------------------------\n" RESET_COLOR);
+    printf(RED_COLOR "|         WELCOME TO THE SHELL         |\n" RESET_COLOR);
+    printf(RED_COLOR "|             THE MINISHELL            |\n" RESET_COLOR);
+    printf(RED_COLOR "----------------------------------------\n" RESET_COLOR);
+    printf(GRN_COLOR "     -----------------------------      \n" RESET_COLOR);
+    printf(GRN_COLOR "     |                           |      \n" RESET_COLOR);
+    printf(GRN_COLOR "     |   How May Shell Assist?   |      \n" RESET_COLOR);
+    printf(GRN_COLOR "     |                           |      \n" RESET_COLOR);
+    printf(GRN_COLOR "     -----------------------------      \n" RESET_COLOR);
+    printf(RED_COLOR "----------------------------------------\n" GRN_COLOR);
+}
+
 void    ft_error_exit(char *str)
 {
     while (*str)
@@ -27,17 +45,17 @@ void    shell_loop(t_shell **shell)
     while (1)
     {
         input = readline("Minishell $>");
-        if ((*shell)->err_stat != 0)
-            exit((*shell)->err_stat); //implement a function to free data later
-        add_history(input);
-        new = first_parse(input, (*shell)->tokens);
-        new = stugel(new);
-        new = env_check(new);
-        // while (new)
-        // {
-        //     printf("%s\n", new->data);
-        //     new = new->next;
-        // }
+        if (!ft_strncmp(input, "Minishell $>", 12))
+        {
+            if ((*shell)->err_stat != 0)
+                exit((*shell)->err_stat); //implement a function to free data later
+            add_history(input);
+            new = first_parse(input, (*shell)->tokens);
+            new = stugel(new);
+            new = env_check(new);
+        }
+        else
+            input = readline("Minishell $>");
         free(input);
     }
 }
@@ -46,10 +64,7 @@ t_token *initialize_tokens(t_token *tokens)
 {
     tokens = malloc(sizeof(t_token));
     if (!tokens)
-    {
-        // Handle memory allocation failure
         ft_error_exit("Malloc Error: Token Struct");
-    }
     tokens->next = NULL;
     tokens->data = NULL;
     return (tokens);
@@ -75,6 +90,7 @@ int main(int ac, char **av, char **envp)
     (void)av;
     (void)ac;
     shell = NULL;
+    print_cool_head();
     init_shell(&shell);
     (void)envp[0];
     get_env_var(&(shell->env_lst), envp);     //Store ENV variables in ENV linked list
