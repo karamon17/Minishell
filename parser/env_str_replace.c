@@ -12,7 +12,14 @@
 
 #include "../minishell.h"
 
-char   *env_in_DQS(char *str)
+char    *get_path(char *str)
+{   
+    str++;
+    str = getenv(str);
+    return (str);
+}
+
+char    *env_in_DQS(char *str)
 {
     char    *tmp;
     char    *path;
@@ -55,8 +62,8 @@ t_token *env_check(t_token *tokens)
     {
         if (tmp->data[0] == '"')
             tmp->data = env_in_DQS(tmp->data); //check double quotes for ENV and change to variable PATH
-        // else if (tmp->data[0] == '$')
-        //     tmp->data = get_path(tmp->data);  //ENV is not in quotes, so replace var with ENV PATH
+        else if (tmp->data[0] == '$')
+            tmp->data = get_path(tmp->data);  //ENV is not in quotes, so replace var with ENV PATH
         tmp = tmp->next;    //to next node
     }
     return (tokens);
