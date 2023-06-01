@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/31 11:14:24 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/01 14:15:30 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ void    shell_loop(t_shell **shell)
 		signal(SIGQUIT, SIG_IGN);
 		input = readline("Minishell $>");
 		if (!input || (*shell)->err_stat != 0)
+		{	
+			printf("exit\n");
 			return ;
+		}
         add_history(input);
         (*shell)->tokens = first_parse(input, (*shell)->tokens);
         tmp = (*shell)->tokens;
