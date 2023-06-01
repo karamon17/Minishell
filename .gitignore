@@ -1,0 +1,8 @@
+.vscode/
+.DS_Store
+obj
+readline
+*.o
+*/*.o
+*.a
+minishell
