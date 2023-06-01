@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/15 16:54:06 by jfrances         ###   ########.fr       */
+/*   Updated: 2023/05/31 11:14:24 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void    shell_loop(t_shell **shell)
     (*shell)->err_stat = 0;
     while (1)
     {
+        signal(SIGINT, sigint_handler);
+		signal(SIGQUIT, SIG_IGN);
         input = readline("Minishell $>");
         if (!ft_strncmp(input, "Minishell $>", 12))
         {
@@ -88,7 +90,7 @@ void    init_shell(t_shell **shell)
 int main(int ac, char **av, char **envp)
 {
     t_shell *shell;
-    
+
     (void)av;
     (void)ac;
     shell = NULL;
@@ -97,6 +99,6 @@ int main(int ac, char **av, char **envp)
     (void)envp[0];
     get_env_var(&(shell->env_lst), envp);     //Store ENV variables in ENV linked list
     aveletsnel_shvl(shell->env_lst);          //When the shell is called the ENV variable shell level should increase by 1. NOT YET IMPLEMENTED WIP
-    shell_loop(&shell);                         //Main loop where input is read and tokens are generated
+    shell_loop(&shell); //Main loop where input is read and tokens are generated
     exit(shell->err_stat);
 }

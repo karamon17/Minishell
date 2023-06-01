@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/16 14:15:28 by jfrances         ###   ########.fr       */
+/*   Updated: 2023/05/30 18:19:31 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,7 @@
 # define ENV 5
 # define HDOC 6
 
-# include "libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <sys/wait.h>
 # include <unistd.h>
-# include <dirent.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <stdlib.h>
@@ -35,7 +30,11 @@
 # include <curses.h>
 # include <term.h>
 # include <ctype.h>
-# include <string.h>
+# include "../libft/libft.h"
+# include <sys/wait.h>
+# include <dirent.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 typedef struct s_token
 {
@@ -54,7 +53,7 @@ typedef struct s_env
 {
     struct s_env	*next;
 	char			*key;
-    char			**tmp;
+    char			*tmp;
 	char			*value;
     char			*tmp0;
 	char			*tmp1;
@@ -92,6 +91,11 @@ typedef struct s_shell
 void    get_env_var(t_env **env_lst, char **envp);
 
 int	ft_atoi(const char *str);
+int	ft_cd(t_shell *shell);
+int	execute_builtin(t_shell *shell);
+char *ft_getenv(t_shell *shell, char *name);
+void    get_env_var(t_env **env_lst, char **envp);
+int		ft_atoi(const char *str);
 char	*ft_strdup(const char *s1);
 char	*ft_itoa(int n);
 void    aveletsnel_shvl(t_env *env_lst);
@@ -139,4 +143,7 @@ int 	ft_echo(t_shell *shell);
 int		ft_cd(t_shell *shell);
 char 	*ft_getenv(t_shell *shell, char *name);
 t_token *env_check(t_token *tokens);
+#endif
+void	sigint_handler(int signum);
+
 #endif

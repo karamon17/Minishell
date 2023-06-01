@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 12:54:02 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/01/27 12:54:05 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/30 15:43:31 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	**ft_split(char const *s, char c)
 	i = -1;
 	j = 0;
 	wc = ft_wordcount(s, c);
-	new = malloc(sizeof(char *) * wc + 1);
+	new = malloc(sizeof(char *) * (wc + 1));
 	if (!new)
 		return (new);
 	while (++i < wc)
