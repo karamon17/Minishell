@@ -53,6 +53,8 @@ void    shell_loop(t_shell **shell)
             new = first_parse(input, (*shell)->tokens);
             new = stugel(new);
             new = env_check(new);
+            (*shell)->tokens = new;
+            check_commands(shell);
         }
         else
             input = readline("Minishell $>");
