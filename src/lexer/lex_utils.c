@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lex_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:53:43 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/30 17:38:27 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:53:45 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+# include "minishell.h"
 
 int	ft_strcmp(char *s1, char *s2)
 {

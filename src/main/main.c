@@ -6,12 +6,29 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/01 14:15:30 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:17:46 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "lexer.h"
+# include "minishell.h"
+
+#define RED_COLOR   "\x1B[31m"
+#define GRN_COLOR "\x1B[32m"
+#define RESET_COLOR "\x1B[0m"
+
+void    print_cool_head(void)
+{
+    printf(RED_COLOR "----------------------------------------\n" RESET_COLOR);
+    printf(RED_COLOR "|         WELCOME TO THE SHELL         |\n" RESET_COLOR);
+    printf(RED_COLOR "|             THE MINISHELL            |\n" RESET_COLOR);
+    printf(RED_COLOR "----------------------------------------\n" RESET_COLOR);
+    printf(GRN_COLOR "     -----------------------------      \n" RESET_COLOR);
+    printf(GRN_COLOR "     |                           |      \n" RESET_COLOR);
+    printf(GRN_COLOR "     |   How May Shell Assist?   |      \n" RESET_COLOR);
+    printf(GRN_COLOR "     |                           |      \n" RESET_COLOR);
+    printf(GRN_COLOR "     -----------------------------      \n" RESET_COLOR);
+    printf(RED_COLOR "----------------------------------------\n" GRN_COLOR);
+}
 
 void    ft_error_exit(char *str)
 {
@@ -21,25 +38,31 @@ void    ft_error_exit(char *str)
 
 void    shell_loop(t_shell **shell)
 {
+    t_token     *new;
     char        *input;
 
+    (*shell)->err_stat = 0;
     while (1)
     {
-		t_token *tmp;
-		signal(SIGINT, sigint_handler);
+        signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
-		input = readline("Minishell $>");
-		if (!input || (*shell)->err_stat != 0)
-		{	
-			printf("exit\n");
-			return ;
-		}
-        add_history(input);
-        (*shell)->tokens = first_parse(input, (*shell)->tokens);
-        tmp = (*shell)->tokens;
-        free(input);
-		(*shell)->tokens = tmp;                   
-		execute_builtin(*shell);
+        input = readline("Minishell $>");
+        if (!input[0])
+            continue;
+        else
+        {
+            if ((*shell)->err_stat != 0)
+                exit((*shell)->err_stat); //implement a function to free data later
+            add_history(input);
+            new = first_parse(input, (*shell)->tokens);
+            new = stugel(new);
+            new = env_check(new);
+            (*shell)->tokens = new;
+            //check_commands(shell);
+            execute_builtin(*shell);
+        }
+        if (input)
+            free(input);
     }
 }
 
@@ -47,10 +70,7 @@ t_token *initialize_tokens(t_token *tokens)
 {
     tokens = malloc(sizeof(t_token));
     if (!tokens)
-    {
-        // Handle memory allocation failure
         ft_error_exit("Malloc Error: Token Struct");
-    }
     tokens->next = NULL;
     tokens->data = NULL;
     return (tokens);
@@ -76,6 +96,7 @@ int main(int ac, char **av, char **envp)
     (void)av;
     (void)ac;
     shell = NULL;
+    print_cool_head();
     init_shell(&shell);
     (void)envp[0];
     get_env_var(&(shell->env_lst), envp);     //Store ENV variables in ENV linked list

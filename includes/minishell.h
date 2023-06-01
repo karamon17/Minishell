@@ -64,6 +64,22 @@ typedef struct s_env
 	int				exflag;
 }	t_env;
 
+enum e_flag
+{
+	WORD = -1,
+	WHITE_SPACE = ' ',
+	NEW_LINE = '\n',
+	QOUTE = '\'',
+	DOUBLE_QUOTE = '\"',
+	ESCAPE = '\\',
+	ENVV = '$',
+	PIPE_LINE = '|',
+	REDIR_IN = '<',
+	REDIR_OUT = '>',
+	HERE_DOC,
+	DREDIR_OUT,
+}   t_flag;
+
 typedef struct s_shell
 {
     struct s_tree   *ast;
@@ -72,6 +88,9 @@ typedef struct s_shell
     int             err_stat;
 }               t_shell;
 
+void    get_env_var(t_env **env_lst, char **envp);
+
+int	ft_atoi(const char *str);
 int	ft_cd(t_shell *shell);
 int	execute_builtin(t_shell *shell);
 char *ft_getenv(t_shell *shell, char *name);
@@ -85,12 +104,45 @@ t_env	*ft_add_new_env(char *key, char *value, int flag);
 t_env	*ft_add_env_back(t_env *env_list, char *key, char *value, int flag);
 void    get_env_var(t_env **env_lst, char **envp);
 size_t  ft_strlen(const char *str);
+
+t_token *stugel(t_token *tokens);
+t_token *check_options(t_token *tmp);
+
+t_token    *initialize_tokens(t_token *tokens);
+int         grab_pipe(char *input, int i, t_token **new);
+int         d_quotes(char *input, int i, t_token **new);
+int         append_word(char *input, int i, t_token **new);
+int         s_quotes(char *input, int i, t_token **new);
+t_token    *first_parse(char *input, t_token *tokens);
+
+int	        ft_strcmp(char *s1, char *s2);
+char	    *ft_substr(char const *s, unsigned int start, size_t len);
+size_t      ft_strlen(const char *str);
+char	    *ft_strjoin(char const *s1, char const *s2);
+
+t_token	    *ft_new_token(char *content);
+t_token	    *ft_token_last(t_token *head);
+void	    ft_token_add_back(t_token **stack, t_token *new);
+int	        ft_token_size(t_token *head);
+char        *double_strjoin(char *tmp, char *input, int *j);
+
+void    is_b_in(t_token **head);
+void    is_pipe(t_token **head);
+void    is_env(t_token **head);
+
+void    second_parse(t_token **tokens);
+void    is_redir(t_token **head);
+void    is_option(t_token **head);
+
 void 	ft_pwd(void);
 void 	ft_env(t_shell *shell);
 int		ft_exit(t_shell *shell);
 void 	ft_unset(t_shell *shell);
 int 	ft_export(t_shell *shell);
 int 	ft_echo(t_shell *shell);
+int		ft_cd(t_shell *shell);
+char 	*ft_getenv(t_shell *shell, char *name);
+t_token *env_check(t_token *tokens);
 void	sigint_handler(int signum);
 
 #endif

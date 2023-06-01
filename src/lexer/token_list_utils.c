@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:44:48 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/30 17:38:30 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:53:50 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+# include "minishell.h"
 
 t_token	*ft_new_token(char *content)
 {

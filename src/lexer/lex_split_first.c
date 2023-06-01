@@ -3,54 +3,79 @@
 /*                                                        :::      ::::::::   */
 /*   lex_split_first.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:53:37 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/30 17:38:21 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:53:39 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+# include "minishell.h"
 
 //after first pass check for pipes
 
 char *add_white_space(char *input, int j)
 {
     char *tmp;
-    int tmp_size = 0;
+    int tmp_size;
+    int in_quotes;
+
+    tmp_size = 0;
+    in_quotes = 0;
+    while (input[j])
+    {
+        if (!in_quotes && (input[j] == '|' || input[j] == '<' || input[j] == '>'))
+        {
+            if (input[j - 1] != ' ')
+                tmp_size++;
+            tmp_size++;
+            if (input[j + 1] != ' ' && input[j + 1] != input[j])
+                tmp_size++;
+        }
+        else if (input[j] == '"' || input[j] == '\'')
+        {
+            if (in_quotes && input[j] == in_quotes)
+                in_quotes = 0;
+            else if (!in_quotes)
+                in_quotes = input[j];
+        }
+        tmp_size++;
+        j++;
+    }
+
+    tmp = (char *)malloc((tmp_size + 1) * sizeof(char));
+    if (!tmp)
+        return NULL;
+    tmp[0] = '\0';
+    j = 0;
 
     while (input[j])
     {
-        if (input[j] == '|')
-            tmp_size += 2; // Additional space for "|"
-        else if ((input[j] == '<' && input[j + 1] != '<') || (input[j] == '>' && input[j + 1] != '>'))
-            tmp_size += 2; // Additional space for "<" or ">"
-        else if ((input[j] == '<' && input[j - 1] == '<') || (input[j] == '>' && input[j - 1] == '>'))
-            tmp_size += 2; // Additional space for "<<" or ">>"
-        tmp_size++; // Space for the current character
+        if (!in_quotes && (input[j] == '|' || input[j] == '<' || input[j] == '>'))
+        {
+            if (input[j - 1] != ' ')
+                tmp = ft_strjoin(tmp, " ");
+            tmp = ft_strjoin(tmp, ft_substr(input, j, 1));
+            if (input[j + 1] != ' ' && input[j + 1] != input[j])
+                tmp = ft_strjoin(tmp, " ");
+        }
+        else if (input[j] == '"' || input[j] == '\'')
+        {
+            if (in_quotes && input[j] == in_quotes)
+                in_quotes = 0;
+            else if (!in_quotes)
+                in_quotes = input[j];
+            tmp = ft_strjoin(tmp, ft_substr(input, j, 1));
+        }
+        else
+            tmp = ft_strjoin(tmp, ft_substr(input, j, 1));
         j++;
     }
-    tmp = (char *)malloc((tmp_size + 1) * sizeof(char)); // Allocate memory for the resulting string
-    if (!tmp)
-        return NULL;
-    tmp[0] = '\0'; // Initialize the string as an empty string
-    j = 0; // Reset the iterator
-    while (input[j])
-    {
-        if (input[j] == '|')
-            tmp = double_strjoin(tmp, input, &j);
-        else if ((input[j] == '<' && input[j + 1] != '<') || (input[j] == '>' && input[j + 1] != '>'))
-            tmp = double_strjoin(tmp, input, &j);
-        else if ((input[j] == '<' && input[j - 1] == '<') || (input[j] == '>' && input[j - 1] == '>'))
-            tmp = double_strjoin(tmp, input, &j);
-        else
-        {
-            tmp = ft_strjoin(tmp, ft_substr(input, j, 1));
-            j++;
-        }
-    }
+
     return tmp;
 }
+
+
 
 int d_quotes(char *input, int i, t_token **new)
 {
@@ -86,34 +111,60 @@ int s_quotes(char *input, int i, t_token **new)
     return (i);
 }
 
-t_token    *first_parse(char *input, t_token *tokens)
+int is_special_token(char *token) 
 {
-    int     check = 0;
+    return ft_strcmp(token, "<<") == 0 || ft_strcmp(token, ">>") == 0;
+}
+
+t_token *first_parse(char *input, t_token *tokens) {
+    int check = 0;
     t_token *new;
-    int     i;
-    int     j;
-    char    *tmp;
+    int i = 0;
+    int j = 0;
+    char *tmp;
 
     i = 0;
     j = 0;
     tmp = add_white_space(input, j);
-    while (tmp[i] == ' ' && tmp[i])
+    while (tmp[i] == ' ' && tmp[i]) 
         i++;
-    while (tmp[i])
+    while (tmp[i]) 
     {
         new = ft_new_token(ft_substr(tmp, i, 1));
-        if (tmp[i] == '\'')
+        if (tmp[i] == '\'') 
             i = s_quotes(tmp, i + 1, &new);
-        else if (tmp[i] == '"')
+        else if (tmp[i] == '"') 
             i = d_quotes(input, i + 1, &new);
-        else if (tmp[i] != ' ')
-           i = append_word(tmp, i + 1, &new);
-        if (check == 0)
-            tokens = new;
-        if (check != 0)
-            ft_token_add_back(&tokens, new);
+        else if (tmp[i] != ' ') 
+            i = append_word(tmp, i + 1, &new);
+        else if (tmp[i] == ' ') 
+        {
+            while (tmp[i + 1] == ' ') 
+                i++;
+        }
+        if (new->data[0] != '\0') 
+        {
+            if (check > 0) 
+            {
+                if (is_special_token(new->data) && ft_strcmp(tokens->data, "|") != 0) 
+                {
+                    t_token *last_token = ft_token_last(tokens);
+                    if (last_token && ft_strcmp(last_token->data, " ") != 0) 
+                    {
+                        t_token *space_token = ft_new_token(" ");
+                        ft_token_add_back(&tokens, space_token);
+                    }
+                }
+                ft_token_add_back(&tokens, new);
+            } 
+            else
+                tokens = new;
+            check++;
+        }
         i++;
-        check++;
     }
-    return (tokens);
+    return tokens;
 }
+
+
+
