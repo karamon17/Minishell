@@ -47,7 +47,9 @@ void    shell_loop(t_shell **shell)
         signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
         input = readline("Minishell $>");
-        if (!ft_strncmp(input, "Minishell $>", 12))
+        if (!input[0])
+            continue;
+        else
         {
             if ((*shell)->err_stat != 0)
                 exit((*shell)->err_stat); //implement a function to free data later
@@ -56,11 +58,11 @@ void    shell_loop(t_shell **shell)
             new = stugel(new);
             new = env_check(new);
             (*shell)->tokens = new;
-            check_commands(shell);
+            //check_commands(shell);
+            execute_builtin(*shell);
         }
-        else
-            input = readline("Minishell $>");
-        free(input);
+        if (input)
+            free(input);
     }
 }
 

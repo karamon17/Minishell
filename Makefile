@@ -10,7 +10,7 @@ LIBS_DIR = includes
 # Compiled directories
 SRC = src
 OBJ = obj
-SUBDIRS = lexer_1 utils execute builtins main
+SUBDIRS = lexer utils execute builtins parser main
 
 # Folder directions
 SRC_DIR = $(foreach dir, $(SUBDIRS), $(addprefix $(SRC)/, $(dir)))

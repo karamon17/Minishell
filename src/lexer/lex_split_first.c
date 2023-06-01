@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+# include "minishell.h"
 
 //after first pass check for pipes
 

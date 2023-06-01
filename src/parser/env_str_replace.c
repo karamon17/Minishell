@@ -10,16 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 char    *get_path(char *str)
 {   
     str++;
-    str = getenv(str);
+    str = ft_getenv(str);
     return (str);
 }
 
-char    *env_in_DQS(char *str)
+char    *env_in_DQS(t_shell *shell)
 {
     char    *tmp;
     char    *path;
@@ -30,7 +30,7 @@ char    *env_in_DQS(char *str)
     i = -1;
     tmp = malloc(sizeof(char));
     path = malloc(sizeof(char));
-    while (str[++i])
+    while (shell->tokens->data[++i])
     {
         if (str[i] == '$')
         {
@@ -44,7 +44,7 @@ char    *env_in_DQS(char *str)
         }
         if ((getenv(path) != NULL) && is_env == 1)
         {
-            path = getenv(path);
+            path = ft_getenv(path);
             tmp = ft_strjoin(tmp, path);
             is_env = 0;
         }
@@ -53,17 +53,17 @@ char    *env_in_DQS(char *str)
     return (tmp);
 }
 
-t_token *env_check(t_token *tokens)
+t_token *env_check(t_shell *shell)
 {
     t_token *tmp;
 
-    tmp = tokens;
+    tmp = shell->tokens;
     while (tmp)
     {
         if (tmp->data[0] == '"')
-            tmp->data = env_in_DQS(tmp->data); //check double quotes for ENV and change to variable PATH
+            tmp->data = env_in_DQS(shell); //check double quotes for ENV and change to variable PATH
         else if (tmp->data[0] == '$')
-            tmp->data = get_path(tmp->data);  //ENV is not in quotes, so replace var with ENV PATH
+            tmp->data = get_path(shell);  //ENV is not in quotes, so replace var with ENV PATH
         tmp = tmp->next;    //to next node
     }
     return (tokens);

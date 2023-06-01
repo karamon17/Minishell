@@ -143,7 +143,6 @@ int 	ft_echo(t_shell *shell);
 int		ft_cd(t_shell *shell);
 char 	*ft_getenv(t_shell *shell, char *name);
 t_token *env_check(t_token *tokens);
-#endif
 void	sigint_handler(int signum);
 
 #endif
