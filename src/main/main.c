@@ -57,8 +57,7 @@ void    shell_loop(t_shell **shell)
             new = first_parse(input, (*shell)->tokens);
             new = stugel(new);
             (*shell)->tokens = new;
-            printf("[%s]\n", (*shell)->tokens->data);
-            new = env_check(*shell);
+            new = env_check(*shell, new);
             //check_commands(shell);
             execute_builtin(*shell);
         }
@@ -101,7 +100,7 @@ int main(int ac, char **av, char **envp)
     init_shell(&shell);
     (void)envp[0];
     get_env_var(&(shell->env_lst), envp);     //Store ENV variables in ENV linked list
-    aveletsnel_shvl(shell->env_lst);          //When the shell is called the ENV variable shell level should increase by 1. NOT YET IMPLEMENTED WIP
+    aveletsnel_shvl(shell->env_lst);
     shell_loop(&shell); //Main loop where input is read and tokens are generated
     exit(shell->err_stat);
 }

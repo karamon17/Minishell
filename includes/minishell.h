@@ -36,6 +36,13 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+typedef	struct s_constr
+{
+	char *data;
+	char *command;
+	struct s_constr *next;
+}				t_constr;
+
 typedef struct s_token
 {
     char        *data;
@@ -85,6 +92,7 @@ typedef struct s_shell
     struct s_tree   *ast;
     struct s_token  *tokens;
     struct s_env    *env_lst;
+	struct s_constr	*struc;
     int             err_stat;
 }               t_shell;
 
@@ -96,7 +104,7 @@ int			execute_builtin(t_shell *shell);
 char		*ft_getenv(t_shell *shell, char *name);
 void		get_env_var(t_env **env_lst, char **envp);
 char		*ft_strdup(const char *s1);
-char			*ft_itoa(int n);
+char		*ft_itoa(int n);
 void		aveletsnel_shvl(t_env *env_lst);
 char		*find_env_val(t_env *env_lst, char *key);
 t_env		*ft_add_new_env(char *key, char *value, int flag);
@@ -141,7 +149,7 @@ int			ft_export(t_shell *shell);
 int			ft_echo(t_shell *shell);
 int			ft_cd(t_shell *shell);
 char		*ft_getenv(t_shell *shell, char *name);
-t_token		*env_check(t_shell *shell);
+t_token		*env_check(t_shell *shell, t_token *tokens);
 void		sigint_handler(int signum);
 
 #endif

@@ -22,7 +22,6 @@ void delete_token(t_token **head, t_token *to_delete)
         return;
     if (*head == to_delete) 
     {
-        printf("in delete function?");
         (*head)->next = to_delete->next;
         free(to_delete);
         return;
@@ -73,10 +72,7 @@ t_token *stugel(t_token *tokens)
     while (tmp != NULL) 
     {
         if (ft_strncmp(tmp->data, "echo", 5) == 0 && i == 0)
-        {
-            printf("check is good\n");
             tokens = check_options(tmp);
-        }
         tmp = tmp->next;
         i++;
     }
