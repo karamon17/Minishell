@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/01 16:22:25 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/02 18:47:38 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,9 @@ void    shell_loop(t_shell **shell)
             //new = env_check(new);
             (*shell)->tokens = new;
             //check_commands(shell);
-            execute_builtin(*shell);
+			create_constr(*shell);
+            if (!execute_builtin(*shell))
+				execute(*shell);
         }
         if (input)
             free(input);
@@ -81,6 +83,17 @@ t_token *initialize_tokens(t_token *tokens)
     return (tokens);
 }
 
+t_constr *initialize_constr(t_constr *constrs)
+{
+    constrs = malloc(sizeof(t_token));
+    if (!constrs)
+        ft_error_exit("Malloc Error: Constrs Struct");
+    constrs->next = NULL;
+    constrs->data = NULL;
+	constrs->command = NULL;
+    return (constrs);
+}
+
 void    init_shell(t_shell **shell)
 {   
     (*shell) = malloc(sizeof(t_shell));
@@ -90,6 +103,7 @@ void    init_shell(t_shell **shell)
     {
         (*shell)->err_stat = 0;        //Initial exit status, if there is an error, update err_stat and exit with that code
         (*shell)->tokens = initialize_tokens((*shell)->tokens);
+		(*shell)->constrs = initialize_constr((*shell)->constrs);
         (*shell)->env_lst = NULL;
     }
 }

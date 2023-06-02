@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 18:31:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/30 17:37:44 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/02 18:43:15 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ t_env *check_key_env(t_env *env, char *key)
 	return (0);
 }
 
-int ft_export(t_shell *shell)
+int ft_export(t_shell *shell, int *flag)
 {
 	t_token *tmp;
 	t_env *env;
 	char *value;
-
+	
+	*flag = 1;
 	tmp = shell->tokens->next;
 	if (!ft_strchr(tmp->data, '='))
 		return (0);

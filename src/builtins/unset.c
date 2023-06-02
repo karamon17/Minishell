@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 16:58:14 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/30 17:37:49 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/02 18:43:34 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,12 @@ void delnode(t_shell *shell, t_env *env)
 	free(env);
 }
 
-void ft_unset(t_shell *shell)
+void ft_unset(t_shell *shell, int *flag)
 {
 	t_token *tmp;
 	t_env *env;
 
+	*flag = 1;
 	tmp = shell->tokens;
 	env = shell->env_lst;
 	while (tmp)
