@@ -90,23 +90,22 @@ typedef struct s_shell
 
 void    get_env_var(t_env **env_lst, char **envp);
 
-int	ft_atoi(const char *str);
-int	ft_cd(t_shell *shell);
-int	execute_builtin(t_shell *shell);
-char *ft_getenv(t_shell *shell, char *name);
-void    get_env_var(t_env **env_lst, char **envp);
-int		ft_atoi(const char *str);
-char	*ft_strdup(const char *s1);
-char	*ft_itoa(int n);
-void    aveletsnel_shvl(t_env *env_lst);
-char    *find_env_val(t_env *env_lst, char *key);
-t_env	*ft_add_new_env(char *key, char *value, int flag);
-t_env	*ft_add_env_back(t_env *env_list, char *key, char *value, int flag);
-void    get_env_var(t_env **env_lst, char **envp);
-size_t  ft_strlen(const char *str);
+int			ft_atoi(const char *str);
+int			ft_cd(t_shell *shell);
+int			execute_builtin(t_shell *shell);
+char		*ft_getenv(t_shell *shell, char *name);
+void		get_env_var(t_env **env_lst, char **envp);
+char		*ft_strdup(const char *s1);
+char			*ft_itoa(int n);
+void		aveletsnel_shvl(t_env *env_lst);
+char		*find_env_val(t_env *env_lst, char *key);
+t_env		*ft_add_new_env(char *key, char *value, int flag);
+t_env		*ft_add_env_back(t_env *env_list, char *key, char *value, int flag);
+void		get_env_var(t_env **env_lst, char **envp);
+size_t 		ft_strlen(const char *str);
 
-t_token *stugel(t_token *tokens);
-t_token *check_options(t_token *tmp);
+t_token		*stugel(t_token *tokens);
+t_token		*check_options(t_token *tmp);
 
 t_token    *initialize_tokens(t_token *tokens);
 int         grab_pipe(char *input, int i, t_token **new);
@@ -126,23 +125,23 @@ void	    ft_token_add_back(t_token **stack, t_token *new);
 int	        ft_token_size(t_token *head);
 char        *double_strjoin(char *tmp, char *input, int *j);
 
-void    is_b_in(t_token **head);
-void    is_pipe(t_token **head);
-void    is_env(t_token **head);
+void		is_b_in(t_token **head);
+void		is_pipe(t_token **head);
+void		is_env(t_token **head);
 
-void    second_parse(t_token **tokens);
-void    is_redir(t_token **head);
-void    is_option(t_token **head);
+void		second_parse(t_token **tokens);
+void		is_redir(t_token **head);
+void		is_option(t_token **head);
 
-void 	ft_pwd(void);
-void 	ft_env(t_shell *shell);
-int		ft_exit(t_shell *shell);
-void 	ft_unset(t_shell *shell);
-int 	ft_export(t_shell *shell);
-int 	ft_echo(t_shell *shell);
-int		ft_cd(t_shell *shell);
-char 	*ft_getenv(t_shell *shell, char *name);
-t_token *env_check(t_token *tokens);
-void	sigint_handler(int signum);
+void		ft_pwd(void);
+void		ft_env(t_shell *shell);
+int			ft_exit(t_shell *shell);
+void		ft_unset(t_shell *shell);
+int			ft_export(t_shell *shell);
+int			ft_echo(t_shell *shell);
+int			ft_cd(t_shell *shell);
+char		*ft_getenv(t_shell *shell, char *name);
+t_token		*env_check(t_shell *shell);
+void		sigint_handler(int signum);
 
 #endif

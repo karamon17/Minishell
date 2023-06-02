@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-char    *get_path(char *str)
+char    *get_path(t_shell *shl)
 {   
-    str++;
-    str = ft_getenv(str);
-    return (str);
+    shl->tokens->data++;
+    shl->tokens->data = ft_getenv(shl, shl->tokens->data);
+    return (shl->tokens->data);
 }
 
-char    *env_in_DQS(t_shell *shell)
+char    *env_in_DQS(t_shell *shl)
 {
     char    *tmp;
     char    *path;
@@ -30,41 +30,41 @@ char    *env_in_DQS(t_shell *shell)
     i = -1;
     tmp = malloc(sizeof(char));
     path = malloc(sizeof(char));
-    while (shell->tokens->data[++i])
+    while (shl->tokens->data[++i])
     {
-        if (str[i] == '$')
+        if (shl->tokens->data[i] == '$')
         {
             is_env = 1;
             i++;
         }
-        while (is_env == 1 && str[i] != '\0' && str[i] != '"' && str[i] != ' ')
+        while (is_env == 1 && shl->tokens->data[i] != '\0' && shl->tokens->data[i] != '"' && shl->tokens->data[i] != ' ')
         {
-            path = ft_strjoin(path, ft_substr(str, i, 1));
+            path = ft_strjoin(path, ft_substr(shl->tokens->data, i, 1));
             i++;
         }
-        if ((getenv(path) != NULL) && is_env == 1)
+        if ((ft_getenv(shl, path) != NULL) && is_env == 1)
         {
-            path = ft_getenv(path);
+            path = ft_getenv(shl, path);
             tmp = ft_strjoin(tmp, path);
             is_env = 0;
         }
-        tmp = ft_strjoin(tmp, ft_substr(str, i, 1));
+        tmp = ft_strjoin(tmp, ft_substr(shl->tokens->data, i, 1));
     }
     return (tmp);
 }
 
 t_token *env_check(t_shell *shell)
 {
-    t_token *tmp;
+    t_shell *tmp;
 
-    tmp = shell->tokens;
-    while (tmp)
+    tmp = shell;
+    while (tmp->tokens)
     {
-        if (tmp->data[0] == '"')
-            tmp->data = env_in_DQS(shell); //check double quotes for ENV and change to variable PATH
-        else if (tmp->data[0] == '$')
-            tmp->data = get_path(shell);  //ENV is not in quotes, so replace var with ENV PATH
-        tmp = tmp->next;    //to next node
+        if (tmp->tokens->data[0] == '"')
+            tmp->tokens->data = env_in_DQS(tmp); //check double quotes for ENV and change to variable PATH
+        else if (tmp->tokens->data[0] == '$')
+            tmp->tokens->data = get_path(tmp);  //ENV is not in quotes, so replace var with ENV PATH
+        tmp->tokens = tmp->tokens->next;    //to next node
     }
-    return (tokens);
+    return (tmp->tokens);
 }

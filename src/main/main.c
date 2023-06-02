@@ -56,8 +56,9 @@ void    shell_loop(t_shell **shell)
             add_history(input);
             new = first_parse(input, (*shell)->tokens);
             new = stugel(new);
-            new = env_check(new);
+            new = env_check(*shell);
             (*shell)->tokens = new;
+            printf("[%s]\n", (*shell)->tokens->data);
             //check_commands(shell);
             execute_builtin(*shell);
         }
