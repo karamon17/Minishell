@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/02 18:42:17 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:46:07 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ int	ft_cd(t_shell *shell, int *flag)
 	{
 		chdir(cmd);
 		ft_changepwd(shell);
-	}	
+	}
 	return (0);
 }
