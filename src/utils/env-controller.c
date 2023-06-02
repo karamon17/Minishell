@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:36:20 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/30 17:38:42 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:10:50 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,38 @@ char *ft_getenv(t_shell *shell, char *name)
 		current = current->next;
 	}
 	return (0);
+}
+
+char **env_to_2darray(t_shell *shell)
+{
+	t_env *current;
+	int len;
+	char *tmp;
+	char **res;
+	int i;
+
+	len = 0;
+	i = 0;
+	current = shell->env_lst;
+	while (current)
+	{
+		len++;
+		current = current->next;
+	}
+	current = shell->env_lst;
+	res = malloc(len * sizeof(char *));
+	while (current)
+	{
+		res[i] = ft_strdup(current->key);
+		tmp = res[i];
+		res[i] = ft_strjoin(res[i], "=");
+		free(tmp);
+		tmp = res[i];
+		res[i] = ft_strjoin(res[i], current->value);
+		free(tmp);
+		current = current->next;
+		i++;
+	}
+	res[i] = NULL;
+	return (res);
 }

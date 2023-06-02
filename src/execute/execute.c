@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/02 18:38:53 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:12:32 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@ int execute_command(t_shell *shell, char *path)
 {
 	t_shell *tmp;
 	pid_t pid;
+	char **env;
+	
 	tmp = shell;
-
+	env = env_to_2darray(shell);
 	pid = fork();
 	if (pid == 0)
 	{
-		execve(path, ft_split(shell->constrs->data, ' '), NULL);
+		execve(path, ft_split(shell->constrs->data, ' '), env);
 	}
 	else
 	{
