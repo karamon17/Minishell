@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   second_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:38:27 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/27 19:38:29 by jfrances         ###   ########.fr       */
+/*   Updated: 2023/06/03 16:35:53 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_token *stugel(t_token *tokens)
     {
         if (ft_strncmp(tmp->data, "echo", 5) == 0 && i == 0)
         {
-            printf("check is good\n");
+            //printf("check is good\n");
             tokens = check_options(tmp);
         }
         tmp = tmp->next;

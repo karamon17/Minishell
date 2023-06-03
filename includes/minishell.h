@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/02 19:06:27 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/03 15:45:02 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ typedef struct s_token
 typedef struct s_constr
 {
     char        *data;	
-	char        *command;	
+	char        *command;
+	int			fd[2];
+	struct s_constr *prev;
     struct s_constr  *next;  
 }               t_constr;
 
@@ -135,5 +137,6 @@ void	sigint_handler(int signum);
 int	execute(t_shell *shell);
 int create_constr(t_shell *shell);
 char **env_to_2darray(t_shell *shell);
+void ft_pipex(t_shell *shell);
 
 #endif

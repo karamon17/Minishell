@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/02 18:47:38 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/03 15:57:36 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void    shell_loop(t_shell **shell)
     char        *input;
 
     (*shell)->err_stat = 0;
+	rl_catch_signals = 0;
     while (1)
     {
         signal(SIGINT, sigint_handler);
@@ -65,8 +66,7 @@ void    shell_loop(t_shell **shell)
             (*shell)->tokens = new;
             //check_commands(shell);
 			create_constr(*shell);
-            if (!execute_builtin(*shell))
-				execute(*shell);
+			ft_pipex(*shell);
         }
         if (input)
             free(input);
@@ -89,6 +89,7 @@ t_constr *initialize_constr(t_constr *constrs)
     if (!constrs)
         ft_error_exit("Malloc Error: Constrs Struct");
     constrs->next = NULL;
+	constrs->prev = NULL;
     constrs->data = NULL;
 	constrs->command = NULL;
     return (constrs);

@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:02:00 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/02 18:10:09 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/03 17:16:30 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void constr_add_back(t_constr **lst, t_constr *new)
 		*lst = new;
 		return ;
 	}
+	new->prev = mylstlast(*lst);
 	mylstlast(*lst)->next = new;
 }
 
@@ -58,12 +59,11 @@ int create_constr(t_shell *shell)
 
 	ptoken = shell->tokens;
 	token = ptoken->data;
-	str = malloc(sizeof(char));
-	str[0] = 0;
 	while (ptoken)
 	{
 		command = NULL;
-		while (ptoken && (token[0] != '|' || token[0] != '<' || token[0] != '>' || !ft_strncmp(token, "<<", 2) || !ft_strncmp(token, ">>", 2)))
+		str = ft_calloc(1, sizeof(char));
+		while (ptoken && (token[0] != '|' && token[0] != '<' && token[0] != '>' && ft_strncmp(token, "<<", 2) != 0 && ft_strncmp(token, ">>", 2) != 0))
 		{
 			tmp = str;
 			if (str[0])
@@ -81,11 +81,14 @@ int create_constr(t_shell *shell)
 		if (ptoken)
 		{
 			command = ft_strdup(token);
+			ptoken = ptoken->next;
+			if (ptoken)
+				token = ptoken->data;
 		}
 		node = create_newnode(str, command);
 		constr_add_back(&constr, node);
+		free(str);
 	}
 	shell->constrs = constr;
-	free(str);
 	return (0);
 }
