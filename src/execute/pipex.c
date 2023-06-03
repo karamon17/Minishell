@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/03 17:39:23 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/03 18:07:33 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,18 @@ static void	ft_close_pipe(int fd[2])
 {
 	close(fd[0]);
 	close(fd[1]);
+}
+
+void move_shell_tokens(t_shell *shell)
+{
+	char *token;
+	token = shell->tokens->data;
+	while (shell->tokens->next && token[0] != '|' && token[0] != '<' && token[0] != '>' && ft_strncmp(token, "<<", 2) != 0 && ft_strncmp(token, ">>", 2) != 0)
+	{
+		shell->tokens = shell->tokens->next;
+		token = shell->tokens->data;
+	}
+	shell->tokens = shell->tokens->next;
 }
 
 void ft_child(t_shell *shell, t_constr *constr)
@@ -66,6 +78,7 @@ void ft_pipex(t_shell *shell)
 			else
 				ft_child(shell, constr);
 		}
+		move_shell_tokens(shell);
 		if (constr->prev && constr->prev->command)
 			ft_close_pipe(constr->prev->fd);
 		constr = constr->next;
