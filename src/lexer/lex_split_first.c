@@ -75,8 +75,6 @@ char *add_white_space(char *input, int j)
     return tmp;
 }
 
-
-
 int d_quotes(char *input, int i, t_token **new)
 {
     while (input[i] != '"' && input[i] != '\0')
@@ -116,7 +114,8 @@ int is_special_token(char *token)
     return ft_strcmp(token, "<<") == 0 || ft_strcmp(token, ">>") == 0;
 }
 
-t_token *first_parse(char *input, t_token *tokens) {
+t_token *first_parse(char *input, t_token *tokens) 
+{
     int check = 0;
     t_token *new;
     int i = 0;
@@ -165,6 +164,3 @@ t_token *first_parse(char *input, t_token *tokens) {
     }
     return tokens;
 }
-
-
-

@@ -36,6 +36,13 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+typedef struct s_cnt
+{
+	int	i;
+	int	singles;
+	int	doubles;
+}			t_cnt;
+
 typedef	struct s_constr
 {
 	char *data;
@@ -55,6 +62,7 @@ typedef struct s_env
 	char			*key;
     char			*tmp;
 	char			*value;
+	int				flag;
 }	t_env;
 
 enum e_flag
@@ -80,6 +88,7 @@ typedef struct s_shell
 	struct s_constr	*struc;
     int             err_stat;
 	int				hrdoc_cnt;
+	int				quote_cnt;
 }               t_shell;
 
 void    get_env_var(t_env **env_lst, char **envp);
@@ -137,5 +146,7 @@ int			ft_cd(t_shell *shell);
 char		*ft_getenv(t_shell *shell, char *name);
 t_token		*env_check(t_shell *shell, t_token *tokens);
 void		sigint_handler(int signum);
+int			quote_check(t_token *tokens);
+void		free_shell(t_shell *shell);
 
 #endif

@@ -66,5 +66,7 @@ t_token *env_check(t_shell *shell, t_token *tokens)
             tmp->data = get_path(shell, tmp->data);  //ENV is not in quotes, so replace var with ENV PATH
         tmp = tmp->next;    //to next node
     }
+    if (quote_check(tokens) == -1)
+        free_shell(shell);
     return (tokens);
 }
