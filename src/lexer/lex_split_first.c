@@ -77,7 +77,7 @@ char *add_white_space(char *input, int j)
 
 int d_quotes(char *input, int i, t_token **new)
 {
-    while (input[i] != '"' && input[i] != '\0')
+    while ((input[i] != '"' || input[i] != ' ') && input[i] != '\0')//aaaaaaaaa
     {
        (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
         i++;
@@ -162,5 +162,6 @@ t_token *first_parse(char *input, t_token *tokens)
         }
         i++;
     }
+    printf("%s | %s\n", tokens->data, tokens->next->data);
     return tokens;
 }

@@ -55,6 +55,7 @@ char    *env_in_DQS(t_shell *shell, char *str)
 
 t_token *env_check(t_shell *shell, t_token *tokens)
 {
+    printf("%s\n", tokens->data);
     t_token *tmp;
 
     tmp = tokens;
@@ -66,7 +67,11 @@ t_token *env_check(t_shell *shell, t_token *tokens)
             tmp->data = get_path(shell, tmp->data);  //ENV is not in quotes, so replace var with ENV PATH
         tmp = tmp->next;    //to next node
     }
+    printf("[%s]\n", tokens->data);
     if (quote_check(tokens) == -1)
-        free_shell(shell);
+    {
+        printf("ashahatoom");
+        free(shell);
+    }
     return (tokens);
 }

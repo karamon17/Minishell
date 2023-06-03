@@ -66,6 +66,15 @@ void    shell_loop(t_shell **shell)
     }
 }
 
+// t_cnt   *initialize_cnt(t_cnt *cnt)
+// {
+//     cnt = malloc(sizeof(t_token));
+//     if (!cnt)
+//         ft_error_exit("Fucking Minishell");
+//     cnt->i = 0;
+//     cnt->
+// }
+
 t_token *initialize_tokens(t_token *tokens)
 {
     tokens = malloc(sizeof(t_token));
@@ -86,6 +95,7 @@ void    init_shell(t_shell **shell)
         (*shell)->err_stat = 0;        //Initial exit status, if there is an error, update err_stat and exit with that code
         (*shell)->tokens = initialize_tokens((*shell)->tokens);
         (*shell)->env_lst = NULL;
+        //(*shell)->cnt = initialize_cnt((*shell)->cnt);
     }
 }
 

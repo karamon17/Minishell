@@ -1,60 +1,61 @@
 #include "minishell.h"
 
-static t_cnt *d_count(char *str, int i, int single)
+static t_cnt d_count(char *str, int i, int single)
 {
-    t_cnt *cnt;
+    t_cnt cnt;
 
-    cnt = malloc(sizeof(t_cnt));
-    cnt->singles = single;
+    cnt.singles = single;
     while (str[++i])
     {
         if (str[i] == '"')
-            cnt->doubles++;
+            cnt.doubles++;
     }
-    cnt->i = i;
+    cnt.i = i;
     return (cnt);
 }
 
-static t_cnt *s_count(char *str, int i, int doubles)
+static t_cnt s_count(char *str, int i, int doubles)
 {
-    t_cnt *cnt;
+    t_cnt cnt;
 
-    cnt = malloc(sizeof(t_cnt));
-    cnt->doubles = doubles;
+    cnt.doubles = doubles;
     while (str[++i])
     {
         if (str[i] == '\'')
-            cnt->singles++;
+            cnt.singles++;
     }
-    cnt->i = i;
+    cnt.i = i;
     return (cnt);
 }
 
 int     quote_check(t_token *tokens)
 {
-    t_cnt   *cnt;
+    t_cnt   cnt;
     t_token *tmp;
+    //int     i;
 
-    cnt = malloc(sizeof(t_cnt));
-    cnt->singles = 0;
-    cnt->doubles = 0;
+    //cnt = malloc(sizeof(t_cnt));
+    //printf("{%s}\n",tokens->data);
+    cnt.singles = 0;
+    cnt.doubles = 0;
+    cnt.i = 0;
     tmp = tokens;
     while (tmp)
     {
-        cnt->i = 0;
-        while (tmp->data[cnt->i])
+        cnt.i = 0;
+        //printf("in loop %s\n",tokens->data);
+        while (tmp->data[cnt.i])
         {
-            if (tmp->data[cnt->i] == '"')
-                cnt = d_count(tmp->data, cnt->i, cnt->singles);
-            if (tmp->data[cnt->i] == '\'')  
-                cnt = s_count(tmp->data, cnt->i, cnt->doubles);
-            printf("cnt == [%d] && i == [%d]\n", cnt->singles, cnt->i);
-            if ((cnt->singles % 2 != 0) || (cnt->doubles % 2 != 0))
+            if (tmp->data[cnt.i] == '"')
+                cnt = d_count(tmp->data,cnt.i, cnt.singles);
+            if (tmp->data[cnt.i] == '\'')  
+                cnt = s_count(tmp->data, cnt.i, cnt.doubles);
+            //printf("cnt == [%d] && i == [%d]\n", cnt.singles, cnt.i);
+            if ((cnt.singles % 2 != 0) || (cnt.doubles % 2 != 0))
             {
-                free(cnt);
                 return (-1);
             }
-            cnt->i++;
+            cnt.i++;
         }
         tmp = tmp->next;
     }

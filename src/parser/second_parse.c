@@ -19,15 +19,15 @@ t_token    *cut_command_quotes(t_token *tokens)
     t_token    *tmp;
 
     tmp = tokens;
-    cpy = malloc(sizeof(char));
     while (tmp != NULL)
     {
         i = -1;
+        cpy = ft_calloc(1, sizeof(char));
         while (tmp->data[++i])
         {
             if (tmp->data[i] == '\'' || tmp->data[i] == '"')
                 continue ;
-            cpy = ft_strjoin(cpy, ft_substr(tmp->data, i, 1));
+            cpy = ft_strjoin(cpy, ft_substr(tmp->data, i, 1));//echoppppp
         }
         tmp->data = cpy;
         tmp = tmp->next;
@@ -99,6 +99,8 @@ t_token *stugel(t_token *tokens)
         i++;
     }
     tmp = tokens;
+    printf("jkljlkj\n");
     tokens = cut_command_quotes(tmp);
+    printf("55555%s55555\n", tokens->next->data);
     return (tokens);
 }

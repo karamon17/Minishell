@@ -86,9 +86,10 @@ typedef struct s_shell
     struct s_token  *tokens;
     struct s_env    *env_lst;
 	struct s_constr	*struc;
+	struct s_cnt	*cnt;
     int             err_stat;
 	int				hrdoc_cnt;
-	int				quote_cnt;
+	//int				quote_cnt;
 }               t_shell;
 
 void    get_env_var(t_env **env_lst, char **envp);
