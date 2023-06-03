@@ -6,16 +6,17 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:55:15 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/30 17:37:36 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/03 17:37:25 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_echo(t_shell *shell)
+int ft_echo(t_shell *shell, int *flag)
 {
 	t_token *tokens;
 
+	*flag = 1;
 	tokens = shell->tokens->next;
 	if (!tokens)
 	{	

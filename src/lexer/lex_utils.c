@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   lex_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/13 17:42:58 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/02 18:43:23 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/05/15 16:53:43 by jfrances          #+#    #+#             */
+/*   Updated: 2023/06/02 18:34:21 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+# include "minishell.h"
 
-void ft_pwd(int *flag)
+int	ft_strcmp(char *s1, char *s2)
 {
-    char cwd[PATH_MAX];
-	
-	*flag = 1;
-    if (getcwd(cwd, sizeof(cwd)) != NULL)
+	while (*s1 != '\0' && *s1 == *s2 && *s2 != '\0')
 	{
-        printf("%s\n", cwd);
-    }
-	else
-	{
-        perror("getcwd() error");
-    }
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
 }
-

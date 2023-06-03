@@ -5,4 +5,5 @@ readline
 *.o
 */*.o
 *.a
+*/*.a
 minishell

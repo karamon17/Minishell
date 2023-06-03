@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/05/30 17:37:01 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/03 17:37:34 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@ void ft_changepwd(t_shell *shell)
 	free(to_free);
 }
 
-int	ft_cd(t_shell *shell)
+int	ft_cd(t_shell *shell, int *flag)
 {
 	char	*cmd;
 	
+	*flag = 1;
 	if (!shell->tokens->next)
 		return (0);
 	else if (shell->tokens->next->data[0] == '~' && !shell->tokens->next->data[1])
@@ -67,6 +68,6 @@ int	ft_cd(t_shell *shell)
 	{
 		chdir(cmd);
 		ft_changepwd(shell);
-	}	
+	}
 	return (0);
 }
