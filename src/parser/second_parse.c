@@ -12,7 +12,29 @@
 
 # include "minishell.h"
 
-// == ft_strlen(tmp->data)
+t_token    *cut_command_quotes(t_token *tokens)
+{
+    int         i;
+    char        *cpy;
+    t_token    *tmp;
+
+    tmp = tokens;
+    cpy = malloc(sizeof(char));
+    while (tmp != NULL)
+    {
+        i = -1;
+        while (tmp->data[++i])
+        {
+            if (tmp->data[i] == '\'' || tmp->data[i] == '"')
+                continue ;
+            cpy = ft_strjoin(cpy, ft_substr(tmp->data, i, 1));
+        }
+        tmp->data = cpy;
+        tmp = tmp->next;
+    }
+    free(cpy);
+    return (tokens);
+}
 
 void delete_token(t_token **head, t_token *to_delete) 
 {
@@ -76,5 +98,7 @@ t_token *stugel(t_token *tokens)
         tmp = tmp->next;
         i++;
     }
-    return tokens;
+    tmp = tokens;
+    tokens = cut_command_quotes(tmp);
+    return (tokens);
 }

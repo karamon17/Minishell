@@ -49,26 +49,12 @@ typedef struct s_token
     struct s_token  *next;  
 }               t_token;
 
-typedef struct s_tree
-{
-    void            *data;
-    struct s_tree   *left;
-    struct s_tree   *right;
-}               t_tree;
-
 typedef struct s_env
 {
     struct s_env	*next;
 	char			*key;
     char			*tmp;
 	char			*value;
-    char			*tmp0;
-	char			*tmp1;
-    char			*tmp2;
-	int				flag;
-	int				i;
-	int				pop;
-	int				exflag;
 }	t_env;
 
 enum e_flag
@@ -89,11 +75,11 @@ enum e_flag
 
 typedef struct s_shell
 {
-    struct s_tree   *ast;
     struct s_token  *tokens;
     struct s_env    *env_lst;
 	struct s_constr	*struc;
     int             err_stat;
+	int				hrdoc_cnt;
 }               t_shell;
 
 void    get_env_var(t_env **env_lst, char **envp);

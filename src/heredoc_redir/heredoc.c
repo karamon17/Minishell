@@ -10,7 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "minishell.h"
+#include "minishell.h"
+
+void    kani_hrdoc(t_shell *shell)
+{
+    while (shell->constr)
+    {
+        if (ft_strcmp(shell->constr->command, "<<"))
+            shell->hrdoc_cnt++;
+    }
+}
 
 // void    heredoc(t_constr *new)
 // {
