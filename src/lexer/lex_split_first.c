@@ -162,6 +162,5 @@ t_token *first_parse(char *input, t_token *tokens)
         }
         i++;
     }
-    printf("%s | %s\n", tokens->data, tokens->next->data);
     return tokens;
 }

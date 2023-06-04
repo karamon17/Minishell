@@ -32,10 +32,7 @@ int     quote_check(t_token *tokens)
 {
     t_cnt   cnt;
     t_token *tmp;
-    //int     i;
 
-    //cnt = malloc(sizeof(t_cnt));
-    //printf("{%s}\n",tokens->data);
     cnt.singles = 0;
     cnt.doubles = 0;
     cnt.i = 0;
@@ -43,14 +40,12 @@ int     quote_check(t_token *tokens)
     while (tmp)
     {
         cnt.i = 0;
-        //printf("in loop %s\n",tokens->data);
         while (tmp->data[cnt.i])
         {
             if (tmp->data[cnt.i] == '"')
                 cnt = d_count(tmp->data,cnt.i, cnt.singles);
             if (tmp->data[cnt.i] == '\'')  
                 cnt = s_count(tmp->data, cnt.i, cnt.doubles);
-            //printf("cnt == [%d] && i == [%d]\n", cnt.singles, cnt.i);
             if ((cnt.singles % 2 != 0) || (cnt.doubles % 2 != 0))
             {
                 return (-1);

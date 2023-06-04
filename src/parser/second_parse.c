@@ -99,8 +99,6 @@ t_token *stugel(t_token *tokens)
         i++;
     }
     tmp = tokens;
-    printf("jkljlkj\n");
     tokens = cut_command_quotes(tmp);
-    printf("55555%s55555\n", tokens->next->data);
     return (tokens);
 }
