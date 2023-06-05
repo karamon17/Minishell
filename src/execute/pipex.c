@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/03 18:07:33 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/05 11:03:28 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ void ft_pipex(t_shell *shell)
 		move_shell_tokens(shell);
 		if (constr->prev && constr->prev->command)
 			ft_close_pipe(constr->prev->fd);
-		constr = constr->next;
+		shell->constrs = constr->next;
+		constr = shell->constrs;
 	}
 	while (wait(NULL) != -1)
 		;
