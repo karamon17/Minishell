@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/05 11:03:28 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/05 12:11:17 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,24 +65,34 @@ void ft_pipex(t_shell *shell)
 	while (constr)
 	{
 		if (constr->command)
-			pipe(constr->fd);
-		pid = fork();
-		if (pid == 0)
 		{
-			if (constr->next == NULL && constr->prev == NULL)
-			{	
-				if (!execute_builtin(shell))
-					execute(shell);
-				exit(0);
+			pipe(constr->fd);
+			pid = fork();
+			if (pid == 0)
+			{
+				if (constr->next == NULL && constr->prev == NULL)
+				{	
+					if (!execute_builtin(shell))
+						execute(shell);
+					exit(0);
+				}
+				else
+					ft_child(shell, constr);
 			}
-			else
-				ft_child(shell, constr);
+			move_shell_tokens(shell);
+			if (constr->prev && constr->prev->command)
+				ft_close_pipe(constr->prev->fd);
+			shell->constrs = constr->next;
+			constr = shell->constrs;
 		}
-		move_shell_tokens(shell);
-		if (constr->prev && constr->prev->command)
-			ft_close_pipe(constr->prev->fd);
-		shell->constrs = constr->next;
-		constr = shell->constrs;
+		else
+		{
+			if (!execute_builtin(shell))
+				execute(shell);
+			move_shell_tokens(shell);
+			shell->constrs = constr->next;
+			constr = shell->constrs;
+		}
 	}
 	while (wait(NULL) != -1)
 		;
