@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/05 12:11:17 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/07 15:11:25 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,12 @@ void ft_pipex(t_shell *shell)
 		return ;
 	while (constr)
 	{
-		if (constr->command)
+		if (constr->command && !constr->next)
+		{
+			printf("minishell: syntax error near unexpected token '%s'\n", constr->command);
+			return;
+		}
+		else if (constr->command)
 		{
 			pipe(constr->fd);
 			pid = fork();

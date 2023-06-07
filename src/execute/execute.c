@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/03 16:56:36 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:55:15 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int execute_command(t_shell *shell, char *path)
 	//printf("%s\n", shell->constrs->data);
 	if (pid == 0)
 	{
-		execve(path, ft_split(shell->constrs->data, ' '), env_to_2darray(shell));
+		exit(execve(path, ft_split(shell->constrs->data, ' '), env_to_2darray(shell)));
 	}
 	else
 	{
@@ -59,7 +59,6 @@ int	execute(t_shell *shell)
 	i = 0;
 	while (path[i])
 	{
-		//printf("this is my print %s\n", path[i]);
 		if (!access(path[i], X_OK))
 			break;
 		i++;
