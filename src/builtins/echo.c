@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:55:15 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/07 15:56:11 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/07 17:21:04 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ int ft_echo(t_shell *shell, int *flag)
 	if (!ft_strncmp(tokens->data, "-n", 2))
 		while(tokens)
 		{
-			tmp = ft_strtrim(tokens->data, "'\"");
+			if (tokens->data[0] == '"')
+				tmp = ft_strtrim(tokens->data, "\"");
+			else if (tokens->data[0] == '\'')
+				tmp = ft_strtrim(tokens->data, "'");
 			printf("%s", tmp);
 			if (tokens->next && tokens->next->data[0] != '"' && tokens->next->data[0] != '\'')
 				printf(" ");
@@ -37,7 +40,10 @@ int ft_echo(t_shell *shell, int *flag)
 	{
 		while(tokens)
 		{
-			tmp = ft_strtrim(tokens->data, "'\"");
+			if (tokens->data[0] == '"')
+				tmp = ft_strtrim(tokens->data, "\"");
+			else if (tokens->data[0] == '\'')
+				tmp = ft_strtrim(tokens->data, "'");
 			printf("%s", tmp);
 			if (tokens->next && tokens->next->data[0] != '"' && tokens->next->data[0] != '\'')
 				printf(" ");
