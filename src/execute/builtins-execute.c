@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:24:02 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/07 14:08:49 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/07 19:51:02 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	execute_builtin(t_shell *shell)
 	*flag = 0;
 	tmp = shell->tokens;
 	if (!ft_strncmp(str_lower(tmp->data), "pwd", 4))
-		ft_pwd(shell, flag);
+		ft_pwd(flag);
 	else if (!ft_strncmp(tmp->data, "cd", 3))
 		ft_cd(shell, flag);
 	else if (!ft_strncmp(str_lower(tmp->data), "env", 4))

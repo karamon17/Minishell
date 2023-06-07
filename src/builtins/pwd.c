@@ -6,22 +6,17 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 17:42:58 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/07 15:34:13 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/07 19:50:18 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_pwd(t_shell *shell, int *flag)
+void ft_pwd(int *flag)
 {
     char cwd[PATH_MAX];
 	
 	*flag = 1;
-	if (ft_strncmp(shell->constrs->data, "pwd", 4))
-	{
-		printf("pwd: too many arguments\n");
-		return ;
-	}
     if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
         printf("%s\n", cwd);
