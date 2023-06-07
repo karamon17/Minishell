@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:24:02 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/03 17:39:00 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/07 11:32:46 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,16 @@
 char *str_lower(char *str)
 {
 	int i;
+	char *res;
 
 	i = 0;
-	while (str[i])
+	res = ft_strdup(str);
+	while (res[i])
 	{
-		str[i] = ft_tolower(str[i]);
+		res[i] = ft_tolower(res[i]);
 		i++;
 	}
-	return (str);
+	return (res);
 }
 
 int	execute_builtin(t_shell *shell)
@@ -33,9 +35,9 @@ int	execute_builtin(t_shell *shell)
 	flag = malloc(sizeof(int));
 	*flag = 0;
 	tmp = shell->tokens;
-	if (!ft_strncmp(str_lower(tmp->data), "pwd", 3))
+	if (!ft_strncmp(str_lower(tmp->data), "pwd", 4))
 		ft_pwd(flag);
-	else if (!ft_strncmp(tmp->data, "cd", 3))
+	else if (!ft_strncmp(tmp->data, "cd", 2))
 		ft_cd(shell, flag);
 	else if (!ft_strncmp(str_lower(tmp->data), "env", 3))
 		ft_env(shell, flag);
