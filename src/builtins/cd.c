@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/03 17:37:34 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/07 18:29:50 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ int	ft_cd(t_shell *shell, int *flag)
 	char	*cmd;
 	
 	*flag = 1;
-	if (!shell->tokens->next)
-		return (0);
-	else if (shell->tokens->next->data[0] == '~' && !shell->tokens->next->data[1])
+	if (!shell->tokens->next || (shell->tokens->next->data[0] == '~' && !shell->tokens->next->data[1]))
 		cmd = ft_getenv(shell, "HOME");
 	else if((shell->tokens->next->data[0] == '~' && shell->tokens->next->data[1]))
 		cmd = ft_strjoin(ft_getenv(shell, "HOME"), shell->tokens->next->data + 1);
@@ -62,7 +60,7 @@ int	ft_cd(t_shell *shell, int *flag)
 	}
 	else
 		cmd = shell->tokens->next->data;
-	if (shell->tokens->next->data[0] == '-' && !shell->tokens->next->data[1])
+	if (shell->tokens->next && shell->tokens->next->data[0] == '-' && !shell->tokens->next->data[1])
 		printf("%s\n", ft_getenv(shell, "OLDPWD"));
 	if (!access(cmd, F_OK))
 	{

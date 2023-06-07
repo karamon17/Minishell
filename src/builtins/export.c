@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 18:31:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/02 18:43:15 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/07 19:02:17 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,32 @@ t_env *check_key_env(t_env *env, char *key)
 
 int ft_export(t_shell *shell, int *flag)
 {
-	t_token *tmp;
 	t_env *env;
 	char *value;
+	char **tmp;
+	int i;
 	
 	*flag = 1;
-	tmp = shell->tokens->next;
-	if (!ft_strchr(tmp->data, '='))
-		return (0);
-	else
+	tmp = ft_split(shell->constrs->data, ' ');
+	i = 1;
+	while(tmp[i])
 	{
-		value = ft_strchr(tmp->data, '=') + 1;
-		*(ft_strchr(tmp->data, '=')) = 0;
-	}
-	env = check_key_env(shell->env_lst, tmp->data);
-	if (!env)
-		ft_add_env_back(shell->env_lst, tmp->data, value, ENV);
-	else
-	{
-		free(env->value);
-		env->value = ft_strdup(value);
+		if (!ft_strchr(tmp[i], '='))
+			return (0);
+		else
+		{
+			value = ft_strchr(tmp[i], '=') + 1;
+			*(ft_strchr(tmp[i], '=')) = 0;
+		}
+		env = check_key_env(shell->env_lst, tmp[i]);
+		if (!env)
+			ft_add_env_back(shell->env_lst, tmp[i], value, ENV);
+		else
+		{
+			free(env->value);
+			env->value = ft_strdup(value);
+		}
+		i++;
 	}
 	return (0);
 }

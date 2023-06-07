@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/05 12:10:50 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/07 18:23:02 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,7 @@ void    shell_loop(t_shell **shell)
 			printf("exit\n");
 			return ;
 		}
-		if (!input[0])
-            continue;
-        else
+		if (input[0])
         {
             if ((*shell)->err_stat != 0)
                 exit((*shell)->err_stat); //implement a function to free data later
@@ -67,9 +65,8 @@ void    shell_loop(t_shell **shell)
             //check_commands(shell);
 			create_constr(*shell);
 			ft_pipex(*shell);
+			free(input);
         }
-        if (input)
-            free(input);
     }
 }
 

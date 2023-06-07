@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 16:58:14 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/02 18:43:34 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/07 19:14:38 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ void ft_unset(t_shell *shell, int *flag)
 	t_env *env;
 
 	*flag = 1;
-	tmp = shell->tokens;
-	env = shell->env_lst;
+	tmp = shell->tokens->next;
+	if (!tmp)
+		return ;
 	while (tmp)
 	{
+		env = shell->env_lst;
 		while (env)
 		{
-			if (!ft_strncmp(tmp->next->data, env->key, ft_strlen(env->key)))
+			if (!ft_strncmp(tmp->data, env->key, ft_strlen(env->key)))
 				delnode(shell, env);
 			env = env->next;
 		}
