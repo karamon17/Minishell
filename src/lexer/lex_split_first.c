@@ -86,7 +86,6 @@ char *add_white_space(char *input, int j)
             tmp = ft_strjoin(tmp, ft_substr(input, j, 1));
         j++;
     }
-
     return tmp;
 }
 
@@ -119,15 +118,15 @@ int append_word(char *input, int i, t_token **new)
 
 int s_quotes(char *input, int i, t_token **new)
 {
-    while (input[i] != '\'' && input[i] != '\0')
+    while ((input[i] != '\0')) //aaaaaaaaa || input[i] != ' '
     {
-        (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
+       (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
+        i++;
         if (input[i] == '\'' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
         {
             (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
             break;
         }
-        i++;
     }
     if (input[i] != '\0')
          (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));

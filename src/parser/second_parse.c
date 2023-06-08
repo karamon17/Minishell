@@ -33,7 +33,6 @@ t_token    *cut_command_quotes(t_token *tokens)
         tmp = tmp->next;
     }
     free(cpy);
-    printf("%s\n", tokens->next->data);
     return (tokens);
 }
 
