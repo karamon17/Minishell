@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_initial_handling.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:37:42 by jfrances          #+#    #+#             */
-/*   Updated: 2023/05/27 19:37:44 by jfrances         ###   ########.fr       */
+/*   Updated: 2023/06/08 17:11:21 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,11 @@ void    get_env_var(t_env **env_lst, char **envp)
 		while (envp[i][j] && envp[i][j] != '=')
 			j++;
 		key = ft_substr(envp[i], 0, j);
+		if (!ft_strncmp(key, "OLDPWD", 7))
+		{
+			i++;	
+			continue;
+		}
 		j++;
 		if (envp[i][j])
 			value = ft_substr(envp[i], j, ft_strlen(envp[i]) - j);
