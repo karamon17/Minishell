@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:02:00 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/03 17:16:30 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/08 19:51:29 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void constr_add_back(t_constr **lst, t_constr *new)
 	if (!*lst)
 	{
 		*lst = new;
+		new->prev = NULL;
 		return ;
 	}
 	new->prev = mylstlast(*lst);
@@ -59,6 +60,7 @@ int create_constr(t_shell *shell)
 
 	ptoken = shell->tokens;
 	token = ptoken->data;
+	constr = NULL;
 	while (ptoken)
 	{
 		command = NULL;

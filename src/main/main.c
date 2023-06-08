@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/08 15:33:59 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/08 19:39:42 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ void    shell_loop(t_shell **shell)
             add_history(input);
             new = first_parse(input, (*shell)->tokens);
             new = stugel(new);
-            //new = env_check(new);
             (*shell)->tokens = new;
+            new = env_check(*shell, new);
             //check_commands(shell);
 			create_constr(*shell);
 			ft_pipex(*shell);

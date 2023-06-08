@@ -6,13 +6,39 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:38:27 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/03 16:35:53 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/08 19:59:50 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-// == ft_strlen(tmp->data)
+t_token    *cut_command_quotes(t_token *tokens)
+{
+    int         i;
+    char        *cpy;
+    t_token     *tmp;
+    char        c;
+
+    tmp = tokens;
+    while (tmp != NULL)
+    {   
+        c = tmp->data[0];
+        i = -1;
+        cpy = ft_calloc(1, sizeof(char));
+        while (tmp->data[++i])
+        {
+            if (tmp->data[i] == '\'' && tmp->data[i] == c)
+                continue ;
+            if (tmp->data[i] == '"' && tmp->data[i] == c)
+                continue ;
+            cpy = ft_strjoin(cpy, ft_substr(tmp->data, i, 1));      //echoppppp
+        }
+        tmp->data = cpy;
+        tmp = tmp->next;
+    }
+    free(cpy);
+    return (tokens);
+}
 
 void delete_token(t_token **head, t_token *to_delete) 
 {
@@ -22,7 +48,6 @@ void delete_token(t_token **head, t_token *to_delete)
         return;
     if (*head == to_delete) 
     {
-        printf("in delete function?");
         (*head)->next = to_delete->next;
         free(to_delete);
         return;
@@ -74,7 +99,6 @@ t_token *stugel(t_token *tokens)
     {
         if (ft_strncmp(tmp->data, "echo", 5) == 0 && i == 0)
         {
-            //printf("check is good\n");
             tokens = check_options(tmp);
         }
         tmp = tmp->next;

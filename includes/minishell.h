@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/08 14:38:45 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/08 19:38:07 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@
 # include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+typedef struct s_cnt
+{
+	int	i;
+	int	singles;
+	int	doubles;
+}			t_cnt;
 
 typedef struct s_token
 {
@@ -132,7 +139,7 @@ int 	ft_export(t_shell *shell, int *flag);
 int 	ft_echo(t_shell *shell, int *flag);
 int		ft_cd(t_shell *shell, int *flag);
 char 	*ft_getenv(t_shell *shell, char *name);
-t_token *env_check(t_token *tokens);
+t_token *env_check(t_shell *shell, t_token *tokens);
 void	sigint_handler(int signum);
 int	execute(t_shell *shell);
 int create_constr(t_shell *shell);
@@ -140,5 +147,11 @@ char **env_to_2darray(t_shell *shell);
 void ft_pipex(t_shell *shell);
 char *check_path(t_shell *shell);
 void	ft_close_pipe(int fd[2]);
+
+int			quote_check(t_token *tokens);
+void		free_shell(t_shell *shell);
+
+void    exec_heredoc(t_token *tokens);
+void	delete_token(t_token **head, t_token *to_delete);
 
 #endif
