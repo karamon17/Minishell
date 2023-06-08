@@ -64,7 +64,7 @@ readline-util:
 $(NAME): $(LIB_DIR) Makefile $(OBJS)
 	@make WAIT_COMPILE_MSG
 	@echo "${GREEN}-> Compiling LIBFT...${RESET}"
-	@make -C $(LIBFT_DIR) all
+	                 
 	@$(GCC) -o $(NAME) $(OBJS) -g $(CFLAGS) $(LIBS) -L$(LIBFT_DIR) -l$(LIBFT) -L$(RDLINE_DIR) -l$(RDLINE) -lncurses 
 	@make DONE_MSG
 

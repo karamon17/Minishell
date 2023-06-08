@@ -30,8 +30,8 @@ int	execute_builtin(t_shell *shell)
 	t_token *tmp;
 
 	tmp = shell->tokens;
-	printf("%s\n", shell->tokens->data);
-	printf("%s\n", shell->tokens->next->data);
+	//printf("%s\n", shell->tokens->data);
+	//printf("%s\n", shell->tokens->next->data);
 	if (!ft_strncmp(str_lower(tmp->data), "pwd", 3))
 		ft_pwd();
 	else if (!ft_strncmp(tmp->data, "cd", 3))

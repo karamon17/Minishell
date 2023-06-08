@@ -14,6 +14,21 @@
 
 //after first pass check for pipes
 
+void    cut_spaces(t_token **tokens)
+{
+    t_token *tmp;
+    t_token *tmp2;
+
+    tmp = (*tokens);
+    tmp2 = tmp;
+    while (tmp)
+    {
+        if (tmp->data[0] == ' ')
+            delete_token(tokens, tmp);
+        tmp = tmp->next;
+    }
+}
+
 char *add_white_space(char *input, int j)
 {
     char *tmp;
@@ -77,7 +92,7 @@ char *add_white_space(char *input, int j)
 
 int d_quotes(char *input, int i, t_token **new)
 {
-    while ((input[i] != '"' || input[i] != ' ') && input[i] != '\0')//aaaaaaaaa
+    while ((input[i] != '"' && input[i] != '\0')) //aaaaaaaaa || input[i] != ' '
     {
        (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
         i++;
@@ -162,5 +177,6 @@ t_token *first_parse(char *input, t_token *tokens)
         }
         i++;
     }
+    cut_spaces(&tokens);
     return tokens;
 }
