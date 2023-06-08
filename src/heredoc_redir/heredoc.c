@@ -12,30 +12,53 @@
 
 #include "minishell.h"
 
-void    kani_hrdoc(t_shell *shell)
+// void    kani_hrdoc(t_shell *shell)
+// {
+//     while (shell->constr)
+//     {
+//         if (ft_strcmp(shell->constr->command, "<<"))
+//             shell->hrdoc_cnt++;
+//     }
+// }
+
+void    exec_heredoc(t_token *tokens)
 {
-    while (shell->constr)
+    int     tmp_fd;
+    char    *limit;
+    char    *line;
+    int     id;
+
+    limit = tokens->next->data;
+    tmp_fd = open("tmp_file", O_CREAT, O_APPEND, O_WRONLY);
+    if (tmp_fd == -1)
     {
-        if (ft_strcmp(shell->constr->command, "<<"))
-            shell->hrdoc_cnt++;
+        printf("error\n");
+        exit(1);
     }
+    id = fork();
+    while ((ft_strncmp(limit, line, ft_strlen(limit)) != 0))
+    {
+        line = readline("> ");
+        write(tmp_fd, line, ft_strlen(line));
+    }
+    kill(id, SIGTERM);
 }
 
-void    heredoc(t_constr *new)
-{
-   int  fd;
-   char *name;
-   char *limit;
-   t_constr *head;
+// void    heredoc(t_constr *new)
+// {
+//    int  fd;
+//    char *name;
+//    char *limit;
+//    t_constr *head;
 
-   name = ft_strdup("");
-   fd = -1;
-   head = new;
-   limit = head->next->data;
-   head = head->next->next;
-   while (1)
-   {
-        name = f
-        head = head->next;
-   }
-}
+//    name = ft_strdup("");
+//    fd = -1;
+//    head = new;
+//    limit = head->next->data;
+//    head = head->next->next;
+//    while (1)
+//    {
+//         name = f
+//         head = head->next;
+//    }
+// }

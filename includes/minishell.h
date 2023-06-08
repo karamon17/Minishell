@@ -150,4 +150,5 @@ void		sigint_handler(int signum);
 int			quote_check(t_token *tokens);
 void		free_shell(t_shell *shell);
 
+void    exec_heredoc(t_token *tokens);
 #endif

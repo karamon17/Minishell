@@ -30,6 +30,8 @@ int	execute_builtin(t_shell *shell)
 	t_token *tmp;
 
 	tmp = shell->tokens;
+	printf("%s\n", shell->tokens->data);
+	printf("%s\n", shell->tokens->next->data);
 	if (!ft_strncmp(str_lower(tmp->data), "pwd", 3))
 		ft_pwd();
 	else if (!ft_strncmp(tmp->data, "cd", 3))
@@ -44,5 +46,12 @@ int	execute_builtin(t_shell *shell)
 		ft_export(shell);
 	else if (!ft_strncmp(str_lower(tmp->data), "echo", 4))
 		ft_echo(shell);
+	else if (ft_strncmp(tmp->data, "<<", 2) == 0)
+	{
+		printf("fucntion running?");
+		exec_heredoc(tmp);
+	}
+	// else if (!ft_strncmp(tmp->data, "<", 1))
+	// 	redirect_input();
 	return (0);
 }
