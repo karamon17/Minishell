@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/08 13:30:39 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:58:23 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,17 @@ void ft_pipex(t_shell *shell)
 				else
 					ft_child(shell, constr);
 			}
-			move_shell_tokens(shell);
 			if (constr->prev && constr->prev->command)
 				ft_close_pipe(constr->prev->fd);
-			shell->constrs = constr->next;
-			constr = shell->constrs;
 		}
 		else
 		{
 			if (!execute_builtin(shell))
 				execute(shell);
-			move_shell_tokens(shell);
-			shell->constrs = constr->next;
-			constr = shell->constrs;
 		}
+		move_shell_tokens(shell);
+		shell->constrs = constr->next;
+		constr = shell->constrs;
 	}
 	while (wait(NULL) != -1)
 		;
