@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:55:15 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/07 17:21:04 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:12:09 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int ft_echo(t_shell *shell, int *flag)
 {
 	t_token *tokens;
-	char *tmp;
 
 	*flag = 1;
 	tokens = shell->tokens->next;
@@ -27,25 +26,17 @@ int ft_echo(t_shell *shell, int *flag)
 	if (!ft_strncmp(tokens->data, "-n", 2))
 		while(tokens)
 		{
-			if (tokens->data[0] == '"')
-				tmp = ft_strtrim(tokens->data, "\"");
-			else if (tokens->data[0] == '\'')
-				tmp = ft_strtrim(tokens->data, "'");
-			printf("%s", tmp);
-			if (tokens->next && tokens->next->data[0] != '"' && tokens->next->data[0] != '\'')
+			printf("%s", tokens->data);
+			if (tokens->next)
 				printf(" ");
 			tokens = tokens->next;
 		}
 	else 
 	{
-		while(tokens)
+		while(tokens && tokens->data[0] != '|' && tokens->data[0] != '<' && tokens->data[0] != '>' && ft_strncmp(tokens->data, "<<", 2) != 0 && ft_strncmp(tokens->data, ">>", 2) != 0)
 		{
-			if (tokens->data[0] == '"')
-				tmp = ft_strtrim(tokens->data, "\"");
-			else if (tokens->data[0] == '\'')
-				tmp = ft_strtrim(tokens->data, "'");
-			printf("%s", tmp);
-			if (tokens->next && tokens->next->data[0] != '"' && tokens->next->data[0] != '\'')
+			printf("%s", tokens->data);
+			if (tokens->next)
 				printf(" ");
 			tokens = tokens->next;
 		}

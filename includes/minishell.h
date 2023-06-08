@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/07 19:50:27 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:17:18 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,5 +138,6 @@ int	execute(t_shell *shell);
 int create_constr(t_shell *shell);
 char **env_to_2darray(t_shell *shell);
 void ft_pipex(t_shell *shell);
+char *check_path(t_shell *shell);
 
 #endif

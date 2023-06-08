@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/07 15:11:25 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:30:39 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ void move_shell_tokens(t_shell *shell)
 
 void ft_child(t_shell *shell, t_constr *constr)
 {
-	char *construction;
-
-	construction = constr->data;
 	if (constr->command && shell->constrs == constr)
 	{
 		dup2(constr->fd[1], 1);
@@ -71,6 +68,10 @@ void ft_pipex(t_shell *shell)
 		}
 		else if (constr->command)
 		{
+			if (!check_path(shell))
+			{
+				printf("minishell: %s: command not found\n", shell->tokens->data);
+			}
 			pipe(constr->fd);
 			pid = fork();
 			if (pid == 0)
