@@ -21,17 +21,21 @@ void    kani_hrdoc(t_shell *shell)
     }
 }
 
-// void    heredoc(t_constr *new)
-// {
-//     t_constr *tmp;
-//     int redir_fd; //file to redirect data to or create if does not exist
+void    heredoc(t_constr *new)
+{
+   int  fd;
+   char *name;
+   char *limit;
+   t_constr *head;
 
-//     while (ft_strncmp(tmp->command, "<<"))
-//         tmp = tmp->next;
-//     while (ft_strncmp(tmp->command, "hdoc_delim"))
-//     {
-//         redir_fd = open(tmp->data, O_CREAT | O_EXCL | O_WRONLY); //create file if does not exist | erase previous data | ope and read write only
-//         dup2(redir_fd, STDOUT_FILENO); //take data from redir fd and send to the stdout
-//         tmp = tmp->next;
-//     }
-// }
+   name = ft_strdup("");
+   fd = -1;
+   head = new;
+   limit = head->next->data;
+   head = head->next->next;
+   while (1)
+   {
+        name = f
+        head = head->next;
+   }
+}

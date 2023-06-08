@@ -34,7 +34,7 @@ int ft_echo(t_shell *shell)
 	{
 		while(tokens)
 		{
-			printf(">>>>>>%s<<<\n", tokens->data);
+			printf("%s", tokens->data);
 			if (tokens->next)
 				printf(" ");
 			tokens = tokens->next;
