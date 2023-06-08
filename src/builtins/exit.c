@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/02 18:43:02 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:17:50 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int ft_exit(t_shell *shell, int *flag)
 	printf("exit\n");
 	if (!shell->tokens->next)
 		exit(0);
-	else if (shell->tokens->next && !shell->tokens->next->next && check(shell->tokens->next->data))
+	else if (shell->tokens->next && check(shell->tokens->next->data))
 	{
 		printf("minishell: exit: %s numeric argument required\n", shell->tokens->next->data);
 		exit(1);

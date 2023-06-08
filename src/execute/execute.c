@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/03 16:56:36 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/08 17:17:32 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,20 @@ int execute_command(t_shell *shell, char *path)
 {
 	pid_t pid;
 	
+	if (!path)
+	{
+		printf("Minishell: %s: command not found\n", shell->tokens->data);
+		return (1);
+	}
 	pid = fork();
-	//printf("%s\n", shell->constrs->data);
 	if (pid == 0)
 	{
-		execve(path, ft_split(shell->constrs->data, ' '), env_to_2darray(shell));
+		if (!shell->constrs->command && shell->constrs->prev && shell->constrs->prev->command)
+		{
+			dup2(shell->constrs->prev->fd[0], 0);
+			ft_close_pipe(shell->constrs->prev->fd);
+		}
+		exit(execve(path, ft_split(shell->constrs->data, ' '), env_to_2darray(shell)));
 	}
 	else
 	{
@@ -38,7 +47,7 @@ void free_path(char **path)
 	free(path);
 }
 
-int	execute(t_shell *shell)
+char *check_path(t_shell *shell)
 {
 	char **path;
 	char *tmp;
@@ -59,12 +68,19 @@ int	execute(t_shell *shell)
 	i = 0;
 	while (path[i])
 	{
-		//printf("this is my print %s\n", path[i]);
 		if (!access(path[i], X_OK))
 			break;
 		i++;
 	}
-	execute_command(shell, path[i]);
-	free_path(path);
+	return (path[i]);
+}
+
+int	execute(t_shell *shell)
+{
+	char *str_path;
+	
+	str_path = check_path(shell);
+	execute_command(shell, str_path);
+	//free_path(tmp);
 	return (0);
 }

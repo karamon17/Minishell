@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/03 15:45:02 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:38:45 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void    second_parse(t_token **tokens);
 void    is_redir(t_token **head);
 void    is_option(t_token **head);
 
-void 	ft_pwd(int *flag);
+void ft_pwd(int *flag);
 void 	ft_env(t_shell *shell, int *flag);
 int		ft_exit(t_shell *shell, int *flag);
 void 	ft_unset(t_shell *shell, int *flag);
@@ -138,5 +138,7 @@ int	execute(t_shell *shell);
 int create_constr(t_shell *shell);
 char **env_to_2darray(t_shell *shell);
 void ft_pipex(t_shell *shell);
+char *check_path(t_shell *shell);
+void	ft_close_pipe(int fd[2]);
 
 #endif

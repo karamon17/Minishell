@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/03 15:57:36 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:33:59 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,10 @@ void    shell_loop(t_shell **shell)
         input = readline("Minishell $>");
         if (!input || (*shell)->err_stat != 0)
 		{	
-			printf("exit\n");
+			printf("\x1b[1A\x1b[13Cexit\n");
 			return ;
 		}
-		if (!input[0])
-            continue;
-        else
+		if (input[0])
         {
             if ((*shell)->err_stat != 0)
                 exit((*shell)->err_stat); //implement a function to free data later
@@ -67,9 +65,8 @@ void    shell_loop(t_shell **shell)
             //check_commands(shell);
 			create_constr(*shell);
 			ft_pipex(*shell);
+			free(input);
         }
-        if (input)
-            free(input);
     }
 }
 

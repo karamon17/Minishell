@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:55:15 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/03 17:37:25 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:12:09 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int ft_echo(t_shell *shell, int *flag)
 		}
 	else 
 	{
-		while(tokens)
+		while(tokens && tokens->data[0] != '|' && tokens->data[0] != '<' && tokens->data[0] != '>' && ft_strncmp(tokens->data, "<<", 2) != 0 && ft_strncmp(tokens->data, ">>", 2) != 0)
 		{
 			printf("%s", tokens->data);
 			if (tokens->next)
