@@ -92,10 +92,15 @@ char *add_white_space(char *input, int j)
 
 int d_quotes(char *input, int i, t_token **new)
 {
-    while ((input[i] != '"' && input[i] != '\0')) //aaaaaaaaa || input[i] != ' '
+    while ((input[i] != '\0')) //aaaaaaaaa || input[i] != ' '
     {
        (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
         i++;
+        if (input[i] == '"' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
+        {
+            (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
+            break;
+        }
     }
     if (input[i] != '\0')
          (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
@@ -117,6 +122,11 @@ int s_quotes(char *input, int i, t_token **new)
     while (input[i] != '\'' && input[i] != '\0')
     {
         (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
+        if (input[i] == '\'' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
+        {
+            (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
+            break;
+        }
         i++;
     }
     if (input[i] != '\0')
@@ -180,3 +190,11 @@ t_token *first_parse(char *input, t_token *tokens)
     cut_spaces(&tokens);
     return tokens;
 }
+
+// ինչպես կանմե այն?
+// յետ է ունեմ "abcd""qrst", պետկե նաշանակէ abcdqrst մեկ տոկեն մեչ
+// յետ է ունեմ "a"bc"d", պետկե նաշանակէ abcd մեկ տոկեն մեչ
+// եվ, յետ է ունեմ "աբ'սդ", պետկե նաշանակէ աբ'սդ արրանծ "".
+
+// Առաչին, պետկե ստուգեմ յետ է whitespace կա արաչ եվ հեդո ""/''
+// յետ Ե վոչ, դնել quotes մեկ նոդ մեչ
