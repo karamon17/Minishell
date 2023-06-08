@@ -6,13 +6,13 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/08 13:58:23 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:50:34 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_close_pipe(int fd[2])
+void	ft_close_pipe(int fd[2])
 {
 	close(fd[0]);
 	close(fd[1]);
@@ -85,8 +85,6 @@ void ft_pipex(t_shell *shell)
 				else
 					ft_child(shell, constr);
 			}
-			if (constr->prev && constr->prev->command)
-				ft_close_pipe(constr->prev->fd);
 		}
 		else
 		{
@@ -94,6 +92,8 @@ void ft_pipex(t_shell *shell)
 				execute(shell);
 		}
 		move_shell_tokens(shell);
+		if (constr->prev && constr->prev->command)
+			ft_close_pipe(constr->prev->fd);
 		shell->constrs = constr->next;
 		constr = shell->constrs;
 	}

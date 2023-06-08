@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/08 13:27:19 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:52:22 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ int execute_command(t_shell *shell, char *path)
 	pid = fork();
 	if (pid == 0)
 	{
+		if (!shell->constrs->command && shell->constrs->prev && shell->constrs->prev->command)
+		{
+			dup2(shell->constrs->prev->fd[0], 0);
+			ft_close_pipe(shell->constrs->prev->fd);
+		}
 		exit(execve(path, ft_split(shell->constrs->data, ' '), env_to_2darray(shell)));
 	}
 	else
