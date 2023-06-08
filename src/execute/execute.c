@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/08 14:52:22 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/08 17:17:32 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int execute_command(t_shell *shell, char *path)
 	
 	if (!path)
 	{
-		printf("minishell: %s: command not found\n", shell->tokens->data);
+		printf("Minishell: %s: command not found\n", shell->tokens->data);
 		return (1);
 	}
 	pid = fork();
