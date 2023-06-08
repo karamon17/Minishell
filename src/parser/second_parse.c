@@ -27,12 +27,13 @@ t_token    *cut_command_quotes(t_token *tokens)
         {
             if (tmp->data[i] == '\'' || tmp->data[i] == '"')
                 continue ;
-            cpy = ft_strjoin(cpy, ft_substr(tmp->data, i, 1));//echoppppp
+            cpy = ft_strjoin(cpy, ft_substr(tmp->data, i, 1));      //echoppppp
         }
         tmp->data = cpy;
         tmp = tmp->next;
     }
     free(cpy);
+    printf("%s\n", tokens->next->data);
     return (tokens);
 }
 
