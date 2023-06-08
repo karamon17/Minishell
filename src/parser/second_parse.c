@@ -16,16 +16,20 @@ t_token    *cut_command_quotes(t_token *tokens)
 {
     int         i;
     char        *cpy;
-    t_token    *tmp;
+    t_token     *tmp;
+    char        c;
 
     tmp = tokens;
     while (tmp != NULL)
-    {
+    {   
+        c = tmp->data[0];
         i = -1;
         cpy = ft_calloc(1, sizeof(char));
         while (tmp->data[++i])
         {
-            if (tmp->data[i] == '\'' || tmp->data[i] == '"')
+            if (tmp->data[i] == '\'' && tmp->data[i] == c)
+                continue ;
+            if (tmp->data[i] == '"' && tmp->data[i] == c)
                 continue ;
             cpy = ft_strjoin(cpy, ft_substr(tmp->data, i, 1));      //echoppppp
         }
