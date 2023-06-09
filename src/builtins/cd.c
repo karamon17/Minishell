@@ -6,29 +6,21 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/08 17:14:26 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:26:31 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_add_oldpwd(t_shell *shell)
+int	check_oldpwd(t_shell *shell)
 {
-	char buf[PATH_MAX];
-
-	getcwd(buf, PATH_MAX);
-	ft_add_env_back(shell->env_lst, "OLDPWD", buf, ENV);
-}
-
-int check_oldpwd(t_shell *shell)
-{
-	t_env *pointer;
+	t_env	*pointer;
 
 	pointer = shell->env_lst;
 	while (pointer)
 	{
 		if (!ft_strncmp(pointer->key, "OLDPWD", 6))
-			break;
+			break ;
 		pointer = pointer->next;
 	}
 	if (pointer)
@@ -36,34 +28,22 @@ int check_oldpwd(t_shell *shell)
 	return (0);
 }
 
-void ft_changepwd(t_shell *shell)
+void	ft_change_oldpwd(t_shell *shell, char *copy)
 {
-	char buf[PATH_MAX];
-	t_env *tmp;
-	char *copy;
-	char *to_free;
+	char	buf[PATH_MAX];
+	t_env	*tmp;
+	char	*to_free;
 
 	getcwd(buf, PATH_MAX);
 	tmp = shell->env_lst;
-	while(tmp)
-	{
-		if (!ft_strncmp(tmp->key, "PWD", 3))
-			break;
-		tmp = tmp->next;
-	}
-	copy = ft_strdup(tmp->value);
-	to_free = tmp->value;
-	tmp->value = ft_strdup(buf);
-	free(to_free);
-	tmp = shell->env_lst;
-	while(tmp)
+	while (tmp)
 	{
 		if (!ft_strncmp(tmp->key, "OLDPWD", 6))
-			break;
+			break ;
 		tmp = tmp->next;
 	}
 	if (!tmp)
-		ft_add_oldpwd(shell);
+		ft_add_env_back(shell->env_lst, "OLDPWD", buf, ENV);
 	else
 	{
 		to_free = tmp->value;
@@ -72,16 +52,56 @@ void ft_changepwd(t_shell *shell)
 	}
 }
 
+void	ft_changepwd(t_shell *shell)
+{
+	char	buf[PATH_MAX];
+	t_env	*tmp;
+	char	*copy;
+	char	*to_free;
+
+	getcwd(buf, PATH_MAX);
+	tmp = shell->env_lst;
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->key, "PWD", 3))
+			break ;
+		tmp = tmp->next;
+	}
+	copy = ft_strdup(tmp->value);
+	to_free = tmp->value;
+	tmp->value = ft_strdup(buf);
+	free(to_free);
+	ft_change_oldpwd(shell, copy);
+}
+
+void	ft_chdir(t_shell *shell, char *cmd)
+{
+	char	buf[PATH_MAX];
+
+	getcwd(buf, PATH_MAX);
+	if (!access(cmd, F_OK))
+	{
+		if (!check_oldpwd(shell))
+			ft_add_env_back(shell->env_lst, "OLDPWD", buf, ENV);
+		chdir(cmd);
+		ft_changepwd(shell);
+	}
+	else
+		printf("Minishell : cd: %s: No such file or directory\n", cmd);
+}
+
 int	ft_cd(t_shell *shell, int *flag)
 {
 	char	*cmd;
-	
+	t_token	*token;
+
+	token = shell->tokens->next;
 	*flag = 1;
-	if (!shell->tokens->next || (shell->tokens->next->data[0] == '~' && !shell->tokens->next->data[1]))
+	if (!token || (token->data[0] == '~' && !token->data[1]))
 		cmd = ft_getenv(shell, "HOME");
-	else if((shell->tokens->next->data[0] == '~' && shell->tokens->next->data[1]))
-		cmd = ft_strjoin(ft_getenv(shell, "HOME"), shell->tokens->next->data + 1);
-	else if (shell->tokens->next->data[0] == '-' && !shell->tokens->next->data[1])
+	else if ((token->data[0] == '~' && token->data[1]))
+		cmd = ft_strjoin(ft_getenv(shell, "HOME"), token->data + 1);
+	else if (token->data[0] == '-' && !token->data[1])
 	{
 		if (!ft_getenv(shell, "OLDPWD"))
 		{
@@ -91,17 +111,9 @@ int	ft_cd(t_shell *shell, int *flag)
 		cmd = ft_getenv(shell, "OLDPWD");
 	}
 	else
-		cmd = shell->tokens->next->data;
-	if (shell->tokens->next && shell->tokens->next->data[0] == '-' && !shell->tokens->next->data[1])
+		cmd = token->data;
+	if (token && token->data[0] == '-' && !token->data[1])
 		printf("%s\n", ft_getenv(shell, "OLDPWD"));
-	if (!access(cmd, F_OK))
-	{
-		if (!check_oldpwd(shell))
-			ft_add_oldpwd(shell);
-		chdir(cmd);
-		ft_changepwd(shell);
-	}
-	else
-		printf("Minishell : cd: %s: No such file or directory\n", cmd);
+	ft_chdir(shell, cmd);
 	return (0);
 }
