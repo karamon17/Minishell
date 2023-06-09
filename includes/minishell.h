@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/08 19:38:07 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:40:25 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,8 @@ void ft_pwd(int *flag);
 void 	ft_env(t_shell *shell, int *flag);
 int		ft_exit(t_shell *shell, int *flag);
 void 	ft_unset(t_shell *shell, int *flag);
-int 	ft_export(t_shell *shell, int *flag);
-int 	ft_echo(t_shell *shell, int *flag);
+void 	ft_export(t_shell *shell, int *flag);
+void 	ft_echo(t_shell *shell, int *flag);
 int		ft_cd(t_shell *shell, int *flag);
 char 	*ft_getenv(t_shell *shell, char *name);
 t_token *env_check(t_shell *shell, t_token *tokens);

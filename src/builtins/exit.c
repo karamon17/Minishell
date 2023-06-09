@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/07 16:17:50 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:37:34 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check(char *str)
 	return (0);
 }
 
-int ft_exit(t_shell *shell, int *flag)
+int	ft_exit(t_shell *shell, int *flag)
 {
 	*flag = 1;
 	printf("exit\n");
@@ -37,7 +37,8 @@ int ft_exit(t_shell *shell, int *flag)
 		exit(0);
 	else if (shell->tokens->next && check(shell->tokens->next->data))
 	{
-		printf("minishell: exit: %s numeric argument required\n", shell->tokens->next->data);
+		printf("minishell: exit: %s numeric argument required\n",
+			shell->tokens->next->data);
 		exit(1);
 	}
 	else if (shell->tokens->next && !shell->tokens->next->next)
