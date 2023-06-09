@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:55:15 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/09 16:42:22 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/09 17:56:54 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ void	ft_echo(t_shell *shell, int *flag)
 		printf("\n");
 		return ;
 	}
-	if (!ft_strncmp(tokens->data, "-n", 2))
+	if (!ft_strncmp(tokens->data, "-n", 3))
 	{	
+		tokens = tokens->next;
 		while (tokens)
 		{
 			printf("%s", tokens->data);
