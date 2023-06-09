@@ -140,7 +140,7 @@ int is_special_token(char *token)
     return ft_strcmp(token, "<<") == 0 || ft_strcmp(token, ">>") == 0;
 }
 
-t_token *first_parse(char *input, t_token *tokens) 
+t_token *first_parse(char *input, t_token *tokens, t_shell *shell) 
 {
     int check = 0;
     t_token *new;
@@ -197,6 +197,12 @@ t_token *first_parse(char *input, t_token *tokens)
             check++;
         }
         i++;
+    }
+    (void)shell;
+    if (quote_check(tokens) == -1)
+    {
+        shell->err_stat = -1;
+        free_shell(&shell);
     }
     cut_spaces(&tokens);
     return tokens;

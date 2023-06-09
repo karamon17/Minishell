@@ -45,7 +45,8 @@ typedef struct s_cnt
 
 typedef struct s_token
 {
-    char        *data;	
+    char        *data;
+	char		type;	
     struct s_token  *next;  
 }               t_token;
 
@@ -113,7 +114,7 @@ int         grab_pipe(char *input, int i, t_token **new);
 int         d_quotes(char *input, int i, t_token **new);
 int         append_word(char *input, int i, t_token **new);
 int         s_quotes(char *input, int i, t_token **new);
-t_token    *first_parse(char *input, t_token *tokens);
+t_token    *first_parse(char *input, t_token *tokens, t_shell *shell);
 
 int	        ft_strcmp(char *s1, char *s2);
 
@@ -149,7 +150,7 @@ char *check_path(t_shell *shell);
 void	ft_close_pipe(int fd[2]);
 
 int			quote_check(t_token *tokens);
-void		free_shell(t_shell *shell);
+void		free_shell(t_shell **shell);
 
 void    exec_heredoc(t_token *tokens);
 void	delete_token(t_token **head, t_token *to_delete);

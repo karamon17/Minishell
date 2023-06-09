@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/09 12:16:29 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:57:09 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void    shell_loop(t_shell **shell)
             if ((*shell)->err_stat != 0)
                 exit((*shell)->err_stat); //implement a function to free data later
             add_history(input);
-            new = first_parse(input, (*shell)->tokens);
+            new = first_parse(input, (*shell)->tokens, (*shell));
             new = stugel(new);
             (*shell)->tokens = new;
             new = env_check(*shell, new);

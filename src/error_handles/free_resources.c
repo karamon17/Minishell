@@ -38,13 +38,13 @@ void    free_env_list(t_shell **shell)
     }
 }
 
-void    free_shell(t_shell *shell)
+void    free_shell(t_shell **shell)
 {
     int tmp;
 
-    tmp = shell->err_stat;
-    free_tokens(&shell);
-    free_env_list(&shell);
-    free(shell);
+    tmp = (*shell)->err_stat;
+    free_tokens(shell);
+    free_env_list(shell);
+    free((*shell));
     exit (tmp);
 }

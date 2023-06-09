@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_str_replace.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/29 12:26:21 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/09 12:29:42 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/06/09 14:51:52 by jfrances          #+#    #+#             */
+/*   Updated: 2023/06/09 14:51:54 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,11 @@ char    *env_in_DQS(t_shell *shell, char *str)
     path = malloc(sizeof(char));
     while (str[++i])
     {
-        if (str[i++] == '$')
+        if (str[i] == '$')
+        {
             is_env = 1;
+            i++;
+        }
         while (is_env == 1 && str[i++] != '\0' && str[i] != '"' && str[i] != ' ')
             path = ft_strjoin(path, ft_substr(str, i, 1));
         if ((getenv(path) != NULL) && is_env == 1)
@@ -60,9 +63,5 @@ t_token *env_check(t_shell *shell, t_token *tokens)
             tmp->data = get_path(shell, tmp->data);  //ENV is not in quotes, so replace var with ENV PATH
         tmp = tmp->next;    //to next node
     }
-    // if (quote_check(tokens) == -1)
-    // {
-    //     free(shell);
-    // }
     return (tokens);
 }
