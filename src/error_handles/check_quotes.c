@@ -40,8 +40,6 @@ char    set_quote_type(char *str)
 
     i = 0;
     cnt = 0;
-    if (str[0] == '\'')
-        printf("waht the fuck");
     while (str[i] != '\'' && str[i] != '"' && str[i])
         i++;
     if (str[i] == '\'' || str[i] == '"')

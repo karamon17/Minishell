@@ -98,10 +98,7 @@ int d_quotes(char *input, int i, t_token **new)
        (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
         i++;
         if (input[i] == '"' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
-        {
-            (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
-            break;
-        }
+            break;          //(*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
     }
     if (input[i] != '\0')
          (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
@@ -125,10 +122,7 @@ int s_quotes(char *input, int i, t_token **new)
        (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
         i++;
         if (input[i] == '\'' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
-        {
-            (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
-            break;
-        }
+            break;      //(*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
     }
     if (input[i] != '\0')
          (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
