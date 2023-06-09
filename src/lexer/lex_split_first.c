@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:53:37 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/08 20:00:07 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/09 17:26:57 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,25 +201,3 @@ t_token *first_parse(char *input, t_token *tokens)
     cut_spaces(&tokens);
     return tokens;
 }
-
-// ՀԻՇԻՐ
-
-// Out of the night that covers me, 
-// black as the pit from pole to pole,
-// I thank the god that be, 
-// for my unconquerable soul.
-
-// In the fell clutch of circumstance,
-// I have not winced nor cried aloud,
-// under the bludgeonings of chance,
-// my head is bloodied but unbowed.
-
-// beyond this place of werath and tears,
-// looms but the horror of the shade,
-// and yet the menace of the years,
-// finds and shall find me unafraid.
-
-// it matters not how strait the gate,
-// how charged with punishments the scroll,
-// I am the master of my fate, 
-// I am the capatin of my soul.
