@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/09 16:40:25 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/09 19:57:16 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <errno.h>
 
 typedef struct s_cnt
 {
