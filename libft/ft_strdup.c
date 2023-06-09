@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:51:23 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/02 18:37:11 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/09 12:04:10 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strdup(const char *s1)
 	i = 0;
 	if (!s1)
 		return (NULL);
-	ptr = (char *)malloc(sizeof(char) * len + 1);
+	ptr = (char *)malloc(sizeof(char) * (len + 1));
 	if (!ptr)
 		return (NULL);
 	while (*s1)

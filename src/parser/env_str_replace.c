@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 12:26:21 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/08 19:59:36 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/09 12:29:42 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ t_token *env_check(t_shell *shell, t_token *tokens)
             tmp->data = get_path(shell, tmp->data);  //ENV is not in quotes, so replace var with ENV PATH
         tmp = tmp->next;    //to next node
     }
-    if (quote_check(tokens) == -1)
-    {
-        free(shell);
-    }
+    // if (quote_check(tokens) == -1)
+    // {
+    //     free(shell);
+    // }
     return (tokens);
 }
