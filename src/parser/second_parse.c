@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:38:27 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/09 13:08:37 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:35:39 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_token    *cut_command_quotes(t_token *tokens)
         tmp->data = cpy;
         tmp = tmp->next;
     }
-    free(cpy);
+    //free(cpy);
     return (tokens);
 }
 
