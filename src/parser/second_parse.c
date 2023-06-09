@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:38:27 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/08 19:59:50 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:08:37 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,11 @@ t_token *stugel(t_token *tokens)
     while (tmp != NULL) 
     {
         if (ft_strncmp(tmp->data, "echo", 5) == 0 && i == 0)
-        {
             tokens = check_options(tmp);
-        }
         tmp = tmp->next;
         i++;
     }
-    return tokens;
+    tmp = tokens;
+    tokens = cut_command_quotes(tmp);
+    return (tokens);
 }
