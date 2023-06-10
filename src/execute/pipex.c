@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/10 18:39:16 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/10 19:41:07 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	ft_pipex(t_shell *shell)
 		return ;
 	while (constr)
 	{
-		if (constr->command && !ft_strncmp(constr->command, "|", 2) && !constr->next)
+		if (constr->command && !ft_strncmp(constr->command, "|", 2)
+			&& !constr->next)
 		{
 			shell->err_stat = 258;
 			printf("Minishell: syntax error near unexpected token '%s'\n",

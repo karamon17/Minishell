@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/10 18:09:32 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/10 19:43:15 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	shell_loop(t_shell **shell)
 	t_token	*new;
 	char	*input;
 
-	//(*shell)->err_stat = 0;
 	rl_catch_signals = 0;
 	while (1)
 	{
@@ -55,8 +54,6 @@ void	shell_loop(t_shell **shell)
 		}
 		if (input[0])
 		{
-			// if ((*shell)->err_stat != 0)
-			// 	exit((*shell)->err_stat);
 			add_history(input);
 			new = first_parse(input, (*shell)->tokens);
 			new = stugel(new);
@@ -95,9 +92,6 @@ t_constr	*initialize_constr(t_constr *constrs)
 void	init_shell(t_shell **shell)
 {
 	(*shell) = malloc(sizeof(t_shell));
-	// if (!(*shell))
-	// 	(*shell)->err_stat = -1;
-	// else
 	{
 		(*shell)->err_stat = 0;
 		(*shell)->tokens = initialize_tokens((*shell)->tokens);
