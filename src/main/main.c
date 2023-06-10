@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/10 14:33:38 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/10 16:06:31 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_token	*initialize_tokens(t_token *tokens)
 
 t_constr	*initialize_constr(t_constr *constrs)
 {
-	constrs = malloc(sizeof(t_token));
+	constrs = malloc(sizeof(t_constr));
 	if (!constrs)
 		ft_error_exit("Malloc Error: Constrs Struct");
 	constrs->next = NULL;
@@ -95,9 +95,9 @@ t_constr	*initialize_constr(t_constr *constrs)
 void	init_shell(t_shell **shell)
 {
 	(*shell) = malloc(sizeof(t_shell));
-	if (!(*shell))
-		(*shell)->err_stat = -1;
-	else
+	// if (!(*shell))
+	// 	(*shell)->err_stat = -1;
+	// else
 	{
 		(*shell)->err_stat = 0;
 		(*shell)->tokens = initialize_tokens((*shell)->tokens);

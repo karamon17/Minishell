@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:36:20 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/09 13:44:00 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/10 17:16:57 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char **env_to_2darray(t_shell *shell)
 		current = current->next;
 	}
 	current = shell->env_lst;
-	res = malloc(len * sizeof(char *));
+	res = malloc((len + 1) * sizeof(char *));
 	while (current)
 	{
 		res[i] = ft_strdup(current->key);

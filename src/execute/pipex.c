@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/10 14:38:25 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/10 17:15:31 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ void	ft_pipex(t_shell *shell)
 		return ;
 	while (constr)
 	{
-		if (constr->command && !constr->next)
+		if (constr->command && !ft_strncmp(constr->command, "|", 2) && !constr->next)
 		{
 			printf("Minishell: syntax error near unexpected token '%s'\n",
 				constr->command);
 			return ;
 		}
-		else if (constr->command)
+		else if (constr->command && !ft_strncmp(constr->command, "|", 2))
 		{
 			if (!check_path(shell))
 			{
@@ -93,7 +93,7 @@ void	ft_pipex(t_shell *shell)
 					ft_child(shell, constr);
 			}
 		}
-		else
+		else if (!constr->command)
 		{
 			if (!execute_builtin(shell))
 				execute(shell);

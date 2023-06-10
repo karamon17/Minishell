@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:53:37 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/09 17:26:57 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/10 17:09:10 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ t_token *first_parse(char *input, t_token *tokens)
     tmp = add_white_space(input, j);
     while (tmp[i] == ' ' && tmp[i]) 
         i++;
-    while (tmp[i]) 
+    while (tmp[i])
     {
         new = ft_new_token(ft_substr(tmp, i, 1));
         if (tmp[i] == '\'') 
@@ -196,7 +196,8 @@ t_token *first_parse(char *input, t_token *tokens)
                 tokens = new;
             check++;
         }
-        i++;
+		if (tmp[i])
+        	i++;
     }
     cut_spaces(&tokens);
     return tokens;
