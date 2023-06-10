@@ -41,7 +41,8 @@ void    exec_heredoc(t_token *tokens)
         line = readline("> ");
         write(tmp_fd, line, ft_strlen(line));
     }
-    kill(id, SIGTERM);
+    while (wait(&id) != -1)
+        ;
 }
 
 // void    heredoc(t_constr *new)

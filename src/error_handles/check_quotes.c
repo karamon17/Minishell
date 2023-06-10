@@ -52,7 +52,6 @@ char    set_quote_type(char *str)
         i++;
     if (str[i] == fnd && fnd != '\0')
         cnt++;
-    printf("[%d]\n", cnt);
     if (cnt % 2 != 0 && cnt != 0)
     {
         printf("QUOTE ERROR");

@@ -61,12 +61,12 @@ void ft_pipex(t_shell *shell)
 		return ;
 	while (constr)
 	{
-		if (constr->command && !constr->next)
+		if (constr->command && !ft_strncmp(constr->command, "|", 2) && !constr->next)
 		{
 			printf("Minishell: syntax error near unexpected token '%s'\n", constr->command);
 			return;
 		}
-		else if (constr->command)
+		else if (constr->command && !ft_strncmp(constr->command, "|", 2))
 		{
 			if (!check_path(shell))
 			{
@@ -86,7 +86,7 @@ void ft_pipex(t_shell *shell)
 					ft_child(shell, constr);
 			}
 		}
-		else
+		else if (!constr->command)
 		{
 			if (!execute_builtin(shell))
 				execute(shell);

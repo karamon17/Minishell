@@ -65,6 +65,7 @@ void    shell_loop(t_shell **shell)
             //check_commands(shell);
 			create_constr(*shell);
 			ft_pipex(*shell);
+            
         }
 		free(input);
     }
