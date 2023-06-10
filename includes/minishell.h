@@ -154,5 +154,5 @@ void		free_shell(t_shell **shell);
 
 void    exec_heredoc(t_token *tokens);
 void	delete_token(t_token **head, t_token *to_delete);
-
+void    redirect_output(t_constr *cmds);
 #endif

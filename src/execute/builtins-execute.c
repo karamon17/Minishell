@@ -49,7 +49,7 @@ int	execute_builtin(t_shell *shell)
 		ft_export(shell, flag);
 	else if (!ft_strncmp(str_lower(tmp->data), "echo", 5))
 		ft_echo(shell, flag);
-	else if (ft_strncmp(tmp->data, "<<", 2) == 0)
-		exec_heredoc(tmp);
+	// else if (!ft_strncmp(tmp->data, ">", 2) || !ft_strncmp(tmp->data, ">>", 3))
+	// 	redirect_output(shell->constrs);
 	return (*flag);
 }

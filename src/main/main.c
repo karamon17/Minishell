@@ -62,7 +62,6 @@ void    shell_loop(t_shell **shell)
             new = stugel(new);
             (*shell)->tokens = new;
             new = env_check(*shell, new);
-            //check_commands(shell);
 			create_constr(*shell);
 			ft_pipex(*shell);
             

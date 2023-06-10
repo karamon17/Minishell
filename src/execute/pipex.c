@@ -69,9 +69,7 @@ void ft_pipex(t_shell *shell)
 		else if (constr->command && !ft_strncmp(constr->command, "|", 2))
 		{
 			if (!check_path(shell))
-			{
 				printf("Minishell: %s: command not found\n", shell->tokens->data);
-			}
 			pipe(constr->fd);
 			pid = fork();
 			if (pid == 0)
