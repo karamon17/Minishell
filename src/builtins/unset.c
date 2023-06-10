@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 16:58:14 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/09 17:13:09 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/10 14:35:10 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	ft_unset(t_shell *shell, int *flag)
 	tmp = shell->tokens->next;
 	if (!tmp)
 		return ;
-	while (tmp && tmp->data[0] != '|' && tmp->data[0] != '<' && 
-		tmp->data[0] != '>' && ft_strncmp(tmp->data, "<<", 2) != 0 
-			&& ft_strncmp(tmp->data, ">>", 2) != 0)
+	while (tmp && tmp->data[0] != '|' && tmp->data[0] != '<'
+		&& tmp->data[0] != '>' && ft_strncmp(tmp->data, "<<", 2) != 0
+		&& ft_strncmp(tmp->data, ">>", 2) != 0)
 	{
 		env = shell->env_lst;
 		while (env)
@@ -45,5 +45,4 @@ void	ft_unset(t_shell *shell, int *flag)
 		}
 		tmp = tmp->next;
 	}
-
 }

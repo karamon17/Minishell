@@ -6,16 +6,16 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:24:02 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/08 19:35:27 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/10 14:19:39 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *str_lower(char *str)
+char	*str_lower(char *str)
 {
-	int i;
-	char *res;
+	int		i;
+	char	*res;
 
 	i = 0;
 	res = ft_strdup(str);
@@ -29,8 +29,8 @@ char *str_lower(char *str)
 
 int	execute_builtin(t_shell *shell)
 {
-	t_token *tmp;
-	int *flag;
+	t_token	*tmp;
+	int		*flag;
 
 	flag = malloc(sizeof(int));
 	*flag = 0;

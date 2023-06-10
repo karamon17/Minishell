@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/09 20:06:43 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/10 14:34:48 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	ft_changepwd(t_shell *shell)
 void	ft_chdir(t_shell *shell, char *cmd)
 {
 	char	buf[PATH_MAX];
-	DIR *tmp;
+	DIR		*tmp;
 
 	getcwd(buf, PATH_MAX);
 	if (!access(cmd, F_OK))
