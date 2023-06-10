@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/10 16:06:31 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/10 18:09:32 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,22 @@ void	shell_loop(t_shell **shell)
 	t_token	*new;
 	char	*input;
 
-	(*shell)->err_stat = 0;
+	//(*shell)->err_stat = 0;
 	rl_catch_signals = 0;
 	while (1)
 	{
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
 		input = readline("Minishell $>");
-		if (!input || (*shell)->err_stat != 0)
+		if (!input)
 		{	
 			printf("\x1b[1A\x1b[13Cexit\n");
 			return ;
 		}
 		if (input[0])
 		{
-			if ((*shell)->err_stat != 0)
-				exit((*shell)->err_stat);
+			// if ((*shell)->err_stat != 0)
+			// 	exit((*shell)->err_stat);
 			add_history(input);
 			new = first_parse(input, (*shell)->tokens);
 			new = stugel(new);

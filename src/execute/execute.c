@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/10 14:36:57 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/10 18:28:52 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	execute_command(t_shell *shell, char *path)
 	if (!path)
 	{
 		printf("Minishell: %s: command not found\n", shell->tokens->data);
-		return (1);
+		return (127);
 	}
 	pid = fork();
 	if (pid == 0)
@@ -83,7 +83,7 @@ int	execute(t_shell *shell)
 	char	*str_path;
 
 	str_path = check_path(shell);
-	execute_command(shell, str_path);
+	shell->err_stat = execute_command(shell, str_path);
 	//free_path(tmp);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/10 17:15:31 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/10 18:39:16 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	ft_pipex(t_shell *shell)
 	{
 		if (constr->command && !ft_strncmp(constr->command, "|", 2) && !constr->next)
 		{
+			shell->err_stat = 258;
 			printf("Minishell: syntax error near unexpected token '%s'\n",
 				constr->command);
 			return ;
@@ -76,6 +77,7 @@ void	ft_pipex(t_shell *shell)
 		{
 			if (!check_path(shell))
 			{
+				shell->err_stat = 127;
 				printf("Minishell: %s: command not found\n",
 					shell->tokens->data);
 			}
