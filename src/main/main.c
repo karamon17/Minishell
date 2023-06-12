@@ -61,7 +61,7 @@ void    shell_loop(t_shell **shell)
             (*shell)->tokens = stugel((*shell)->tokens);
             (*shell)->tokens = env_check(*shell, (*shell)->tokens);
             kani_heredoc(shell);
-            printf("%s\n", (*shell)->tokens->data);
+            //printf("%s\n", (*shell)->tokens->data);
 			create_constr(*shell);
 			ft_pipex(*shell);            
         }

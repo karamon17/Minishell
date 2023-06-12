@@ -44,7 +44,7 @@ int    exec_heredoc(t_token *tokens, int i)
     int     tmp_fd;
     char    *limit;
     char    *line;
-    int     pid;
+    //int     pid;
 
     limit = tokens->next->data;
     tmp_fd = open("tmp_file", O_CREAT, O_APPEND, O_WRONLY |O_SYNC, S_IRUSR | S_IWUSR, 777);
@@ -53,16 +53,13 @@ int    exec_heredoc(t_token *tokens, int i)
         printf("error\n");
         exit(1);
     }
-    pid = fork();
-    if (pid == 0)
+    //pid = fork();
+    //if (pid == 0)
+    while ((ft_strncmp(limit, line = readline("> "), ft_strlen(limit)) != 0))
     {
-        while ((ft_strncmp(limit, line = readline("> "), ft_strlen(limit)) != 0))
-        {
-            write(tmp_fd, line, ft_strlen(line));
-            write(tmp_fd, "\n", 1);
-        }
-        exit(pid);
-        close(tmp_fd);
+        write(tmp_fd, line, ft_strlen(line));
+        write(tmp_fd, "\n", 1);
     }
+    close(tmp_fd);
     return (i - 1);
 }
