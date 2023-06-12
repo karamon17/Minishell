@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/27 17:12:21 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/12 17:14:57 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/06/12 17:24:10 by gkhaishb          #+#    #+#             */
+/*   Updated: 2023/06/12 17:32:55 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sigint_handler(int signum)
+void	ft_cdprint_error(char *cmd)
 {
 	g_error_status = 1;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	(void)signum;
+	if (errno == 13)
+		printf("Minishell : cd: %s: Permission denied\n", cmd);
+	else
+		printf("Minishell : cd: %s: Not a directory\n", cmd);
 }

@@ -6,16 +6,16 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:36:20 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/10 17:16:57 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:31:12 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *ft_getenv(t_shell *shell, char *name)
+char	*ft_getenv(t_shell *shell, char *name)
 {
-	t_env *current;
-	
+	t_env	*current;
+
 	current = shell->env_lst;
 	while (current)
 	{
@@ -26,24 +26,29 @@ char *ft_getenv(t_shell *shell, char *name)
 	return (0);
 }
 
-char **env_to_2darray(t_shell *shell)
+int	ft_envlen(t_env	*current)
 {
-	t_env *current;
-	int len;
-	char *tmp;
-	char **res;
-	int i;
+	int		len;
 
 	len = 0;
-	i = 0;
-	current = shell->env_lst;
 	while (current)
 	{
 		len++;
 		current = current->next;
 	}
+	return (len);
+}
+
+char	**env_to_2darray(t_shell *shell)
+{
+	t_env	*current;
+	char	*tmp;
+	char	**res;
+	int		i;
+
+	i = 0;
 	current = shell->env_lst;
-	res = malloc((len + 1) * sizeof(char *));
+	res = malloc((ft_envlen(current) + 1) * sizeof(char *));
 	while (current)
 	{
 		res[i] = ft_strdup(current->key);

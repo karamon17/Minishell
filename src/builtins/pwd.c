@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 17:42:58 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/12 13:08:01 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:14:35 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_pwd(int *flag)
 	}
 	else
 	{
-		error_status = 1;
+		g_error_status = 1;
 		perror("getcwd() error");
 	}
 }

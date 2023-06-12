@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 18:31:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/12 14:54:14 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:21:13 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,17 @@ int	ft_checkletter(int arg)
 		(arg >= 'A' && arg <= 'Z') || arg == '_');
 }
 
+void	ft_printerror(char *tmp, char *value)
+{
+	g_error_status = 1;
+	if (value)
+		printf("Minishell : export: %s=%s: not a valid identifier\n",
+			tmp, value);
+	else
+		printf("Minishell : export: %s: not a valid identifier\n",
+			tmp);
+}
+
 void	ft_export(t_shell *shell, int *flag)
 {
 	char	*value;
@@ -74,10 +85,6 @@ void	ft_export(t_shell *shell, int *flag)
 		if (ft_checkletter(tmp[i][0]))
 			check_add(shell, shell->env_lst, tmp[i], value);
 		else
-		{
-			error_status = 1;
-			printf("Minishell : export: %s=%s: not a valid identifier\n",
-				tmp[i], value);
-		}
+			ft_printerror(tmp[i], value);
 	}
 }

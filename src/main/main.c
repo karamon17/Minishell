@@ -6,13 +6,11 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/12 13:08:48 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:15:10 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	error_status = 0;
 
 #define RED_COLOR   "\x1B[31m"
 #define GRN_COLOR "\x1B[32m"
@@ -63,7 +61,8 @@ void	shell_loop(t_shell **shell)
 			new = env_check(*shell, new);
 			//check_commands(shell);
 			create_constr(*shell);
-			ft_pipex(*shell);
+			if ((*shell)->constrs)
+				ft_pipex(*shell);
 		}
 		free(input);
 	}
@@ -95,7 +94,7 @@ void	init_shell(t_shell **shell)
 {
 	(*shell) = malloc(sizeof(t_shell));
 	{
-		error_status = 0;
+		g_error_status = 0;
 		(*shell)->tokens = initialize_tokens((*shell)->tokens);
 		(*shell)->constrs = initialize_constr((*shell)->constrs);
 		(*shell)->env_lst = NULL;
@@ -108,6 +107,7 @@ int	main(int ac, char **av, char **envp)
 
 	(void)av;
 	(void)ac;
+	g_error_status = 0;
 	shell = NULL;
 	print_cool_head();
 	init_shell(&shell);
@@ -115,5 +115,5 @@ int	main(int ac, char **av, char **envp)
 	get_env_var(&(shell->env_lst), envp);
 	aveletsnel_shvl(shell->env_lst);
 	shell_loop(&shell);
-	exit(error_status);
+	exit(g_error_status);
 }

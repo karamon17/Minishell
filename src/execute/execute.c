@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/12 13:08:16 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:14:47 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	execute(t_shell *shell)
 	char	*str_path;
 
 	str_path = check_path(shell);
-	error_status = execute_command(shell, str_path);
+	g_error_status = execute_command(shell, str_path);
 	//free_path(tmp);
 	return (0);
 }

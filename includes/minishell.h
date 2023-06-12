@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/12 13:45:50 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:32:59 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # include <readline/history.h>
 # include <errno.h>
 
-extern int error_status;
+int g_error_status;
 
 typedef struct s_cnt
 {
@@ -149,6 +149,8 @@ char **env_to_2darray(t_shell *shell);
 void ft_pipex(t_shell *shell);
 char *check_path(t_shell *shell);
 void	ft_close_pipe(int fd[2]);
+void	move_shell_tokens(t_shell *shell);
+void ft_cdprint_error(char *cmd);
 
 int			quote_check(t_token *tokens);
 void		free_shell(t_shell *shell);

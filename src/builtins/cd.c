@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/12 13:07:23 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:33:14 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,10 @@ void	ft_chdir(t_shell *shell, char *cmd)
 			ft_add_env_back(shell->env_lst, "OLDPWD", buf, ENV);
 		tmp = opendir(cmd);
 		if (!tmp)
-		{
-			error_status = 1;
-			if (errno == 13)
-				printf("Minishell : cd: %s: Permission denied\n", cmd);
-			else
-				printf("Minishell : cd: %s: Not a directory\n", cmd);
-		}
+			ft_cdprint_error(cmd);
 		else if (chdir(cmd) == -1)
 		{
-			error_status = 1;
+			g_error_status = 1;
 			printf("Minishell : cd: %s: Permission denied\n", cmd);
 		}
 		if (tmp)
@@ -104,7 +98,7 @@ void	ft_chdir(t_shell *shell, char *cmd)
 	}
 	else
 	{
-		error_status = 1;
+		g_error_status = 1;
 		printf("Minishell : cd: %s: No such file or directory\n", cmd);
 	}
 }
@@ -124,7 +118,7 @@ void	ft_cd(t_shell *shell, int *flag)
 	{
 		if (!ft_getenv(shell, "OLDPWD"))
 		{
-			error_status = 1;
+			g_error_status = 1;
 			printf("Minishell: cd: OLDPWD not set\n");
 			return ;
 		}
