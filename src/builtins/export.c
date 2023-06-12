@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 18:31:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/12 13:07:46 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 14:54:14 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ void	ft_print_export(t_shell *shell)
 	while (current)
 	{
 		printf("declare -x ");
-		printf("%s=", current->key);
-		printf("\"%s\"\n", current->value);
+		printf("%s", current->key);
+		if (current->value)
+			printf("=\"%s\"", current->value);
+		printf("\n");
 		current = current->next;
 	}
 }
@@ -63,7 +65,7 @@ void	ft_export(t_shell *shell, int *flag)
 	while (tmp[++i])
 	{
 		if (!ft_strchr(tmp[i], '='))
-			return ;
+			value = NULL;
 		else
 		{
 			value = ft_strchr(tmp[i], '=') + 1;

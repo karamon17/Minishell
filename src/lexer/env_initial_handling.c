@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:37:42 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/09 13:40:40 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:10:00 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,11 @@ void    get_env_var(t_env **env_lst, char **envp)
 		while (envp[i][j] && envp[i][j] != '=')
 			j++;
 		key = ft_substr(envp[i], 0, j);
-		if (!ft_strncmp(key, "OLDPWD", 7))
-		{
-			i++;	
-			continue;
-		}
 		j++;
-		if (envp[i][j])
+		if (envp[i][j] && ft_strncmp(key, "OLDPWD", 7))
 			value = ft_substr(envp[i], j, ft_strlen(envp[i]) - j);
+		else
+			value = NULL;
 		*env_lst = ft_add_env_back(*env_lst, key, value, ENV);
 		free(key);
 		free(value);
