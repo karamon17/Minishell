@@ -12,6 +12,23 @@
 
 #include "minishell.h"
 
+// char    *gen_random_name(void)
+// {
+//     char    buffer[4];
+//     int     fd;
+    
+//     fd = open("/dev/random", O_RDONLY);
+// 	if (fd < -1)
+// 		return (-1);
+// 	read(fd, buff, 4);
+// 	nbr = *(int *)buff;
+// 	if (nbr < 0)
+// 		nbr++;
+// 	if (nbr < 0)
+// 		nbr = nbr * (-1);
+// 	return ('a' + nbr % 26);
+// }
+
 void    kani_heredoc(t_shell **shell)
 {
     int         i;
@@ -42,19 +59,20 @@ void    kani_heredoc(t_shell **shell)
 int    exec_heredoc(t_token *tokens, int i)
 {
     int     tmp_fd;
+    char    random_name[] = "tmp_file";
     char    *limit;
     char    *line;
-    //int     pid;
 
     limit = tokens->next->data;
-    tmp_fd = open("tmp_file", O_CREAT, O_APPEND, O_WRONLY |O_SYNC, S_IRUSR | S_IWUSR, 777);
+    // if (random_name)
+    //     free(readom_name);
+    //random_name = gen_random_name();
+    tmp_fd = open(random_name, O_CREAT, O_APPEND, O_WRONLY |O_SYNC, S_IRUSR | S_IWUSR, 777);
     if (tmp_fd == -1)
     {
         printf("error\n");
         exit(1);
     }
-    //pid = fork();
-    //if (pid == 0)
     while ((ft_strncmp(limit, line = readline("> "), ft_strlen(limit)) != 0))
     {
         write(tmp_fd, line, ft_strlen(line));
