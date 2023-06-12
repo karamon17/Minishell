@@ -62,6 +62,7 @@ void    shell_loop(t_shell **shell)
             (*shell)->tokens = env_check(*shell, (*shell)->tokens);
 			create_constr(*shell);
             kani_heredoc(shell);
+            printf("%s\n", (*shell)->tokens->data);
 			ft_pipex(*shell);            
         }
 		free(input);

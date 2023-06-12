@@ -32,7 +32,8 @@ void    kani_heredoc(t_shell **shell)
         {
             i = exec_heredoc(tmp, i);
             delete_token(&(*shell)->tokens, tmp);
-            delete_token(&(*shell)->tokens, tmp->next);
+            if (ft_strncmp(tmp->next->data, "<<", 3))
+                delete_token(&(*shell)->tokens, tmp->next);
         }
         tmp = tmp->next;
     }
@@ -46,7 +47,7 @@ int    exec_heredoc(t_token *tokens, int i)
     int     id;
 
     limit = tokens->next->data;
-    tmp_fd = open("tmp_file", O_CREAT, O_APPEND, O_WRONLY | S_IRUSR | S_IWUSR);
+    tmp_fd = open("tmp_file", O_CREAT, O_APPEND, O_WRONLY | S_IRUSR | S_IWUSR, 777);
     if (tmp_fd == -1)
     {
         printf("error\n");
