@@ -44,22 +44,25 @@ int    exec_heredoc(t_token *tokens, int i)
     int     tmp_fd;
     char    *limit;
     char    *line;
-    int     id;
+    int     pid;
 
     limit = tokens->next->data;
-    tmp_fd = open("tmp_file", O_CREAT, O_APPEND, O_WRONLY | S_IRUSR | S_IWUSR, 777);
+    tmp_fd = open("tmp_file", O_CREAT, O_APPEND, O_WRONLY |O_SYNC, S_IRUSR | S_IWUSR, 777);
     if (tmp_fd == -1)
     {
         printf("error\n");
         exit(1);
     }
-    id = fork();
-    while ((ft_strncmp(limit, line = readline("> "), ft_strlen(limit)) != 0))
+    pid = fork();
+    if (pid == 0)
     {
-        //line = readline("> ");
-        if (!ft_strncmp(line, limit, ft_strlen(limit)))
-            exit(id);
-        write(tmp_fd, line, ft_strlen(line));
+        while ((ft_strncmp(limit, line = readline("> "), ft_strlen(limit)) != 0))
+        {
+            write(tmp_fd, line, ft_strlen(line));
+            write(tmp_fd, "\n", 1);
+        }
+        exit(pid);
+        close(tmp_fd);
     }
     return (i - 1);
 }
