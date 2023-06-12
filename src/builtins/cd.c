@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/10 18:22:13 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 13:07:23 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	ft_chdir(t_shell *shell, char *cmd)
 		tmp = opendir(cmd);
 		if (!tmp)
 		{
-			shell->err_stat = 1;
+			error_status = 1;
 			if (errno == 13)
 				printf("Minishell : cd: %s: Permission denied\n", cmd);
 			else
@@ -95,7 +95,7 @@ void	ft_chdir(t_shell *shell, char *cmd)
 		}
 		else if (chdir(cmd) == -1)
 		{
-			shell->err_stat = 1;
+			error_status = 1;
 			printf("Minishell : cd: %s: Permission denied\n", cmd);
 		}
 		if (tmp)
@@ -104,7 +104,7 @@ void	ft_chdir(t_shell *shell, char *cmd)
 	}
 	else
 	{
-		shell->err_stat = 1;
+		error_status = 1;
 		printf("Minishell : cd: %s: No such file or directory\n", cmd);
 	}
 }
@@ -124,7 +124,7 @@ void	ft_cd(t_shell *shell, int *flag)
 	{
 		if (!ft_getenv(shell, "OLDPWD"))
 		{
-			shell->err_stat = 1;
+			error_status = 1;
 			printf("Minishell: cd: OLDPWD not set\n");
 			return ;
 		}

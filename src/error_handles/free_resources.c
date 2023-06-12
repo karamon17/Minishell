@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 14:47:08 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/08 19:32:32 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 13:08:09 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void    free_shell(t_shell *shell)
 {
     int tmp;
 
-    tmp = shell->err_stat;
+    tmp = error_status;
     free_tokens(&shell);
     free_env_list(&shell);
     free(shell);

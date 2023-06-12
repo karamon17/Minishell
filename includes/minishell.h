@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/10 18:22:21 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 13:45:50 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
+
+extern int error_status;
 
 typedef struct s_cnt
 {
@@ -95,7 +97,6 @@ typedef struct s_shell
     struct s_token  *tokens;
 	struct s_constr  *constrs;
     struct s_env    *env_lst;
-    int             err_stat;
 }               t_shell;
 
 int	execute_builtin(t_shell *shell);

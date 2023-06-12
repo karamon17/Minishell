@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 12:26:21 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/10 18:29:27 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 13:09:32 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ t_token *env_check(t_shell *shell, t_token *tokens)
             tmp->data = env_in_DQS(shell, tmp->data); //check double quotes for ENV and change to variable PATH
 		else if (tmp->data[0] == '$' && tmp->data[1] == '?')
         {
-			if (shell->err_stat != 0)
+			if (error_status != 0)
 			{
-				tmp->data = ft_itoa(shell->err_stat);
-				shell->err_stat = 0;
+				tmp->data = ft_itoa(error_status);
+				error_status = 0;
 			}
 			else
-				tmp->data = ft_itoa(shell->err_stat);
+				tmp->data = ft_itoa(error_status);
 		}
         else if (tmp->data[0] == '$')
             tmp->data = get_path(shell, tmp->data);  //ENV is not in quotes, so replace var with ENV PATH

@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/10 18:21:41 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 13:07:43 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_exit(t_shell *shell, int *flag)
 		exit(ft_atoi(shell->tokens->next->data));
 	else
 	{
-		shell->err_stat = 1;
+		error_status = 1;
 		printf("minishell: exit: too many arguments\n");
 	}
 	return ;

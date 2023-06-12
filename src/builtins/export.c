@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 18:31:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/10 19:40:07 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 13:07:46 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_export(t_shell *shell, int *flag)
 			check_add(shell, shell->env_lst, tmp[i], value);
 		else
 		{
-			shell->err_stat = 1;
+			error_status = 1;
 			printf("Minishell : export: %s=%s: not a valid identifier\n",
 				tmp[i], value);
 		}
