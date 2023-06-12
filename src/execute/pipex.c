@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/12 17:14:54 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 19:26:50 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,9 @@ void	ft_mainpipe(t_shell *shell, t_constr *constr)
 		if (!check_path(shell))
 		{
 			g_error_status = 127;
-			printf("Minishell: %s: command not found\n",
-				shell->tokens->data);
+			ft_putstr_fd("Minishell : ", 2);
+			ft_putstr_fd(shell->tokens->data, 2);
+			ft_putstr_fd(": command not found\n", 2);
 		}
 		ft_child(shell, constr);
 	}

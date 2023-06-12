@@ -6,11 +6,18 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/12 17:57:52 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 19:29:41 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_exec_error(char *str)
+{
+	ft_putstr_fd("Minishell : ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": command not found\n", 2);
+}
 
 int	execute_command(t_shell *shell, char *path)
 {
@@ -18,7 +25,7 @@ int	execute_command(t_shell *shell, char *path)
 
 	if (!path)
 	{
-		printf("Minishell: %s: command not found\n", shell->tokens->data);
+		ft_exec_error(shell->tokens->data);
 		return (127);
 	}
 	pid = fork();

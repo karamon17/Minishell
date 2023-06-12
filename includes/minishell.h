@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/12 17:32:59 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/12 18:49:55 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ char *check_path(t_shell *shell);
 void	ft_close_pipe(int fd[2]);
 void	move_shell_tokens(t_shell *shell);
 void ft_cdprint_error(char *cmd);
+void	ft_cdprint_error2(char *cmd);
 
 int			quote_check(t_token *tokens);
 void		free_shell(t_shell *shell);
