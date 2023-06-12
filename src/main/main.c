@@ -38,7 +38,6 @@ void    ft_error_exit(char *str)
 
 void    shell_loop(t_shell **shell)
 {
-    t_token     *new;
     char        *input;
 
     (*shell)->err_stat = 0;
@@ -50,7 +49,7 @@ void    shell_loop(t_shell **shell)
         input = readline("Minishell $>");
         if (!input || (*shell)->err_stat != 0)
 		{	
-			printf("\x1b[1A\x1b[13Cexit\n");
+			printf("\x1b[1A\x1b[13Cexit\n");  //call function here instead, save lines
 			return ;
 		}
 		if (input[0])
@@ -58,13 +57,12 @@ void    shell_loop(t_shell **shell)
             if ((*shell)->err_stat != 0)
                 exit((*shell)->err_stat); //implement a function to free data later
             add_history(input);
-            new = first_parse(input, (*shell)->tokens, (*shell));
-            new = stugel(new);
-            (*shell)->tokens = new;
-            new = env_check(*shell, new);
+            (*shell)->tokens = first_parse(input, (*shell)->tokens, (*shell));
+            (*shell)->tokens = stugel((*shell)->tokens);
+            (*shell)->tokens = env_check(*shell, (*shell)->tokens);
 			create_constr(*shell);
-			ft_pipex(*shell);
-            
+            kani_heredoc(shell);
+			ft_pipex(*shell);            
         }
 		free(input);
     }

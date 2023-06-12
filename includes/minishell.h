@@ -152,7 +152,8 @@ void	ft_close_pipe(int fd[2]);
 int			quote_check(t_token *tokens);
 void		free_shell(t_shell **shell);
 
-void    exec_heredoc(t_token *tokens);
+int    exec_heredoc(t_token *tokens, int i);
 void	delete_token(t_token **head, t_token *to_delete);
 void    redirect_output(t_constr *cmds);
+void    kani_heredoc(t_shell **shell);
 #endif

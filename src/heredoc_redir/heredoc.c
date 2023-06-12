@@ -12,7 +12,33 @@
 
 #include "minishell.h"
 
-void    exec_heredoc(t_token *tokens)
+void    kani_heredoc(t_shell **shell)
+{
+    int         i;
+    t_token    *tmp;
+
+    i = 0;
+    tmp = (*shell)->tokens;
+    while (tmp)
+    {
+        if (!ft_strncmp(tmp->data, "<<", 3))
+            i++;
+        tmp = tmp->next;
+    }
+    tmp = (*shell)->tokens;
+    while (tmp && i > 0)
+    {
+        if (!ft_strncmp(tmp->data, "<<", 3))
+        {
+            i = exec_heredoc(tmp, i);
+            delete_token(&(*shell)->tokens, tmp);
+            delete_token(&(*shell)->tokens, tmp->next);
+        }
+        tmp = tmp->next;
+    }
+}
+
+int    exec_heredoc(t_token *tokens, int i)
 {
     int     tmp_fd;
     char    *limit;
@@ -20,18 +46,19 @@ void    exec_heredoc(t_token *tokens)
     int     id;
 
     limit = tokens->next->data;
-    tmp_fd = open("tmp_file", O_CREAT, O_APPEND, O_WRONLY);
+    tmp_fd = open("tmp_file", O_CREAT, O_APPEND, O_WRONLY | S_IRUSR | S_IWUSR);
     if (tmp_fd == -1)
     {
         printf("error\n");
         exit(1);
     }
     id = fork();
-    while ((ft_strncmp(limit, line, ft_strlen(limit)) != 0))
+    while ((ft_strncmp(limit, line = readline("> "), ft_strlen(limit)) != 0))
     {
-        line = readline("> ");
+        //line = readline("> ");
+        if (!ft_strncmp(line, limit, ft_strlen(limit)))
+            exit(id);
         write(tmp_fd, line, ft_strlen(line));
     }
-    while (wait(&id) != -1)
-        ;
+    return (i - 1);
 }
