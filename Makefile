@@ -1,7 +1,7 @@
 # Main Variables
 NAME     = minishell
 GCC      = cc
-CFLAGS   = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS   = -Wall -Wextra -Werror -g #-fsanitize=address
 RM       = rm -rf
 OUTPUT   = ./$(NAME)
 LIBS     = -I./includes/ -I./readline/include
