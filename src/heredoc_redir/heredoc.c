@@ -49,8 +49,9 @@ void    kani_heredoc(t_shell **shell)
         {
             i = exec_heredoc(tmp, i);
             delete_token(&(*shell)->tokens, tmp);
-            if (ft_strncmp(tmp->next->data, "<<", 3))
-                delete_token(&(*shell)->tokens, tmp->next);
+            tmp = tmp->next;
+            if (ft_strncmp(tmp->data, "<<", 3))
+                delete_token(&(*shell)->tokens, tmp);
         }
         tmp = tmp->next;
     }
@@ -67,7 +68,7 @@ int    exec_heredoc(t_token *tokens, int i)
     // if (random_name)
     //     free(readom_name);
     //random_name = gen_random_name();
-    tmp_fd = open(random_name, O_CREAT, O_APPEND, O_WRONLY |O_SYNC, S_IRUSR | S_IWUSR, 777);
+    tmp_fd = open(random_name, O_CREAT, O_APPEND, O_WRONLY | O_SYNC, S_IRUSR | S_IWUSR, 777);
     if (tmp_fd == -1)
     {
         printf("error\n");
