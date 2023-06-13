@@ -68,7 +68,7 @@ int    exec_heredoc(t_token *tokens, int i)
     // if (random_name)
     //     free(readom_name);
     //random_name = gen_random_name();
-    tmp_fd = open(random_name, O_CREAT, O_APPEND, O_WRONLY | O_SYNC, S_IRUSR | S_IWUSR, 777);
+    tmp_fd = open(random_name, O_CREAT, O_APPEND, O_EXCL | O_RDWR , 0644);
     if (tmp_fd == -1)
     {
         printf("error\n");
