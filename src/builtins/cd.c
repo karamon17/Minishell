@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/13 15:35:34 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:36:30 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ void	ft_cd(t_shell *shell, int *flag)
 	}
 	else
 		cmd = token->data;
-	if (token && token->data[0] == '-' && !token->data[1])
-		printf("%s\n", ft_getenv(shell, "OLDPWD"));
 	ft_chdir(shell, cmd);
+	if (token && token->data[0] == '-' && !token->data[1] && !g_error_status)
+		printf("%s\n", ft_getenv(shell, "OLDPWD"));
 	return ;
 }

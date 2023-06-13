@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/13 14:42:12 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/13 19:07:44 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ char 	*ft_getenv(t_shell *shell, char *name);
 t_token *env_check(t_shell *shell, t_token *tokens);
 void	sigint_handler(int signum);
 int	execute(t_shell *shell);
-int create_constr(t_shell *shell);
+t_constr * create_constr(t_shell *shell);
 char **env_to_2darray(t_shell *shell);
 void ft_pipex(t_shell *shell);
 char *check_path(t_shell *shell);

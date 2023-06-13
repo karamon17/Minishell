@@ -6,13 +6,13 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:02:00 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/08 19:51:29 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/13 19:36:15 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_constr *mylstlast(t_constr *lst)
+t_constr	*mylstlast(t_constr *lst)
 {
 	if (!lst)
 		return (0);
@@ -21,7 +21,7 @@ t_constr *mylstlast(t_constr *lst)
 	return (lst);
 }
 
-t_constr *create_newnode(char *token, char *command)
+t_constr	*create_newnode(char *token, char *command)
 {
 	t_constr	*newnode;
 
@@ -34,7 +34,7 @@ t_constr *create_newnode(char *token, char *command)
 	return (newnode);
 }
 
-void constr_add_back(t_constr **lst, t_constr *new)
+void	constr_add_back(t_constr **lst, t_constr *new)
 {
 	if (!new)
 		return ;
@@ -48,24 +48,23 @@ void constr_add_back(t_constr **lst, t_constr *new)
 	mylstlast(*lst)->next = new;
 }
 
-int create_constr(t_shell *shell)
+t_constr	*create_constr(t_shell *shell)
 {
-	t_constr *constr;
-	t_constr *node;
-	char *str;
-	char *token;
-	t_token *ptoken;
-	char *command;
-	char *tmp;
+	t_constr	*constr;
+	char		*str;
+	t_token		*ptoken;
+	char		*command;
+	char		*tmp;
 
 	ptoken = shell->tokens;
-	token = ptoken->data;
 	constr = NULL;
 	while (ptoken)
 	{
 		command = NULL;
 		str = ft_calloc(1, sizeof(char));
-		while (ptoken && (token[0] != '|' && token[0] != '<' && token[0] != '>' && ft_strncmp(token, "<<", 2) != 0 && ft_strncmp(token, ">>", 2) != 0))
+		while (ptoken && (ptoken->data[0] != '|' && ptoken->data[0] != '<'
+				&& ptoken->data[0] != '>' && ft_strncmp(ptoken->data, "<<", 2)
+				!= 0 && ft_strncmp(ptoken->data, ">>", 2) != 0))
 		{
 			tmp = str;
 			if (str[0])
@@ -74,23 +73,18 @@ int create_constr(t_shell *shell)
 				free(tmp);
 				tmp = str;
 			}
-			str = ft_strjoin(str, token);
+			str = ft_strjoin(str, ptoken->data);
 			free(tmp);
 			ptoken = ptoken->next;
-			if (ptoken)
-				token = ptoken->data;
 		}
 		if (ptoken)
 		{
-			command = ft_strdup(token);
+			command = ft_strdup(ptoken->data);
 			ptoken = ptoken->next;
-			if (ptoken)
-				token = ptoken->data;
 		}
-		node = create_newnode(str, command);
-		constr_add_back(&constr, node);
+		constr_add_back(&constr, create_newnode(str, command));
 		free(str);
 	}
 	shell->constrs = constr;
-	return (0);
+	return (shell->constrs);
 }

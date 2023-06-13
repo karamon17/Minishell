@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 12:26:21 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/12 17:15:19 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:51:03 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,7 @@ t_token *env_check(t_shell *shell, t_token *tokens)
         if (tmp->data[0] == '"')
             tmp->data = env_in_DQS(shell, tmp->data); //check double quotes for ENV and change to variable PATH
 		else if (tmp->data[0] == '$' && tmp->data[1] == '?')
-        {
-			if (g_error_status != 0)
-			{
-				tmp->data = ft_itoa(g_error_status);
-				g_error_status = 0;
-			}
-			else
-				tmp->data = ft_itoa(g_error_status);
-		}
+			tmp->data = ft_itoa(g_error_status);
         else if (tmp->data[0] == '$')
             tmp->data = get_path(shell, tmp->data);  //ENV is not in quotes, so replace var with ENV PATH
         tmp = tmp->next;    //to next node

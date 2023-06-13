@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/13 15:56:10 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/13 19:58:16 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,11 @@ void	print_cool_head(void)
 	printf(RED_COLOR "----------------------------------------\n" GRN_COLOR);
 }
 
-void	ft_error_exit(char *str)
+int	shell_loop(t_shell **shell)
 {
-	while (*str)
-		write(2, str++, 1);
-}
-
-void	shell_loop(t_shell **shell)
-{
-	t_token	*new;
-	t_token	*head_tokens;
+	t_token		*head_tokens;
 	t_constr	*head_constr;
-	char	*input;
+	char		*input;
 
 	rl_catch_signals = 0;
 	while (1)
@@ -50,61 +43,37 @@ void	shell_loop(t_shell **shell)
 		signal(SIGQUIT, SIG_IGN);
 		input = readline("Minishell $>");
 		if (!input)
-		{	
-			printf("\x1b[1A\x1b[13Cexit\n");
-			return ;
-		}
+			return (printf("\x1b[1A\x1b[13Cexit\n"));
 		if (input[0])
 		{
 			add_history(input);
-			new = first_parse(input, (*shell)->tokens);
-			new = stugel(new);
-			(*shell)->tokens = new;
-			head_tokens = new;
-			new = env_check(*shell, new);
-			//check_commands(shell);
-			create_constr(*shell);
-			head_constr = (*shell)->constrs;
+			head_tokens = first_parse(input, (*shell)->tokens);
+			(*shell)->tokens = stugel(head_tokens);
+			env_check(*shell, head_tokens);
+			g_error_status = 0;
+			head_constr = create_constr(*shell);
 			if ((*shell)->constrs)
 				ft_pipex(*shell);
+			free_tokens(head_tokens);
+			free_constrs(head_constr);
 		}
 		free(input);
-		free_tokens(head_tokens);
-		free_constrs(head_constr);
 	}
-}
-
-t_token	*initialize_tokens(t_token *tokens)
-{
-	tokens = malloc(sizeof(t_token));
-	if (!tokens)
-		ft_error_exit("Malloc Error: Token Struct");
-	tokens->next = NULL;
-	tokens->data = NULL;
-	return (tokens);
-}
-
-t_constr	*initialize_constr(t_constr *constrs)
-{
-	constrs = malloc(sizeof(t_constr));
-	if (!constrs)
-		ft_error_exit("Malloc Error: Constrs Struct");
-	constrs->next = NULL;
-	constrs->prev = NULL;
-	constrs->data = NULL;
-	constrs->command = NULL;
-	return (constrs);
 }
 
 void	init_shell(t_shell **shell)
 {
+	g_error_status = 0;
 	(*shell) = malloc(sizeof(t_shell));
-	{
-		g_error_status = 0;
-		(*shell)->tokens = initialize_tokens((*shell)->tokens);
-		(*shell)->constrs = initialize_constr((*shell)->constrs);
-		(*shell)->env_lst = NULL;
-	}
+	(*shell)->tokens = malloc(sizeof(t_token));
+	(*shell)->tokens->next = NULL;
+	(*shell)->tokens->data = NULL;
+	(*shell)->constrs = malloc(sizeof(t_constr));
+	(*shell)->constrs->next = NULL;
+	(*shell)->constrs->prev = NULL;
+	(*shell)->constrs->data = NULL;
+	(*shell)->constrs->command = NULL;
+	(*shell)->env_lst = NULL;
 }
 
 int	main(int ac, char **av, char **envp)
@@ -113,7 +82,6 @@ int	main(int ac, char **av, char **envp)
 
 	(void)av;
 	(void)ac;
-	g_error_status = 0;
 	shell = NULL;
 	print_cool_head();
 	init_shell(&shell);
