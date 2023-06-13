@@ -6,24 +6,24 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:37:42 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/09 13:40:40 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/13 19:24:05 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    aveletsnel_shvl(t_env *env_lst)
+void	aveletsnel_shvl(t_env *env_lst)
 {
-    char    *val;
-    char    *tmp;
-    int     lvl;
+	char	*val;
+	char	*tmp;
+	int		lvl;
 
-    val = find_env_val(env_lst, "SHLVL");
-    if (!val)
-        return ;
-    lvl = ft_atoi(val + 1);
-    free(val);
-    while (env_lst && env_lst->next)
+	val = find_env_val(env_lst, "SHLVL");
+	if (!val)
+		return ;
+	lvl = ft_atoi(val + 1);
+	free(val);
+	while (env_lst && env_lst->next)
 	{
 		if (ft_strcmp("SHLVL", env_lst->key) == 0)
 		{
@@ -35,9 +35,9 @@ void    aveletsnel_shvl(t_env *env_lst)
 	}
 }
 
-char    *find_env_val(t_env *env_lst, char *key)
+char	*find_env_val(t_env *env_lst, char *key)
 {
-    t_env	*head;
+	t_env	*head;
 
 	if (!key || key[0] == '$')
 		return (NULL);
