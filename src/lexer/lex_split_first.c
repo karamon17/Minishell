@@ -29,7 +29,7 @@ void    cut_spaces(t_token **tokens)
     }
 }
 
-char *add_white_space(char *input, int j)
+char *add_space(char *input, int j)
 {
     char *tmp;
     int tmp_size;
@@ -91,113 +91,93 @@ char *add_white_space(char *input, int j)
     return tmp;
 }
 
-int d_quotes(char *input, int i, t_token **new)
+int		append_word(char *str, int i, t_token **new)
 {
-    while ((input[i] != '\0')) //aaaaaaaaa || input[i] != ' '
-    {
-       (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
-        i++;
-        if (input[i] == '"' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
-            break;          //(*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
-    }
-    if (input[i] != '\0')
-         (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
-    return (i);
+	while (str[i] != ' ' && str[i])
+	{
+		(*new)->data = ft_strjoin((*new)->data, ft_substr(str, i, 1));
+		i++;
+	}
+	return (i);
 }
 
-int append_word(char *input, int i, t_token **new)
+int		redirects(char *str, int i, t_token **new)
 {
-    while (input[i] != ' ' && input[i] != '\0')
-    {
-        (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
-        i++;
-    }
-    return (i);
+	while (str[i])
+	{
+		(*new)->data = ft_strjoin((*new)->data, ft_substr(str, i, 1));
+		i++;
+		if (str[i] == '|' && (str[i + 1] == ' ' || str[i + 1]))
+			break ;
+		else if (str[i] == '<' && (str[i + 1] == ' ' || str[i + 1]))
+			break ;
+		else if (str[i] == '>' && (str[i + 1] == ' ' || str[i = 1]))
+			break;
+	}
+	if (str[i])
+		(*new)->data = ft_strjoin((*new)->data, ft_substr(str, i, 1));
+	return (i);
 }
 
-int s_quotes(char *input, int i, t_token **new)
+int		d_quotes(char *str, int i, t_token **new)
 {
-    while ((input[i] != '\0')) //aaaaaaaaa || input[i] != ' '
-    {
-       (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
-        i++;
-        if (input[i] == '\'' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
-            break;      //(*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
-    }
-    if (input[i] != '\0')
-         (*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
-    return (i);
+	while (str[i])
+	{
+		(*new)->data = ft_strjoin((*new)->data, ft_substr(str, i, 1));
+		i++;
+		if (str[i] == '"' && (str[i + 1] == ' ' || str[i + 1]))
+			break ;
+	}
+	if (str[i] != '\0')
+		(*new)->data = ft_strjoin((*new)->data, ft_substr(str, i, 1));
+	return (i);
 }
 
-int is_special_token(char *token) 
+int		s_quotes(char *str, int i, t_token **new)
 {
-    return ft_strcmp(token, "<<") == 0 || ft_strcmp(token, ">>") == 0;
+	while (str[i])
+	{
+		(*new)->data = ft_strjoin((*new)->data, ft_substr(str, i, 1));
+		i++;
+		if (str[i] == '\'' && (str[i + 1] == ' ' || str[i + 1]))
+			break ;
+	}
+	if (str[i] != '\0')
+		(*new)->data = ft_strjoin((*new)->data, ft_substr(str, i, 1));
+	return (i);
 }
 
-t_token *first_parse(char *input, t_token *tokens, t_shell *shell) 
+t_token	*first_parse(t_shell *shell, char *input, int i)
 {
-    int check = 0;
-    t_token *new;
-    int i = 0;
-    int j = 0;
-    char *tmp;
+	t_token	*new;
 
-    i = 0;
-    j = 0;
-    tmp = add_white_space(input, j);
-    while (tmp[i] == ' ' && tmp[i]) 
-        i++;
-    while (tmp[i]) 
-    {
-        new = ft_new_token(ft_substr(tmp, i, 1));
-        if (tmp[i] == '\'') 
-            i = s_quotes(tmp, i + 1, &new);
-        else if (tmp[i] == '"') 
-            i = d_quotes(input, i + 1, &new);
-        else if (tmp[i] != ' ') 
-            i = append_word(tmp, i + 1, &new);
-        else if (tmp[i] == ' ') 
-        {
-            while (tmp[i + 1] == ' ') 
-                i++;
-        }
-        else if (tmp[i] == '<' || tmp[i] == '>')
-        {
-            if (tmp[i + 1] == tmp[i])
-            {
-                new = ft_new_token(ft_substr(tmp, i, 2));
-                i++;
-            }
-            else
-                new = ft_new_token(ft_substr(tmp, i, 1));
-        }
-        if (new->data[0] != '\0') 
-        {
-            if (check > 0) 
-            {
-                if (is_special_token(new->data) && ft_strcmp(tokens->data, "|") != 0) 
-                {
-                    t_token *last_token = ft_token_last(tokens);
-                    if (last_token && ft_strcmp(last_token->data, " ") != 0) 
-                    {
-                        t_token *space_token = ft_new_token(" ");
-                        ft_token_add_back(&tokens, space_token);
-                    }
-                }
-                ft_token_add_back(&tokens, new);
-            } 
-            else
-                tokens = new;
-            check++;
-        }
-        i++;
-    }
-    (void)shell;
-    if (quote_check(tokens) == -1)
-    {
-        shell->err_stat = -1;
-        free_shell(&shell);
-    }
-    cut_spaces(&tokens);
-    return tokens;
+	input = add_space(input, 0);
+	while (input[i] == ' ' && input[i])
+		i++;
+	while (input[i])
+	{
+		new = ft_new_token(ft_substr(input, i, 1));
+		if (input[i] == '\'')
+			i = s_quotes(input, i + 1, &new);
+		else if (input[i] == '"')
+			i = d_quotes(input, i + 1, &new);
+		else if (input[i] == '>' || input[i] == '<' || input[i] == '|')
+			i = redirects(input, i + 1, &new);
+		else if (input[i] != ' ')
+			i = append_word(input, i + 1, &new);
+        if (!shell->tokens->data)
+            shell->tokens = new;
+        else
+            ft_token_add_back(&shell->tokens, new);
+        if (input[i] == '\0')
+            continue ;
+		i++;
+	}
+	if (quote_check(shell->tokens) == -1)
+	{
+		shell->err_stat = -1;
+		free_shell(&shell);
+	}
+	cut_spaces(&shell->tokens);
+	return (shell->tokens);
 }

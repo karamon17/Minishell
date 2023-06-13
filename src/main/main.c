@@ -57,10 +57,10 @@ void    shell_loop(t_shell **shell)
             if ((*shell)->err_stat != 0)
                 exit((*shell)->err_stat); //implement a function to free data later
             add_history(input);
-            (*shell)->tokens = first_parse(input, (*shell)->tokens, (*shell));
+            (*shell)->tokens = first_parse(*shell, input, 0);
             (*shell)->tokens = env_check(*shell, (*shell)->tokens);
             (*shell)->tokens = stugel((*shell)->tokens);
-            kani_heredoc(shell);
+            //kani_heredoc(shell);
             //printf("%s\n", (*shell)->tokens->data);
 			create_constr(*shell);
 			ft_pipex(*shell);            

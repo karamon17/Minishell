@@ -114,7 +114,7 @@ int         grab_pipe(char *input, int i, t_token **new);
 int         d_quotes(char *input, int i, t_token **new);
 int         append_word(char *input, int i, t_token **new);
 int         s_quotes(char *input, int i, t_token **new);
-t_token    *first_parse(char *input, t_token *tokens, t_shell *shell);
+t_token	*first_parse(t_shell *shell, char *input, int i);
 
 int	        ft_strcmp(char *s1, char *s2);
 
