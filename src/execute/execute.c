@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/12 19:29:41 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:56:31 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	execute_command(t_shell *shell, char *path)
 	return (0);
 }
 
-void	free_path(char **path)
+void	ft_free_path(char **path)
 {
 	int	i;
 
@@ -60,6 +60,7 @@ void	free_path(char **path)
 char	*check_path(t_shell *shell)
 {
 	char	**path;
+	char *res;
 	char	*tmp;
 	int		i;
 
@@ -82,7 +83,9 @@ char	*check_path(t_shell *shell)
 			break ;
 		i++;
 	}
-	return (path[i]);
+	res = ft_strdup(path[i]);
+	ft_free_path(path);
+	return (res);
 }
 
 int	execute(t_shell *shell)
@@ -94,6 +97,6 @@ int	execute(t_shell *shell)
 	else
 		str_path = check_path(shell);
 	g_error_status = execute_command(shell, str_path);
-	//free_path(tmp);
+	free(str_path);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/12 19:48:56 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:56:10 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	ft_error_exit(char *str)
 void	shell_loop(t_shell **shell)
 {
 	t_token	*new;
+	t_token	*head_tokens;
+	t_constr	*head_constr;
 	char	*input;
 
 	rl_catch_signals = 0;
@@ -58,13 +60,17 @@ void	shell_loop(t_shell **shell)
 			new = first_parse(input, (*shell)->tokens);
 			new = stugel(new);
 			(*shell)->tokens = new;
+			head_tokens = new;
 			new = env_check(*shell, new);
 			//check_commands(shell);
 			create_constr(*shell);
+			head_constr = (*shell)->constrs;
 			if ((*shell)->constrs)
 				ft_pipex(*shell);
 		}
 		free(input);
+		free_tokens(head_tokens);
+		free_constrs(head_constr);
 	}
 }
 
@@ -115,5 +121,7 @@ int	main(int ac, char **av, char **envp)
 	get_env_var(&(shell->env_lst), envp);
 	aveletsnel_shvl(shell->env_lst);
 	shell_loop(&shell);
+	free_env_list(shell);
+	//system("leaks minishell");
 	exit(g_error_status);
 }

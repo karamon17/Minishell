@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:38:27 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/09 19:00:36 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/13 15:32:27 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_token    *cut_command_quotes(t_token *tokens)
 {
     int         i;
     char        *cpy;
+	char        *tmp_str;
     t_token     *tmp;
     char        c;
 
@@ -31,12 +32,14 @@ t_token    *cut_command_quotes(t_token *tokens)
                 continue ;
             if (tmp->data[i] == '"' && tmp->data[i] == c)
                 continue ;
-            cpy = ft_strjoin(cpy, ft_substr(tmp->data, i, 1));      //echoppppp
+			tmp_str = cpy;
+            cpy = ft_strjoin(cpy, ft_substr(tmp->data, i, 1));
+			free(tmp_str);
         }
-        tmp->data = cpy;
+        tmp->data = ft_strdup(cpy);
         tmp = tmp->next;
     }
-    //free(cpy);
+    free(cpy);
     return (tokens);
 }
 

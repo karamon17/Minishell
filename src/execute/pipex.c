@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/12 19:26:50 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:02:18 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,14 @@ int	ft_emptypipe(t_constr *constr)
 {
 	if (constr->command && !ft_strncmp(constr->command, "|", 2)
 		&& !constr->next)
+	{
+		g_error_status = 258;
+		printf("Minishell: syntax error near unexpected token '%s'\n",
+			constr->command);
+		return (1);
+	}
+	else if (constr->command && !ft_strncmp(constr->command, "|", 2)
+		&& !constr->next->data[0])
 	{
 		g_error_status = 258;
 		printf("Minishell: syntax error near unexpected token '%s'\n",

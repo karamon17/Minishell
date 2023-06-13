@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/12 19:56:09 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/13 13:08:56 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,7 @@ void	ft_exit(t_shell *shell, int *flag)
 	*flag = 1;
 	printf("exit\n");
 	if (!shell->tokens->next)
-	{
-		free_shell(shell);
-		
 		exit(0);
-	}
 	else if (shell->tokens->next && check(shell->tokens->next->data))
 	{
 		ft_putstr_fd("Minishell : exit: ", 2);
