@@ -58,8 +58,8 @@ void    shell_loop(t_shell **shell)
                 exit((*shell)->err_stat); //implement a function to free data later
             add_history(input);
             (*shell)->tokens = first_parse(input, (*shell)->tokens, (*shell));
-            (*shell)->tokens = stugel((*shell)->tokens);
             (*shell)->tokens = env_check(*shell, (*shell)->tokens);
+            (*shell)->tokens = stugel((*shell)->tokens);
             kani_heredoc(shell);
             //printf("%s\n", (*shell)->tokens->data);
 			create_constr(*shell);

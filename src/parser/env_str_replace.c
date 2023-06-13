@@ -37,8 +37,11 @@ char    *env_in_DQS(t_shell *shell, char *str)
             is_env = 1;
             i++;
         }
-        while (is_env == 1 && str[i++] != '\0' && str[i] != '"' && str[i] != ' ')
+        while (is_env == 1 && str[i] != '\0' && str[i] != '"' && str[i] != ' ')
+        {
             path = ft_strjoin(path, ft_substr(str, i, 1));
+            i++;
+        }
         if ((getenv(path) != NULL) && is_env == 1)
         {
             path = ft_getenv(shell, path);
@@ -47,6 +50,7 @@ char    *env_in_DQS(t_shell *shell, char *str)
         }
         tmp = ft_strjoin(tmp, ft_substr(str, i, 1));
     }
+    free(path);
     return (tmp);
 }
 
