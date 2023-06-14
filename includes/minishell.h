@@ -13,6 +13,10 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define RED_COLOR "\x1B[31m"
+# define GRN_COLOR "\x1B[32m"
+# define RESET_COLOR "\x1B[0m"
+
 # define B_IN 0
 # define PIPE 1
 # define R_DIR 2
@@ -65,13 +69,7 @@ typedef struct s_env
 	char			*key;
     char			*tmp;
 	char			*value;
-    char			*tmp0;
-	char			*tmp1;
-    char			*tmp2;
 	int				flag;
-	int				i;
-	int				pop;
-	int				exflag;
 }	t_env;
 
 enum e_flag
@@ -98,23 +96,22 @@ typedef struct s_shell
     int             err_stat;
 }               t_shell;
 
-int	execute_builtin(t_shell *shell);
-void    aveletsnel_shvl(t_env *env_lst);
-char    *find_env_val(t_env *env_lst, char *key);
-t_env	*ft_add_new_env(char *key, char *value, int flag);
-t_env	*ft_add_env_back(t_env *env_list, char *key, char *value, int flag);
-void    get_env_var(t_env **env_lst, char **envp);
-size_t  ft_strlen(const char *str);
+int			execute_builtin(t_shell *shell);
+void    	aveletsnel_shvl(t_env *env_lst);
+char    	*find_env_val(t_env *env_lst, char *key);
+t_env		*ft_add_new_env(char *key, char *value, int flag);
+t_env		*ft_add_env_back(t_env *env_list, char *key, char *value, int flag);
+void    	get_env_var(t_env **env_lst, char **envp);
+size_t  	ft_strlen(const char *str);
 
-t_token *stugel(t_token *tokens);
-t_token *check_options(t_token *tmp);
+t_token 	*stugel(t_token *tokens);
+t_token 	*check_options(t_token *tmp);
 
-t_token    *initialize_tokens(t_token *tokens);
 int         grab_pipe(char *input, int i, t_token **new);
 int         d_quotes(char *input, int i, t_token **new);
 int         append_word(char *input, int i, t_token **new);
 int         s_quotes(char *input, int i, t_token **new);
-t_token    *first_parse(char *input, t_token *tokens, t_shell *shell);
+t_token 	*first_parse(char *tmp, t_shell *shell, int i);
 
 int	        ft_strcmp(char *s1, char *s2);
 
@@ -124,36 +121,53 @@ void	    ft_token_add_back(t_token **stack, t_token *new);
 int	        ft_token_size(t_token *head);
 char        *double_strjoin(char *tmp, char *input, int *j);
 
-void    is_b_in(t_token **head);
-void    is_pipe(t_token **head);
-void    is_env(t_token **head);
+void    	is_b_in(t_token **head);
+void    	is_pipe(t_token **head);
+void    	is_env(t_token **head);
 
-void    second_parse(t_token **tokens);
-void    is_redir(t_token **head);
-void    is_option(t_token **head);
+void    	second_parse(t_token **tokens);
+void    	is_redir(t_token **head);
+void    	is_option(t_token **head);
 
-void ft_pwd(int *flag);
-void 	ft_env(t_shell *shell, int *flag);
-int		ft_exit(t_shell *shell, int *flag);
-void 	ft_unset(t_shell *shell, int *flag);
-int 	ft_export(t_shell *shell, int *flag);
-int 	ft_echo(t_shell *shell, int *flag);
-int		ft_cd(t_shell *shell, int *flag);
-char 	*ft_getenv(t_shell *shell, char *name);
-t_token *env_check(t_shell *shell, t_token *tokens);
-void	sigint_handler(int signum);
-int	execute(t_shell *shell);
-int create_constr(t_shell *shell);
-char **env_to_2darray(t_shell *shell);
-void ft_pipex(t_shell *shell);
-char *check_path(t_shell *shell);
-void	ft_close_pipe(int fd[2]);
+void 		ft_pwd(int *flag);
+void 		ft_env(t_shell *shell, int *flag);
+int			ft_exit(t_shell *shell, int *flag);
+void 		ft_unset(t_shell *shell, int *flag);
+int 		ft_export(t_shell *shell, int *flag);
+int 		ft_echo(t_shell *shell, int *flag);
+int			ft_cd(t_shell *shell, int *flag);
+char 		*ft_getenv(t_shell *shell, char *name);
+t_token 	*env_check(t_shell *shell, t_token *tokens);
+void		sigint_handler(int signum);
+int			execute(t_shell *shell);
+int 		create_constr(t_shell *shell);
+char 		**env_to_2darray(t_shell *shell);
+void 		ft_pipex(t_shell *shell);
+char 		*check_path(t_shell *shell);
+void		ft_close_pipe(int fd[2]);
 
 int			quote_check(t_token *tokens);
 void		free_shell(t_shell **shell);
 
-int    exec_heredoc(t_token *tokens, int i);
-void	delete_token(t_token **head, t_token *to_delete);
-void    redirect_output(t_constr *cmds);
-void    kani_heredoc(t_shell **shell);
+int    		exec_heredoc(t_token *tokens, int i);
+void		delete_token(t_token **head, t_token *to_delete);
+void    	redirect_output(t_constr *cmds);
+void    	kani_heredoc(t_shell **shell);
+
+//first_parse_helper.c
+int 		is_special_token(char *token);
+void    	cut_spaces(t_token **tokens);
+int 		parse_norm_helper(char *tmp, t_token *new, int i);
+void    	clean_shell(t_shell **shell);
+//initialization.c
+t_token		*initialize_tokens(t_token *tokens);
+t_constr 	*initialize_constr(t_constr *constrs);
+void    	init_shell(t_shell **shell);
+//free_resources.c
+void    	ft_error_exit(char *str);
+//add_white_space_helper.c
+int 		white_space_helper(char *input, int j, int in_q, int size);
+int 		update_in_q(char *input, int j, int in_q);
+char 		*set_tmp(char *input, int j, char *tmp);
+char    	*allocate_and_check_tmp(int size);
 #endif

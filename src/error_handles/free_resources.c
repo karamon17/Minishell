@@ -48,3 +48,9 @@ void    free_shell(t_shell **shell)
     free((*shell));
     exit (tmp);
 }
+
+void    ft_error_exit(char *str)
+{
+    while (*str)
+        write(2, str++, 1);
+}
