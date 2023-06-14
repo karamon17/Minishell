@@ -6,11 +6,11 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:53:43 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/02 18:34:21 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 17:03:39 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 int	ft_strcmp(char *s1, char *s2)
 {

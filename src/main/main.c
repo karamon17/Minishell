@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/14 16:50:51 by jfrances         ###   ########.fr       */
+/*   Updated: 2023/06/14 16:54:18 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	shell_loop(t_shell **shell)
 			(*shell)->tokens = stugel((*shell)->tokens);
 			kani_heredoc(shell);
 			create_constr(*shell);
-			ft_pipex(*shell);            
+			ft_pipex(*shell);
 		}
 		free(input);
 	}
@@ -62,14 +62,14 @@ int	main(int ac, char **av, char **envp)
 {
 	t_shell	*shell;
 
-    (void)av;
-    (void)ac;
-    shell = NULL;
-    print_cool_head();
-    init_shell(&shell);
-    (void)envp[0];
-    get_env_var(&(shell->env_lst), envp);
-    aveletsnel_shvl(shell->env_lst); //WIP
-    shell_loop(&shell);
-    exit(shell->err_stat);
+	(void)av;
+	(void)ac;
+	shell = NULL;
+	print_cool_head();
+	init_shell(&shell);
+	(void)envp[0];
+	get_env_var(&(shell->env_lst), envp);
+	aveletsnel_shvl(shell->env_lst); //WIP
+	shell_loop(&shell);
+	exit(shell->err_stat);
 }
