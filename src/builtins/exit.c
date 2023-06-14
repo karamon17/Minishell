@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/07 16:17:50 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/13 13:08:56 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check(char *str)
 	return (0);
 }
 
-int ft_exit(t_shell *shell, int *flag)
+void	ft_exit(t_shell *shell, int *flag)
 {
 	*flag = 1;
 	printf("exit\n");
@@ -37,15 +37,17 @@ int ft_exit(t_shell *shell, int *flag)
 		exit(0);
 	else if (shell->tokens->next && check(shell->tokens->next->data))
 	{
-		printf("minishell: exit: %s numeric argument required\n", shell->tokens->next->data);
+		ft_putstr_fd("Minishell : exit: ", 2);
+		ft_putstr_fd(shell->tokens->next->data, 2);
+		ft_putstr_fd(" numeric argument required\n", 2);
 		exit(1);
 	}
 	else if (shell->tokens->next && !shell->tokens->next->next)
 		exit(ft_atoi(shell->tokens->next->data));
 	else
 	{
-		printf("minishell: exit: too many arguments\n");
-		return (1);
+		g_error_status = 1;
+		ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
 	}
-	return (0);
+	return ;
 }

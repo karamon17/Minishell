@@ -6,13 +6,13 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:02:00 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/08 19:51:29 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 13:16:31 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_constr *mylstlast(t_constr *lst)
+t_constr	*mylstlast(t_constr *lst)
 {
 	if (!lst)
 		return (0);
@@ -21,7 +21,7 @@ t_constr *mylstlast(t_constr *lst)
 	return (lst);
 }
 
-t_constr *create_newnode(char *token, char *command)
+t_constr	*create_newnode(char *token, char *command)
 {
 	t_constr	*newnode;
 
@@ -31,14 +31,16 @@ t_constr *create_newnode(char *token, char *command)
 	newnode -> data = ft_strdup(token);
 	newnode -> command = ft_strdup(command);
 	newnode -> next = 0;
+	free(token);
+	free(command);
 	return (newnode);
 }
 
-void constr_add_back(t_constr **lst, t_constr *new)
+void	constr_add_back(t_constr **lst, t_constr *new)
 {
 	if (!new)
 		return ;
-	if (!*lst)
+	if (!(*lst))
 	{
 		*lst = new;
 		new->prev = NULL;
@@ -48,49 +50,44 @@ void constr_add_back(t_constr **lst, t_constr *new)
 	mylstlast(*lst)->next = new;
 }
 
-int create_constr(t_shell *shell)
+void	ft_loop(char **tmp, char **str, t_token	**ptoken)
 {
-	t_constr *constr;
-	t_constr *node;
-	char *str;
-	char *token;
-	t_token *ptoken;
-	char *command;
-	char *tmp;
+	*tmp = *str;
+	if (*str[0])
+	{
+		*str = ft_strjoin(*str, " ");
+		free(*tmp);
+		*tmp = *str;
+	}
+	*str = ft_strjoin(*str, (*ptoken)->data);
+	free(*tmp);
+	*ptoken = (*ptoken)->next;
+}
+
+t_constr	*create_constr(t_shell *shell)
+{
+	char		*str;
+	t_token		*ptoken;
+	char		*command;
+	char		*tmp;
 
 	ptoken = shell->tokens;
-	token = ptoken->data;
-	constr = NULL;
 	while (ptoken)
 	{
 		command = NULL;
 		str = ft_calloc(1, sizeof(char));
-		while (ptoken && (token[0] != '|' && token[0] != '<' && token[0] != '>' && ft_strncmp(token, "<<", 2) != 0 && ft_strncmp(token, ">>", 2) != 0))
+		while (ptoken && (ptoken->data[0] != '|' && ptoken->data[0] != '<'
+				&& ptoken->data[0] != '>' && ft_strncmp(ptoken->data, "<<", 2)
+				&& ft_strncmp(ptoken->data, ">>", 2)))
 		{
-			tmp = str;
-			if (str[0])
-			{
-				str = ft_strjoin(str, " ");
-				free(tmp);
-				tmp = str;
-			}
-			str = ft_strjoin(str, token);
-			free(tmp);
-			ptoken = ptoken->next;
-			if (ptoken)
-				token = ptoken->data;
+			ft_loop(&tmp, &str, &ptoken);
 		}
 		if (ptoken)
 		{
-			command = ft_strdup(token);
+			command = ft_strdup(ptoken->data);
 			ptoken = ptoken->next;
-			if (ptoken)
-				token = ptoken->data;
 		}
-		node = create_newnode(str, command);
-		constr_add_back(&constr, node);
-		free(str);
+		constr_add_back(&shell->constrs, create_newnode(str, command));
 	}
-	shell->constrs = constr;
-	return (0);
+	return (shell->constrs);
 }

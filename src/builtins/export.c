@@ -6,51 +6,93 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 18:31:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/07 19:02:17 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:12:57 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env *check_key_env(t_env *env, char *key)
+void	check_add(t_shell *shell, t_env *env, char *key, char *value)
 {
 	while (env)
 	{
 		if (!ft_strncmp(env->key, key, ft_strlen(key)))
-			return (env);
+			break ;
 		env = env->next;
 	}
-	return (0);
+	if (!env)
+		ft_add_env_back(shell->env_lst, key, value);
+	else
+	{
+		free(env->value);
+		env->value = ft_strdup(value);
+	}
 }
 
-int ft_export(t_shell *shell, int *flag)
+void	ft_print_export(t_shell *shell)
 {
-	t_env *env;
-	char *value;
-	char **tmp;
-	int i;
-	
+	t_env	*current;
+
+	current = shell->env_lst;
+	while (current)
+	{
+		printf("declare -x ");
+		printf("%s", current->key);
+		if (current->value)
+			printf("=\"%s\"", current->value);
+		printf("\n");
+		current = current->next;
+	}
+}
+
+int	ft_checkletter(int arg)
+{
+	return ((arg >= 'a' && arg <= 'z') || \
+		(arg >= 'A' && arg <= 'Z') || arg == '_');
+}
+
+void	ft_printerror(char *tmp, char *value)
+{
+	g_error_status = 1;
+	if (value)
+	{
+		ft_putstr_fd("Minishell : export: ", 2);
+		ft_putstr_fd(tmp, 2);
+		ft_putstr_fd("=", 2);
+		ft_putstr_fd(value, 2);
+		ft_putstr_fd(": not a valid identifier\n", 2);
+	}
+	else
+	{
+		ft_putstr_fd("Minishell : export: ", 2);
+		ft_putstr_fd(tmp, 2);
+		ft_putstr_fd(": not a valid identifier\n", 2);
+	}
+}
+
+void	ft_export(t_shell *shell, int *flag)
+{
+	char	*value;
+	char	**tmp;
+	int		i;
+
 	*flag = 1;
 	tmp = ft_split(shell->constrs->data, ' ');
-	i = 1;
-	while(tmp[i])
+	i = 0;
+	if (!tmp[1])
+		ft_print_export(shell);
+	while (tmp[++i])
 	{
 		if (!ft_strchr(tmp[i], '='))
-			return (0);
+			value = NULL;
 		else
 		{
 			value = ft_strchr(tmp[i], '=') + 1;
 			*(ft_strchr(tmp[i], '=')) = 0;
 		}
-		env = check_key_env(shell->env_lst, tmp[i]);
-		if (!env)
-			ft_add_env_back(shell->env_lst, tmp[i], value, ENV);
+		if (ft_checkletter(tmp[i][0]))
+			check_add(shell, shell->env_lst, tmp[i], value);
 		else
-		{
-			free(env->value);
-			env->value = ft_strdup(value);
-		}
-		i++;
+			ft_printerror(tmp[i], value);
 	}
-	return (0);
 }

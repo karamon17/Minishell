@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:38:27 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/09 13:35:39 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 14:20:59 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_token    *cut_command_quotes(t_token *tokens)
 {
     int         i;
     char        *cpy;
+	char        *tmp_str;
     t_token     *tmp;
     char        c;
 
@@ -31,12 +32,14 @@ t_token    *cut_command_quotes(t_token *tokens)
                 continue ;
             if (tmp->data[i] == '"' && tmp->data[i] == c)
                 continue ;
-            cpy = ft_strjoin(cpy, ft_substr(tmp->data, i, 1));      //echoppppp
+			tmp_str = cpy;
+            cpy = ft_strjoin(cpy, ft_substr(tmp->data, i, 1));
+			free(tmp_str);
         }
-        tmp->data = cpy;
+        tmp->data = ft_strdup(cpy);
         tmp = tmp->next;
     }
-    //free(cpy);
+    free(cpy);
     return (tokens);
 }
 
@@ -65,25 +68,28 @@ t_token *check_options(t_token *tokens)
 {
     t_token *tmp;
     t_token *to_delete;
-    int foundN;
+	char *temp_str;
 
-    tmp = tokens;
-    foundN = 0;
+    tmp = tokens->next;
+	if (tmp && tmp->data[0] == '-' && !ft_strncmp(ft_strtrim(tmp->data, "n"), "-", 2))
+	{
+		temp_str = tmp->data;
+		tmp->data = ft_strdup("-n");
+		free(temp_str);
+		tmp = tmp->next;
+	}
+	else
+		return (tokens);
     while (tmp != NULL) 
     {
-        if (ft_strcmp(tmp->data, "-n") == 0)
-            foundN = 1;
-        else if (foundN) 
-        {
-            if (tmp->data[0] == '-' && ft_strlen(tmp->data) > 1 && strspn(tmp->data, "-")) 
-            {
-                to_delete = tmp;
-                tmp = tmp->next;
-                delete_token(&tokens, to_delete);
-                continue ;
-            }
-        }
-        tmp = tmp->next;
+		if (tmp->data[0] == '-' && !ft_strncmp(ft_strtrim(tmp->data, "n"), "-", 2))
+		{
+			to_delete = tmp;
+			tmp = tmp->next;
+			delete_token(&tokens, to_delete);
+			continue ;
+		}
+		return (tokens);
     }
     return (tokens);
 }

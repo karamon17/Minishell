@@ -6,93 +6,90 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/08 16:22:33 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 14:44:55 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_close_pipe(int fd[2])
+void	ft_child(t_shell *shell, t_constr *constr)
 {
-	close(fd[0]);
-	close(fd[1]);
-}
-
-void move_shell_tokens(t_shell *shell)
-{
-	char *token;
-	token = shell->tokens->data;
-	while (shell->tokens->next && token[0] != '|' && token[0] != '<' && token[0] != '>' && ft_strncmp(token, "<<", 2) != 0 && ft_strncmp(token, ">>", 2) != 0)
+	pipe(constr->fd);
+	if (fork() == 0)
 	{
-		shell->tokens = shell->tokens->next;
-		token = shell->tokens->data;
-	}
-	shell->tokens = shell->tokens->next;
-}
-
-void ft_child(t_shell *shell, t_constr *constr)
-{
-	if (constr->command && shell->constrs == constr)
-	{
-		dup2(constr->fd[1], 1);
-		close(constr->fd[1]);
-	}
-	else if (constr->command)
-	{
-		dup2(constr->prev->fd[0], 0);
-		dup2(constr->fd[1], 1);
-		ft_close_pipe(constr->prev->fd);
-	}
-	else
-	{
-		dup2(constr->prev->fd[0], 0);
-		ft_close_pipe(constr->prev->fd);
-	}
-	if (!execute_builtin(shell))
-		execute(shell);
-	exit(0);
-}
-
-void ft_pipex(t_shell *shell)
-{
-	int	pid;
-	t_constr *constr = shell->constrs;
-	if (!constr)
-		return ;
-	while (constr)
-	{
-		if (constr->command && !constr->next)
+		if (constr->command && shell->constrs == constr)
 		{
-			printf("Minishell: syntax error near unexpected token '%s'\n", constr->command);
-			return;
+			dup2(constr->fd[1], 1);
+			close(constr->fd[1]);
 		}
 		else if (constr->command)
 		{
-			if (!check_path(shell))
-			{
-				printf("Minishell: %s: command not found\n", shell->tokens->data);
-			}
-			pipe(constr->fd);
-			pid = fork();
-			if (pid == 0)
-			{
-				if (constr->next == NULL && constr->prev == NULL)
-				{	
-					if (!execute_builtin(shell))
-						execute(shell);
-					exit(0);
-				}
-				else
-					ft_child(shell, constr);
-			}
+			dup2(constr->prev->fd[0], 0);
+			dup2(constr->fd[1], 1);
+			ft_close_pipe(constr->prev->fd);
 		}
 		else
 		{
-			if (!execute_builtin(shell))
-				execute(shell);
+			dup2(constr->prev->fd[0], 0);
+			ft_close_pipe(constr->prev->fd);
 		}
+		if (!execute_builtin(shell))
+			execute(shell);
+		exit(0);
+	}
+}
+
+int	ft_emptypipe(t_constr *constr)
+{
+	if (constr->command && !ft_strncmp(constr->command, "|", 2)
+		&& !constr->next)
+	{
+		g_error_status = 258;
+		printf("Minishell: syntax error near unexpected token '%s'\n",
+			constr->command);
+		return (1);
+	}
+	else if (constr->command && !ft_strncmp(constr->command, "|", 2)
+		&& !constr->next->data[0])
+	{
+		g_error_status = 258;
+		printf("Minishell: syntax error near unexpected token '%s'\n",
+			constr->command);
+		return (1);
+	}
+	return (0);
+}
+
+void	ft_mainpipe(t_shell *shell, t_constr *constr)
+{
+	if (constr->command && !ft_strncmp(constr->command, "|", 2))
+	{
+		if (!check_path(shell))
+		{
+			g_error_status = 127;
+			ft_putstr_fd("Minishell : ", 2);
+			ft_putstr_fd(shell->tokens->data, 2);
+			ft_putstr_fd(": command not found\n", 2);
+		}
+		else
+			ft_child(shell, constr);
+	}
+	else if (!constr->command && !execute_builtin(shell))
+		execute(shell);
+}
+
+void	ft_pipex(t_shell *shell)
+{
+	t_constr	*constr;
+
+	constr = shell->constrs;
+	while (constr)
+	{
+		if (ft_emptypipe(constr))
+			return ;
+		ft_mainpipe(shell, constr);
 		move_shell_tokens(shell);
-		if (constr->prev && constr->prev->command)
+		if (constr->prev && constr->prev->command && !g_error_status)
 			ft_close_pipe(constr->prev->fd);
 		shell->constrs = constr->next;
 		constr = shell->constrs;
