@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:02:00 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/13 19:36:15 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 13:16:31 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ t_constr	*create_newnode(char *token, char *command)
 	newnode -> data = ft_strdup(token);
 	newnode -> command = ft_strdup(command);
 	newnode -> next = 0;
+	free(token);
+	free(command);
 	return (newnode);
 }
 
@@ -38,7 +40,7 @@ void	constr_add_back(t_constr **lst, t_constr *new)
 {
 	if (!new)
 		return ;
-	if (!*lst)
+	if (!(*lst))
 	{
 		*lst = new;
 		new->prev = NULL;
@@ -48,43 +50,44 @@ void	constr_add_back(t_constr **lst, t_constr *new)
 	mylstlast(*lst)->next = new;
 }
 
+void	ft_loop(char **tmp, char **str, t_token	**ptoken)
+{
+	*tmp = *str;
+	if (*str[0])
+	{
+		*str = ft_strjoin(*str, " ");
+		free(*tmp);
+		*tmp = *str;
+	}
+	*str = ft_strjoin(*str, (*ptoken)->data);
+	free(*tmp);
+	*ptoken = (*ptoken)->next;
+}
+
 t_constr	*create_constr(t_shell *shell)
 {
-	t_constr	*constr;
 	char		*str;
 	t_token		*ptoken;
 	char		*command;
 	char		*tmp;
 
 	ptoken = shell->tokens;
-	constr = NULL;
 	while (ptoken)
 	{
 		command = NULL;
 		str = ft_calloc(1, sizeof(char));
 		while (ptoken && (ptoken->data[0] != '|' && ptoken->data[0] != '<'
 				&& ptoken->data[0] != '>' && ft_strncmp(ptoken->data, "<<", 2)
-				!= 0 && ft_strncmp(ptoken->data, ">>", 2) != 0))
+				&& ft_strncmp(ptoken->data, ">>", 2)))
 		{
-			tmp = str;
-			if (str[0])
-			{
-				str = ft_strjoin(str, " ");
-				free(tmp);
-				tmp = str;
-			}
-			str = ft_strjoin(str, ptoken->data);
-			free(tmp);
-			ptoken = ptoken->next;
+			ft_loop(&tmp, &str, &ptoken);
 		}
 		if (ptoken)
 		{
 			command = ft_strdup(ptoken->data);
 			ptoken = ptoken->next;
 		}
-		constr_add_back(&constr, create_newnode(str, command));
-		free(str);
+		constr_add_back(&shell->constrs, create_newnode(str, command));
 	}
-	shell->constrs = constr;
 	return (shell->constrs);
 }

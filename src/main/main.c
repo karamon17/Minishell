@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/13 19:58:16 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 12:10:42 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,8 @@ void	init_shell(t_shell **shell)
 {
 	g_error_status = 0;
 	(*shell) = malloc(sizeof(t_shell));
-	(*shell)->tokens = malloc(sizeof(t_token));
-	(*shell)->tokens->next = NULL;
-	(*shell)->tokens->data = NULL;
-	(*shell)->constrs = malloc(sizeof(t_constr));
-	(*shell)->constrs->next = NULL;
-	(*shell)->constrs->prev = NULL;
-	(*shell)->constrs->data = NULL;
-	(*shell)->constrs->command = NULL;
+	(*shell)->tokens = NULL;
+	(*shell)->constrs = NULL;
 	(*shell)->env_lst = NULL;
 }
 
