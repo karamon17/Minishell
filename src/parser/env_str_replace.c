@@ -12,31 +12,30 @@
 
 #include "minishell.h"
 
-char	*get_path(t_shell *shell, char *str)
+static int	set_env(int *i)
+{
+	(*i)++;
+	return (1);
+}
+
+static char	*get_path(t_shell *shell, char *str)
 {
 	str++;
 	str = ft_getenv(shell, str);
 	return (str);
 }
 
-char	*env_in_DQS(t_shell *shell, char *str)
+static char	*env_in_dqs(t_shell *shell, char *str, int i, int is_env)
 {
 	char	*tmp;
 	char	*path;
-	int		i;
-	int		is_env;
 
-	is_env = 0;
-	i = -1;
 	tmp = malloc(sizeof(char));
 	path = malloc(sizeof(char));
 	while (str[++i])
 	{
 		if (str[i] == '$')
-		{
-			is_env = 1;
-			i++;
-		}
+			is_env = set_env(&i);
 		while (is_env == 1 && str[i] != '\0' && str[i] != '"' && str[i] != ' ')
 		{
 			path = ft_strjoin(path, ft_substr(str, i, 1));
@@ -50,7 +49,6 @@ char	*env_in_DQS(t_shell *shell, char *str)
 		}
 		tmp = ft_strjoin(tmp, ft_substr(str, i, 1));
 	}
-	free(path);
 	return (tmp);
 }
 
@@ -62,7 +60,7 @@ t_token	*env_check(t_shell *shell, t_token *tokens)
 	while (tmp)
 	{
 		if (tmp->data[0] == '"')
-			tmp->data = env_in_DQS(shell, tmp->data);
+			tmp->data = env_in_dqs(shell, tmp->data, -1, 0);
 		else if (tmp->data[0] == '$')
 			tmp->data = get_path(shell, tmp->data);
 		tmp = tmp->next;
