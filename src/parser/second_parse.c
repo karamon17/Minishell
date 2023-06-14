@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:38:27 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/13 15:32:27 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 14:20:59 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_token *check_options(t_token *tokens)
 	char *temp_str;
 
     tmp = tokens->next;
-	if (tmp->data[0] == '-' && !ft_strncmp(ft_strtrim(tmp->data, "n"), "-", 2))
+	if (tmp && tmp->data[0] == '-' && !ft_strncmp(ft_strtrim(tmp->data, "n"), "-", 2))
 	{
 		temp_str = tmp->data;
 		tmp->data = ft_strdup("-n");

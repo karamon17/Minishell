@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/13 14:56:31 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:02:30 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ void	ft_free_path(char **path)
 char	*check_path(t_shell *shell)
 {
 	char	**path;
-	char *res;
+	char	*res;
 	char	*tmp;
 	int		i;
 
 	path = ft_split(ft_getenv(shell, "PATH"), ':');
-	i = 0;
-	while (path[i])
+	i = -1;
+	while (path[++i])
 	{
 		tmp = path[i];
 		path[i] = ft_strjoin(path[i], "/");
@@ -74,14 +74,12 @@ char	*check_path(t_shell *shell)
 		tmp = path[i];
 		path[i] = ft_strjoin(path[i], shell->tokens->data);
 		free(tmp);
-		i++;
 	}
-	i = 0;
-	while (path[i])
+	i = -1;
+	while (path[++i])
 	{
 		if (!access(path[i], X_OK))
 			break ;
-		i++;
 	}
 	res = ft_strdup(path[i]);
 	ft_free_path(path);

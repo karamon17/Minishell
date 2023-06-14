@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/13 17:02:18 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 14:44:55 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void	ft_mainpipe(t_shell *shell, t_constr *constr)
 			ft_putstr_fd(shell->tokens->data, 2);
 			ft_putstr_fd(": command not found\n", 2);
 		}
-		ft_child(shell, constr);
+		else
+			ft_child(shell, constr);
 	}
 	else if (!constr->command && !execute_builtin(shell))
 		execute(shell);
@@ -88,7 +89,7 @@ void	ft_pipex(t_shell *shell)
 			return ;
 		ft_mainpipe(shell, constr);
 		move_shell_tokens(shell);
-		if (constr->prev && constr->prev->command)
+		if (constr->prev && constr->prev->command && !g_error_status)
 			ft_close_pipe(constr->prev->fd);
 		shell->constrs = constr->next;
 		constr = shell->constrs;
