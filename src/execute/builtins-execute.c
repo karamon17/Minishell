@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:24:02 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/10 14:19:39 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 17:52:00 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	execute_builtin(t_shell *shell)
 		ft_export(shell, flag);
 	else if (!ft_strncmp(str_lower(tmp->data), "echo", 5))
 		ft_echo(shell, flag);
-	else if (ft_strncmp(tmp->data, "<<", 2) == 0)
-		exec_heredoc(tmp);
+	// else if (!ft_strncmp(tmp->data, ">", 2) || !ft_strncmp(tmp->data, ">>", 3))
+	// 		redirect_output(shell->constrs);
 	return (*flag);
 }

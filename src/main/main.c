@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/14 12:10:42 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 18:27:57 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,11 @@ int	shell_loop(t_shell **shell)
 		if (input[0])
 		{
 			add_history(input);
-			head_tokens = first_parse(input, (*shell)->tokens);
+			head_tokens = first_parse(input, (*shell), 0);
 			(*shell)->tokens = stugel(head_tokens);
 			env_check(*shell, head_tokens);
 			g_error_status = 0;
+			kani_heredoc(shell);
 			head_constr = create_constr(*shell);
 			if ((*shell)->constrs)
 				ft_pipex(*shell);
@@ -79,7 +80,6 @@ int	main(int ac, char **av, char **envp)
 	shell = NULL;
 	print_cool_head();
 	init_shell(&shell);
-	(void)envp[0];
 	get_env_var(&(shell->env_lst), envp);
 	aveletsnel_shvl(shell->env_lst);
 	shell_loop(&shell);
