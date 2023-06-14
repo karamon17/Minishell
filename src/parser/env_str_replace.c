@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:51:52 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/14 18:14:05 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 18:56:43 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_path(t_shell *shell, char *str)
 	return (str);
 }
 
-char	*env_in_DQS(t_shell *shell, char *str)
+char	*env_in_dqs(t_shell *shell, char *str)
 {
 	char	*tmp;
 	char	*path;
@@ -28,8 +28,8 @@ char	*env_in_DQS(t_shell *shell, char *str)
 
 	is_env = 0;
 	i = -1;
-	tmp = malloc(sizeof(char));
-	path = malloc(sizeof(char));
+	tmp = ft_calloc(1, sizeof(char));
+	path = ft_calloc(1, sizeof(char));
 	while (str[++i])
 	{
 		if (str[i] == '$')
@@ -62,7 +62,7 @@ t_token	*env_check(t_shell *shell, t_token *tokens)
 	while (tmp)
 	{
 		if (tmp->data[0] == '"')
-			tmp->data = env_in_DQS(shell, tmp->data);
+			tmp->data = env_in_dqs(shell, tmp->data);
 		else if (tmp->data[0] == '$')
 			tmp->data = get_path(shell, tmp->data);
 		tmp = tmp->next;
