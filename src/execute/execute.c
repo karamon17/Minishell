@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/14 15:02:30 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 16:13:26 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,6 @@ int	execute_command(t_shell *shell, char *path)
 		}
 		exit(execve(path, ft_split(shell->constrs->data, ' '),
 				env_to_2darray(shell)));
-	}
-	else
-	{
-		wait(NULL);
 	}
 	return (0);
 }
