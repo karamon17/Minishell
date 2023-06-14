@@ -6,11 +6,11 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:44:48 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/08 19:54:16 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 18:08:13 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 t_token	*ft_new_token(char *content)
 {
@@ -19,7 +19,7 @@ t_token	*ft_new_token(char *content)
 	new = (t_token *) malloc(sizeof(*new));
 	if (!new)
 		return (NULL);
-	new->data = content;	
+	new->data = content;
 	new->next = NULL;
 	return (new);
 }
