@@ -12,8 +12,6 @@
 
 # include "minishell.h"
 
-//after first pass check for pipes
-
 void    cut_spaces(t_token **tokens)
 {
     t_token *tmp;
