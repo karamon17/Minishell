@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/14 14:55:27 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:12:54 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_change_oldpwd(t_shell *shell, char *copy)
 		tmp = tmp->next;
 	}
 	if (!tmp)
-		ft_add_env_back(shell->env_lst, "OLDPWD", buf, ENV);
+		ft_add_env_back(shell->env_lst, "OLDPWD", buf);
 	else
 	{
 		to_free = tmp->value;
@@ -83,7 +83,7 @@ void	ft_chdir(t_shell *shell, char *cmd)
 	if (!access(cmd, F_OK))
 	{
 		if (!check_oldpwd(shell))
-			ft_add_env_back(shell->env_lst, "OLDPWD", buf, ENV);
+			ft_add_env_back(shell->env_lst, "OLDPWD", buf);
 		tmp = opendir(cmd);
 		if (!tmp)
 			ft_cdprint_error(cmd);

@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:37:42 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/12 15:10:00 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:13:05 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char    *find_env_val(t_env *env_lst, char *key)
 	return (head->value);
 }
 
-t_env	*ft_add_new_env(char *key, char *value, int flag)
+t_env	*ft_add_new_env(char *key, char *value)
 {
 	t_env	*node;
 
@@ -61,19 +61,18 @@ t_env	*ft_add_new_env(char *key, char *value, int flag)
 		node->value = ft_strdup(value);
 	else
 		node->value = NULL;
-	node->flag = flag;
 	node->next = NULL;
 	return (node);
 }
 
-t_env	*ft_add_env_back(t_env *env_list, char *key, char *value, int flag)
+t_env	*ft_add_env_back(t_env *env_list, char *key, char *value)
 {
 	t_env	*node;
 	t_env	*clone;
 
 	if (!key)
 		return (NULL);
-	node = ft_add_new_env(key, value, flag);
+	node = ft_add_new_env(key, value);
 	if (!node)
 		exit(1);
 	clone = env_list;
@@ -105,7 +104,7 @@ void    get_env_var(t_env **env_lst, char **envp)
 			value = ft_substr(envp[i], j, ft_strlen(envp[i]) - j);
 		else
 			value = NULL;
-		*env_lst = ft_add_env_back(*env_lst, key, value, ENV);
+		*env_lst = ft_add_env_back(*env_lst, key, value);
 		free(key);
 		free(value);
 		key = NULL;

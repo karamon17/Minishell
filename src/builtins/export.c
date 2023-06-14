@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 18:31:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/12 18:58:35 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:12:57 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	check_add(t_shell *shell, t_env *env, char *key, char *value)
 		env = env->next;
 	}
 	if (!env)
-		ft_add_env_back(shell->env_lst, key, value, ENV);
+		ft_add_env_back(shell->env_lst, key, value);
 	else
 	{
 		free(env->value);
