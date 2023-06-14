@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/14 15:12:54 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/14 16:03:05 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	ft_change_oldpwd(t_shell *shell, char *copy)
 {
 	char	buf[PATH_MAX];
 	t_env	*tmp;
-	char	*to_free;
 
 	getcwd(buf, PATH_MAX);
 	tmp = shell->env_lst;
@@ -46,9 +45,8 @@ void	ft_change_oldpwd(t_shell *shell, char *copy)
 		ft_add_env_back(shell->env_lst, "OLDPWD", buf);
 	else
 	{
-		to_free = tmp->value;
+		free(tmp->value);
 		tmp->value = copy;
-		free(to_free);
 	}
 }
 
@@ -57,7 +55,6 @@ void	ft_changepwd(t_shell *shell)
 	char	buf[PATH_MAX];
 	t_env	*tmp;
 	char	*copy;
-	char	*to_free;
 
 	getcwd(buf, PATH_MAX);
 	tmp = shell->env_lst;
@@ -68,9 +65,8 @@ void	ft_changepwd(t_shell *shell)
 		tmp = tmp->next;
 	}
 	copy = ft_strdup(tmp->value);
-	to_free = tmp->value;
+	free(tmp->value);
 	tmp->value = ft_strdup(buf);
-	free(to_free);
 	ft_change_oldpwd(shell, copy);
 }
 
