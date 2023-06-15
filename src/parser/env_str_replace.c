@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:51:52 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/14 18:56:43 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/15 11:57:30 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,22 @@
 
 char	*get_path(t_shell *shell, char *str)
 {
+	char	*tmp;
+	char	*new;
+	char	*fromenv;
+
 	str++;
-	str = ft_getenv(shell, str);
+	tmp = ft_strchr(str, '/');
+	if (!tmp)
+		str = ft_getenv(shell, str);
+	else
+	{
+		new = ft_substr(str, 0, tmp - str);
+		fromenv = ft_getenv(shell, new);
+		if (!fromenv)
+			fromenv = ft_calloc(1, sizeof(char));
+		str = ft_strjoin(fromenv, tmp);
+	}
 	return (str);
 }
 
@@ -57,15 +71,25 @@ char	*env_in_dqs(t_shell *shell, char *str)
 t_token	*env_check(t_shell *shell, t_token *tokens)
 {
 	t_token	*tmp;
+	t_token	*tmp2;
 
 	tmp = tokens;
 	while (tmp)
 	{
 		if (tmp->data[0] == '"')
 			tmp->data = env_in_dqs(shell, tmp->data);
+		else if (tmp->data[0] == '$' && tmp->data[1] == '?')
+			tmp->data = ft_itoa(g_error_status);
 		else if (tmp->data[0] == '$')
 			tmp->data = get_path(shell, tmp->data);
-		tmp = tmp->next;
+		if (!tmp->data)
+		{	
+			tmp2 = tmp->next;
+			delete_token(&shell->tokens, tmp);
+			tmp = tmp2;
+		}
+		else
+			tmp = tmp->next;
 	}
 	return (tokens);
 }
