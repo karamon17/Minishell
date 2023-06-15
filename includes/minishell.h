@@ -49,7 +49,7 @@ typedef struct s_cnt
 typedef struct s_token
 {
 	char			*data;
-	char		type;
+	char			*type;
 	struct s_token	*next;
 }	t_token;
 

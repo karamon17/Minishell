@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	count_quotes(char type, char *str)
+char	*count_quotes(char *type, char *str)
 {
 	int	cnt;
 	int	i;
@@ -21,18 +21,24 @@ void	count_quotes(char type, char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == type)
-			cnt++;
+		if (type != NULL)
+		{
+			if (str[i] == type[0])
+				cnt++;
+		}
 		i++;
 	}
 	if (cnt % 2 != 0)
 	{
-		printf("QUOTE ERROR IN COUNT");
-		exit(1);
+		g_error_status = 258;
+		ft_putstr_fd("Minishell : syntax error: unexpected end of file\n", 2);
+		type = "ERROR";
 	}
+	return (type);
+
 }
 
-char	set_quote_type(char *str)
+char	*set_quote_type(char *str)
 {
 	int		i;
 	char	fnd;
@@ -48,20 +54,23 @@ char	set_quote_type(char *str)
 		cnt++;
 	}
 	i++;
-	while (str[i] && str[i] != fnd)
+	while (str[i]) //&& str[i] != fnd
+	{
+		if (str[i] == fnd && fnd != '\0')
+			cnt++;
 		i++;
-	if (str[i] == fnd && fnd != '\0')
-		cnt++;
+	}
 	if (cnt % 2 != 0 && cnt != 0)
 	{
-		printf("QUOTE ERROR");
-		exit(1);
+		g_error_status = 258;
+		ft_putstr_fd("Minishell : syntax error: unexpected end of file\n", 2);
+		return ("ERROR");
 	}
 	if (fnd == '\'')
-		return ('\'');
+		return ("'");
 	else if (fnd == '"')
-		return ('"');
-	return ('\0');
+		return ("\"");
+	return (NULL);
 }
 
 int	quote_check(t_token *tokens)
@@ -72,7 +81,12 @@ int	quote_check(t_token *tokens)
 	while (tmp)
 	{
 		tmp->type = set_quote_type(tmp->data);
-		count_quotes(tmp->type, tmp->data);
+		if (tmp->type != NULL)
+		{
+			if (!ft_strncmp(tmp->type, "ERROR", 6))
+				return (-1);
+		}
+		tmp->type = count_quotes(tmp->type, tmp->data);
 		tmp = tmp->next;
 	}
 	return (0);

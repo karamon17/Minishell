@@ -16,6 +16,23 @@
 #define GRN_COLOR "\x1B[32m"
 #define RESET_COLOR "\x1B[0m"
 
+static int	error_in_tokens(t_shell **shell)
+{
+	t_token	*tmp;
+
+	tmp = (*shell)->tokens;
+	while (tmp)
+	{
+		if (tmp->type != NULL)
+		{
+			if (!ft_strncmp(tmp->type, "ERROR", 6))
+				return (-1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 void	print_cool_head(void)
 {
 	printf(RED_COLOR "----------------------------------------\n" RESET_COLOR);
@@ -32,7 +49,6 @@ void	print_cool_head(void)
 
 int	shell_loop(t_shell **shell)
 {
-	t_token		*head_tokens;
 	t_constr	*head_constr;
 	char		*input;
 
@@ -47,15 +63,19 @@ int	shell_loop(t_shell **shell)
 		if (input[0])
 		{
 			add_history(input);
-			head_tokens = first_parse(input, (*shell), 0);
-			(*shell)->tokens = stugel(head_tokens);
-			env_check(*shell, head_tokens);
+			(*shell)->tokens = first_parse(input, (*shell), 0);
+			if (error_in_tokens(shell) == -1)
+			{
+				free(input);
+				continue ;
+			}
+			env_check(*shell, (*shell)->tokens);
+			(*shell)->tokens = stugel((*shell)->tokens);
 			g_error_status = 0;
 			kani_heredoc(shell);
 			head_constr = create_constr(*shell);
 			if ((*shell)->constrs)
 				ft_pipex(*shell);
-			free_tokens(head_tokens);
 			free_constrs(head_constr);
 		}
 		free(input);
