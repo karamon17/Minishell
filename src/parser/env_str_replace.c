@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:51:52 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/15 11:57:30 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/15 15:08:00 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	*get_path(t_shell *shell, char *str)
 	char	*new;
 	char	*fromenv;
 
-	str++;
 	tmp = ft_strchr(str, '/');
 	if (!tmp)
 		str = ft_getenv(shell, str);
@@ -72,16 +71,26 @@ t_token	*env_check(t_shell *shell, t_token *tokens)
 {
 	t_token	*tmp;
 	t_token	*tmp2;
+	//char **variables;
 
 	tmp = tokens;
 	while (tmp)
 	{
+		//variables = ft_split(tmp->data)
 		if (tmp->data[0] == '"')
 			tmp->data = env_in_dqs(shell, tmp->data);
-		else if (tmp->data[0] == '$' && tmp->data[1] == '?')
-			tmp->data = ft_itoa(g_error_status);
-		else if (tmp->data[0] == '$')
-			tmp->data = get_path(shell, tmp->data);
+		else if (ft_strchr(tmp->data, '$') && *(ft_strchr(tmp->data, '$') + 1)
+			== '?')
+		{
+			*(ft_strchr(tmp->data, '$')) = 0;
+			tmp->data = ft_strjoin(tmp->data, ft_itoa(g_error_status));
+		}
+		else if (ft_strchr(tmp->data, '$'))
+		{
+			*(ft_strchr(tmp->data, '$')) = 0;
+			tmp->data = ft_strjoin(tmp->data, get_path(shell,
+						tmp->data + ft_strlen(tmp->data) + 1));
+		}
 		if (!tmp->data)
 		{	
 			tmp2 = tmp->next;
