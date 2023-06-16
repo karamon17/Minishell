@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:53:37 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/16 16:08:38 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/16 18:09:22 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 char	*add_white_space(char *input, int j, int size, int in_q)
 {	
 	char	*tmp;
+	char 	*to_free;
+	char	*for_free;
 
 	while (input[j])
 	{
@@ -30,10 +32,20 @@ char	*add_white_space(char *input, int j, int size, int in_q)
 		else if (input[j] == '"' || input[j] == '\'')
 		{
 			in_q = update_in_q(tmp, j, in_q);
-			tmp = ft_strjoin(tmp, ft_substr(input, j, 1));
+			to_free = tmp;
+			for_free = ft_substr(input, j, 1);
+			tmp = ft_strjoin(tmp, for_free);
+			free(to_free);
+			free(for_free);
 		}
 		else
-			tmp = ft_strjoin(tmp, ft_substr(input, j, 1));
+		{
+			to_free = tmp;
+			for_free = ft_substr(input, j, 1);
+			tmp = ft_strjoin(tmp, for_free);
+			free(to_free);
+			free(for_free);
+		}	
 		j++;
 	}
 	return (tmp);
@@ -41,23 +53,43 @@ char	*add_white_space(char *input, int j, int size, int in_q)
 
 int	d_quotes(char *input, int i, t_token **new)
 {
+	char	*for_free;
+	char	*to_free;
+
 	while ((input[i] != '\0'))
 	{
-		(*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
+		for_free = ft_substr(input, i, 1);
+		to_free = (*new)->data;
+		(*new)->data = ft_strjoin(to_free, for_free);
+		free(for_free);
+		free(to_free);
 		i++;
 		if (input[i] == '"' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
 			break ;
 	}
 	if (input[i] != '\0')
-		(*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
+	{
+		for_free = ft_substr(input, i, 1);
+		to_free = (*new)->data;
+		(*new)->data = ft_strjoin(to_free, for_free);
+		free(for_free);
+		free(to_free);
+	}
 	return (i);
 }
 
 int	append_word(char *input, int i, t_token **new)
 {
+	char	*for_free;
+	char	*to_free;
+
 	while (input[i] != ' ' && input[i] != '\0')
 	{
-		(*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
+		for_free = ft_substr(input, i, 1);
+		to_free = (*new)->data;
+		(*new)->data = ft_strjoin(to_free, for_free);
+		free(for_free);
+		free(to_free);
 		i++;
 	}
 	return (i);
@@ -65,15 +97,28 @@ int	append_word(char *input, int i, t_token **new)
 
 int	s_quotes(char *input, int i, t_token **new)
 {
+	char	*for_free;
+	char	*to_free;
+
 	while ((input[i] != '\0'))
 	{
-		(*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
+		to_free = (*new)->data;
+		for_free = ft_substr(input, i, 1);
+		(*new)->data = ft_strjoin(to_free, for_free);
+		free(for_free);
+		free(to_free);
 		i++;
 		if (input[i] == '\'' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
 			break ;
 	}
 	if (input[i] != '\0')
-		(*new)->data = ft_strjoin((*new)->data, ft_substr(input, i, 1));
+	{
+		to_free = (*new)->data;
+		for_free = ft_substr(input, i, 1);
+		(*new)->data = ft_strjoin(to_free, for_free);
+		free(for_free);
+		free(to_free);
+	}
 	return (i);
 }
 
@@ -102,9 +147,10 @@ t_token	*first_parse(char *tmp, t_shell *shell, int i)
 			check++;
 		}
 		i++;
-	}	
-	if (quote_check(shell->tokens) == -1)
-		clean_shell(&shell);
+	}
+	free(tmp);
+	// if (quote_check(shell->tokens) == -1)
+	// 	clean_shell(&shell);
 	cut_spaces(&shell->tokens);
 	return (shell->tokens);
 }

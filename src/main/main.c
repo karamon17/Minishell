@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/15 16:14:15 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:21:52 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ int	shell_loop(t_shell **shell)
 				ft_pipex(*shell);
 			free_tokens(head_tokens);
 			free_constrs(head_constr);
+			system("leaks minishell");
 		}
-		free(input);
 	}
 }
 

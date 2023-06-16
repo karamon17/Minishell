@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:51:52 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/15 16:18:44 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/16 16:57:03 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char	*env_in_dqs(t_shell *shell, char *str)
 	char	*path;
 	int		i;
 	int		is_env;
+	char	*to_free;
+	char	*for_free;
 
 	is_env = 0;
 	i = -1;
@@ -52,16 +54,26 @@ char	*env_in_dqs(t_shell *shell, char *str)
 		}
 		while (is_env == 1 && str[i] != '\0' && str[i] != '"' && str[i] != ' ')
 		{
-			path = ft_strjoin(path, ft_substr(str, i, 1));
+			for_free = ft_substr(str, i, 1);
+			to_free = path;
+			path = ft_strjoin(path, for_free);
+			free(for_free);
+			free(to_free);
 			i++;
 		}
 		if ((getenv(path) != NULL) && is_env == 1)
 		{
 			path = ft_getenv(shell, path);
+			to_free = tmp;
 			tmp = ft_strjoin(tmp, path);
+			free(to_free);
 			is_env = 0;
 		}
-		tmp = ft_strjoin(tmp, ft_substr(str, i, 1));
+		to_free = tmp;
+		for_free = ft_substr(str, i, 1);
+		tmp = ft_strjoin(tmp, for_free);
+		free(for_free);
+		free(to_free);
 	}
 	free(path);
 	return (tmp);
@@ -71,6 +83,8 @@ t_token	*env_check(t_shell *shell, t_token *tokens)
 {
 	t_token	*tmp;
 	t_token	*tmp2;
+	char	*to_free;
+	char	*for_free;
 
 	tmp = tokens;
 	while (tmp)
@@ -81,13 +95,19 @@ t_token	*env_check(t_shell *shell, t_token *tokens)
 			== '?')
 		{
 			*(ft_strchr(tmp->data, '$')) = 0;
-			tmp->data = ft_strjoin(tmp->data, ft_itoa(g_error_status));
+			to_free = ft_itoa(g_error_status);
+			for_free = tmp->data;
+			tmp->data = ft_strjoin(tmp->data, to_free);
+			free(to_free);
+			free(for_free);
 		}
 		else if (ft_strchr(tmp->data, '$') && !ft_strchr(tmp->data, '\''))
 		{
 			*(ft_strchr(tmp->data, '$')) = 0;
+			for_free = tmp->data;
 			tmp->data = ft_strjoin(tmp->data, get_path(shell,
 						tmp->data + ft_strlen(tmp->data) + 1));
+			free(for_free);
 		}
 		if (!tmp->data)
 		{	

@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/16 15:55:28 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:21:22 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ft_child(t_shell *shell, t_constr *constr)
 		{
 			ft_putstr_fd("Minishell: fork: Resource temporarily unavailable\n", 2);
 			g_error_status = 1;
+			ft_close_pipe(constr->prev->fd);
 			return ;
 		}
 		if (pid == 0)
@@ -75,15 +76,20 @@ int	ft_emptypipe(t_constr *constr)
 int	check_builtin(t_shell *shell)
 {
 	t_token	*tmp;
+	char	*low;
+	int		res;
 
 	tmp = shell->tokens;
-	return (ft_strncmp(str_lower(tmp->data), "pwd", 4)
+	low = str_lower(tmp->data);
+	res = (ft_strncmp(low, "pwd", 4)
 		|| ft_strncmp(tmp->data, "cd", 3)
-		|| ft_strncmp(str_lower(tmp->data), "env", 4)
+		|| ft_strncmp(low, "env", 4)
 		|| ft_strncmp(tmp->data, "exit", 5)
 		|| ft_strncmp(tmp->data, "unset", 6)
 		|| ft_strncmp(tmp->data, "export", 7)
-		|| ft_strncmp(str_lower(tmp->data), "echo", 5));
+		|| ft_strncmp(low, "echo", 5));
+	free(low);
+	return (res);
 }
 
 void	ft_mainpipe(t_shell *shell, t_constr *constr)
