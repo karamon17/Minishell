@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:53:37 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/14 18:06:22 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/16 16:08:38 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,13 @@ int	s_quotes(char *input, int i, t_token **new)
 t_token	*first_parse(char *tmp, t_shell *shell, int i)
 {
 	int		check;
+	char 	*to_free;
 	t_token	*new;
 
 	check = 0;
+	to_free = tmp;
 	tmp = add_white_space(tmp, 0, 0, 0);
+	free(to_free);
 	while (tmp[i] == ' ' && tmp[i])
 		i++;
 	while (tmp[i])

@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/16 13:42:50 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/16 16:23:03 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ char	*check_path(t_shell *shell)
 
 	path = ft_split(ft_getenv(shell, "PATH"), ':');
 	i = -1;
+	if (!path)
+		return (0);
 	while (path[++i])
 	{
 		tmp = path[i];
@@ -100,6 +102,7 @@ int	execute(t_shell *shell)
 	else
 		str_path = check_path(shell);
 	g_error_status = execute_command(shell, str_path);
-	free(str_path);
+	if (str_path)
+		free(str_path);
 	return (0);
 }

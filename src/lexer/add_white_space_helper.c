@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_white_space_helper.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 16:54:52 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/14 16:58:29 by jfrances         ###   ########.fr       */
+/*   Updated: 2023/06/16 16:17:15 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,26 @@ int	update_in_q(char *input, int j, int in_q)
 
 char	*set_tmp(char *input, int j, char *tmp)
 {
+	char *to_free;
 	if (input[j - 1] != ' ')
 	{
 		if (!(input[j] == '<' && input[j - 1] == '<') || \
 				(input[j] == '>' && input[j - 1] == '>'))
+		{
+			to_free = tmp;
 			tmp = ft_strjoin(tmp, " ");
+			free(to_free);
+		}
 	}
+	to_free = tmp;
 	tmp = ft_strjoin(tmp, ft_substr(input, j, 1));
+	free(to_free);
 	if (input[j + 1] != ' ' && input[j + 1] != input[j])
+	{
+		to_free = tmp;
 		tmp = ft_strjoin(tmp, " ");
+		free(to_free);
+	}	
 	return (tmp);
 }
 
