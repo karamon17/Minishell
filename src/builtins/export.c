@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 18:31:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/15 19:06:40 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/16 13:45:38 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	ft_printerror(char *tmp, char *value)
 	g_error_status = 1;
 	if (value)
 	{
-		ft_putstr_fd("Minishell : export: ", 2);
+		ft_putstr_fd("Minishell: export: ", 2);
 		ft_putstr_fd(tmp, 2);
 		ft_putstr_fd("=", 2);
 		ft_putstr_fd(value, 2);
@@ -90,7 +90,7 @@ void	ft_printerror(char *tmp, char *value)
 	}
 	else
 	{
-		ft_putstr_fd("Minishell : export: ", 2);
+		ft_putstr_fd("Minishell: export: ", 2);
 		ft_putstr_fd(tmp, 2);
 		ft_putstr_fd(": not a valid identifier\n", 2);
 	}

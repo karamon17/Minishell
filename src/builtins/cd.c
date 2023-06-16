@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/14 16:03:05 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/16 13:45:26 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	ft_chdir(t_shell *shell, char *cmd)
 		else if (chdir(cmd) == -1)
 		{
 			g_error_status = 1;
-			ft_putstr_fd("Minishell : cd: ", 2);
+			ft_putstr_fd("Minishell: cd: ", 2);
 			ft_putstr_fd(cmd, 2);
 			ft_putstr_fd(": Permission denied\n", 2);
 		}

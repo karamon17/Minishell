@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/14 16:13:26 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/16 13:42:50 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_exec_error(char *str)
 {
-	ft_putstr_fd("Minishell : ", 2);
+	ft_putstr_fd("Minishell: ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": command not found\n", 2);
 }
@@ -28,19 +28,28 @@ int	execute_command(t_shell *shell, char *path)
 		ft_exec_error(shell->tokens->data);
 		return (127);
 	}
-	pid = fork();
-	if (pid == 0)
+	if (!g_error_status)
 	{
-		if (!shell->constrs->command && shell->constrs->prev
-			&& shell->constrs->prev->command)
+		pid = fork();
+		if (pid == -1)
 		{
-			dup2(shell->constrs->prev->fd[0], 0);
-			ft_close_pipe(shell->constrs->prev->fd);
+			ft_putstr_fd("Minishell: fork: Resource temporarily unavailable\n", 2);
+			g_error_status = 1;
+			return (1);
 		}
-		exit(execve(path, ft_split(shell->constrs->data, ' '),
-				env_to_2darray(shell)));
+		if (pid == 0)
+		{
+			if (!shell->constrs->command && shell->constrs->prev
+				&& shell->constrs->prev->command)
+			{
+				dup2(shell->constrs->prev->fd[0], 0);
+				ft_close_pipe(shell->constrs->prev->fd);
+			}
+			exit(execve(path, ft_split(shell->constrs->data, ' '),
+					env_to_2darray(shell)));
+		}
 	}
-	return (0);
+	return (1);
 }
 
 void	ft_free_path(char **path)

@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 16:58:14 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/16 11:59:59 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/16 13:45:43 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_checkletter_unset(char *arg)
 void	ft_printerror_unset(char *tmp)
 {
 	g_error_status = 1;
-	ft_putstr_fd("Minishell : unset: ", 2);
+	ft_putstr_fd("Minishell: unset: ", 2);
 	ft_putstr_fd(tmp, 2);
 	ft_putstr_fd(": not a valid identifier\n", 2);
 }
