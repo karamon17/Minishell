@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/16 13:46:02 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/16 15:55:28 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,25 @@ int	ft_emptypipe(t_constr *constr)
 	return (0);
 }
 
+int	check_builtin(t_shell *shell)
+{
+	t_token	*tmp;
+
+	tmp = shell->tokens;
+	return (ft_strncmp(str_lower(tmp->data), "pwd", 4)
+		|| ft_strncmp(tmp->data, "cd", 3)
+		|| ft_strncmp(str_lower(tmp->data), "env", 4)
+		|| ft_strncmp(tmp->data, "exit", 5)
+		|| ft_strncmp(tmp->data, "unset", 6)
+		|| ft_strncmp(tmp->data, "export", 7)
+		|| ft_strncmp(str_lower(tmp->data), "echo", 5));
+}
+
 void	ft_mainpipe(t_shell *shell, t_constr *constr)
 {
 	if (constr->command && !ft_strncmp(constr->command, "|", 2))
 	{
-		if (!check_path(shell))
+		if (!check_path(shell) && !check_builtin(shell))
 		{
 			g_error_status = 127;
 			ft_putstr_fd("Minishell: ", 2);

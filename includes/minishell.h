@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/14 18:28:55 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/16 14:33:16 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_cnt
 typedef struct s_token
 {
 	char			*data;
-	char		type;
+	char			type;
 	struct s_token	*next;
 }	t_token;
 
@@ -106,7 +106,7 @@ int			grab_pipe(char *input, int i, t_token **new);
 int			d_quotes(char *input, int i, t_token **new);
 int			append_word(char *input, int i, t_token **new);
 int			s_quotes(char *input, int i, t_token **new);
-t_token	*first_parse(char *tmp, t_shell *shell, int i);
+t_token		*first_parse(char *tmp, t_shell *shell, int i);
 
 int			ft_strcmp(char *s1, char *s2);
 
@@ -152,14 +152,15 @@ void		free_constrs(t_constr	*constrs);
 
 void		delete_token(t_token **head, t_token *to_delete);
 
-int	white_space_helper(char *input, int j, int in_q, int size);
-char	*allocate_and_check_tmp(int size);
-char	*set_tmp(char *input, int j, char *tmp);
-int	update_in_q(char *input, int j, int in_q);
-void	cut_spaces(t_token **tokens);
-void	clean_shell(t_shell **shell);
-int	parse_norm_helper(char *tmp, t_token *new, int i);
-void	kani_heredoc(t_shell **shell);
-int	exec_heredoc(t_token *tokens, int i);
+int			white_space_helper(char *input, int j, int in_q, int size);
+char		*allocate_and_check_tmp(int size);
+char		*set_tmp(char *input, int j, char *tmp);
+int			update_in_q(char *input, int j, int in_q);
+void		cut_spaces(t_token **tokens);
+void		clean_shell(t_shell **shell);
+int			parse_norm_helper(char *tmp, t_token *new, int i);
+void		kani_heredoc(t_shell **shell);
+int			exec_heredoc(t_token *tokens, int i);
+char		*str_lower(char *str);
 
 #endif

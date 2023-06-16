@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 18:31:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/16 13:45:38 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/16 14:37:08 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,8 @@ int	ft_checkletter(char *arg, int *cat)
 	res = !ft_strchr(arg, '-') && !ft_strchr(arg, '{')
 		&& !ft_strchr(arg, '}') && !ft_strchr(arg, '$')
 		&& !ft_strchr(arg, '#') && !ft_strchr(arg, '*')
-		&& !ft_strchr(arg, '.')
-		&& !ft_strchr(arg, '@') && !ft_strchr(arg, '=')
-		&& !ft_strchr(arg, '^');
+		&& !ft_strchr(arg, '.') && !ft_strchr(arg, '@')
+		&& !ft_strchr(arg, '=') && !ft_strchr(arg, '^');
 	if (ft_strchr(arg, '+') && ft_strchr(arg, '+') != &arg[ft_strlen(arg) - 1])
 		res = 0;
 	else if (ft_strchr(arg, '+') == &arg[ft_strlen(arg) - 1])
@@ -119,9 +118,7 @@ void	ft_export(t_shell *shell, int *flag)
 			*(ft_strchr(tmp[i], '=')) = 0;
 		}
 		if (ft_checkletter(tmp[i], cat))
-		{
 			check_add(shell, tmp[i], value, cat);
-		}
 		else
 			ft_printerror(tmp[i], value);
 	}
