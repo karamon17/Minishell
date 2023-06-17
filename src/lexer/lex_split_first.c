@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:53:37 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/16 18:09:22 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/17 16:42:34 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,5 +152,6 @@ t_token	*first_parse(char *tmp, t_shell *shell, int i)
 	// if (quote_check(shell->tokens) == -1)
 	// 	clean_shell(&shell);
 	cut_spaces(&shell->tokens);
+	
 	return (shell->tokens);
 }

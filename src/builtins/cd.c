@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/16 19:55:27 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/17 14:54:50 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	ft_cd(t_shell *shell, int *flag)
 
 	token = shell->tokens->next;
 	*flag = 1;
+	
 	if (!token || (token->data[0] == '~' && !token->data[1]))
 		cmd = ft_getenv(shell, "HOME");
 	else if ((token->data[0] == '~' && token->data[1]))

@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/16 19:07:17 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/17 18:00:45 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,12 @@ int	execute_command(t_shell *shell, char *path)
 				dup2(shell->constrs->prev->fd[0], 0);
 				ft_close_pipe(shell->constrs->prev->fd);
 			}
-			exit(execve(path, ft_split(shell->constrs->data, ' '),
-					env_to_2darray(shell)));
+			execve(path, ft_split(shell->constrs->data, ' '),
+					env_to_2darray(shell));
+			ft_putstr_fd("Minishell: ", 2);
+			ft_putstr_fd(shell->constrs->data, 2);
+			ft_putstr_fd(": is a directory\n", 2);
+			exit(1);
 		}
 	}
 	return (1);
@@ -100,7 +104,7 @@ int	execute(t_shell *shell)
 {
 	char	*str_path;
 
-	if (!access(shell->tokens->data, X_OK))
+	if (ft_strchr(shell->tokens->data, '/') && !access(shell->tokens->data, X_OK))
 		str_path = ft_strdup(shell->tokens->data);
 	else
 		str_path = check_path(shell);
