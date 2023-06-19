@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 12:44:48 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/16 16:34:28 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/19 18:54:55 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_token	*ft_new_token(char *content)
 {
 	t_token	*new;
 
+	if (!content)
+		return (NULL);
 	new = (t_token *) malloc(sizeof(*new));
 	if (!new)
 		return (NULL);

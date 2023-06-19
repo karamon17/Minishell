@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/16 13:45:33 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:11:25 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	ft_check_longlong(char *str)
 
 int	check(char *str)
 {
+	if (!ft_strcmp(str, "-9223372036854775808"))
+		return (0);
 	if (*str == '-' || *str == '+')
 		str++;
 	while (*str && *str == '0')

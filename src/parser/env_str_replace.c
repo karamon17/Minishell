@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:51:52 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/16 16:57:03 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:45:59 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,17 @@ t_token	*env_check(t_shell *shell, t_token *tokens)
 	t_token	*tmp2;
 	char	*to_free;
 	char	*for_free;
+	char	*path;
 
 	tmp = tokens;
 	while (tmp)
 	{
 		if (tmp->data[0] == '"')
+		{
+			for_free = tmp->data;
 			tmp->data = env_in_dqs(shell, tmp->data);
+			free(for_free);
+		}
 		else if (ft_strchr(tmp->data, '$') && *(ft_strchr(tmp->data, '$') + 1)
 			== '?')
 		{
@@ -105,9 +110,10 @@ t_token	*env_check(t_shell *shell, t_token *tokens)
 		{
 			*(ft_strchr(tmp->data, '$')) = 0;
 			for_free = tmp->data;
-			tmp->data = ft_strjoin(tmp->data, get_path(shell,
-						tmp->data + ft_strlen(tmp->data) + 1));
+			path = get_path(shell, tmp->data + ft_strlen(tmp->data) + 1);
+			tmp->data = ft_strjoin(tmp->data, path);
 			free(for_free);
+			free(path);
 		}
 		if (!tmp->data)
 		{	

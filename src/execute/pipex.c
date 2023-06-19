@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/17 14:56:55 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:22:55 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,21 +82,24 @@ int	check_builtin(t_shell *shell)
 	tmp = shell->tokens;
 	low = str_lower(tmp->data);
 	res = (ft_strncmp(low, "pwd", 4)
-		|| ft_strncmp(tmp->data, "cd", 3)
-		|| ft_strncmp(low, "env", 4)
-		|| ft_strncmp(tmp->data, "exit", 5)
-		|| ft_strncmp(tmp->data, "unset", 6)
-		|| ft_strncmp(tmp->data, "export", 7)
-		|| ft_strncmp(low, "echo", 5));
+			|| ft_strncmp(tmp->data, "cd", 3)
+			|| ft_strncmp(low, "env", 4)
+			|| ft_strncmp(tmp->data, "exit", 5)
+			|| ft_strncmp(tmp->data, "unset", 6)
+			|| ft_strncmp(tmp->data, "export", 7)
+			|| ft_strncmp(low, "echo", 5));
 	free(low);
 	return (res);
 }
 
 void	ft_mainpipe(t_shell *shell, t_constr *constr)
 {
+	char	*path;
+
 	if (constr->command && !ft_strncmp(constr->command, "|", 2))
 	{
-		if (!check_path(shell) && !check_builtin(shell))
+		path = check_path(shell);
+		if (!path && !check_builtin(shell))
 		{
 			g_error_status = 127;
 			ft_putstr_fd("Minishell: ", 2);
@@ -104,7 +107,10 @@ void	ft_mainpipe(t_shell *shell, t_constr *constr)
 			ft_putstr_fd(": command not found\n", 2);
 		}
 		else
+		{
+			free(path);
 			ft_child(shell, constr);
+		}
 	}
 	else if (!constr->command && !execute_builtin(shell))
 		execute(shell);

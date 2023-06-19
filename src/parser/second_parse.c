@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:38:27 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/17 16:34:45 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:32:08 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	delete_token(t_token **head, t_token *to_delete)
 	if (*head == to_delete)
 	{
 		(*head)->next = to_delete->next;
+		free(to_delete->data);
 		free(to_delete);
 		return ;
 	}
@@ -64,6 +65,7 @@ void	delete_token(t_token **head, t_token *to_delete)
 	if (prev_node->next == NULL)
 		return ;
 	prev_node->next = to_delete->next;
+	free(to_delete->data);
 	free(to_delete);
 }
 

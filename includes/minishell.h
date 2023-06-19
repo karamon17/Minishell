@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/16 14:33:16 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/19 11:39:43 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,5 +162,6 @@ int			parse_norm_helper(char *tmp, t_token *new, int i);
 void		kani_heredoc(t_shell **shell);
 int			exec_heredoc(t_token *tokens, int i);
 char		*str_lower(char *str);
+void		ft_free_path(char **path);
 
 #endif
