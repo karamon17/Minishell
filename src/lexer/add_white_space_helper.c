@@ -16,7 +16,7 @@ int	white_space_helper(char *input, int j, int in_q, int size)
 {
 	if (!in_q && (input[j] == '|' || input[j] == '<' || input[j] == '>'))
 	{
-		if (input[j - 1] != ' ')
+		if (j > 0 && input[j - 1] != ' ')
 			size++;
 		size++;
 		if (input[j + 1] != ' ' && input[j + 1] != input[j])
@@ -46,7 +46,7 @@ char	*set_tmp(char *input, int j, char *tmp)
 	char *to_free;
 	char *for_free;
 
-	if (input[j - 1] != ' ')
+	if (j > 0 && input[j - 1] != ' ')
 	{
 		if (!(input[j] == '<' && input[j - 1] == '<') || \
 				(input[j] == '>' && input[j - 1] == '>'))

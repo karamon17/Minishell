@@ -12,27 +12,22 @@
 
 #include "minishell.h"
 
-void	aveletsnel_shvl(t_env *env_lst)
+void	aveletsnel_shvl(void)
 {
-	char	*val;
-	char	*tmp;
-	int		lvl;
+    char	*shlvl;
+	int		level;
+	char	*newLevel;
 
-	val = find_env_val(env_lst, "SHLVL");
-	if (!val)
-		return ;
-	lvl = ft_atoi(val + 1);
-	free(val);
-	while (env_lst && env_lst->next)
+	shlvl = getenv("SHLVL");
+    if (shlvl == NULL) 
+        setenv("SHLVL", "1", 1);
+	else
 	{
-		if (ft_strcmp("SHLVL", env_lst->key) == 0)
-		{
-			tmp = ft_itoa(lvl);
-			env_lst->value = tmp;
-			return ;
-		}
-		env_lst = env_lst->next;
+       	level = ft_atoi(shlvl);
+        level++;
+		newLevel = ft_itoa(level);
 	}
+        setenv("SHLVL", newLevel, 1);
 }
 
 char	*find_env_val(t_env *env_lst, char *key)

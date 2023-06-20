@@ -89,7 +89,6 @@ char *check_str(t_shell *shell, char *str)
 	{
 		if (str[i] == '"')
 			return (env_in_dqs(shell, str));
-		if (s)
 		else if (str[i] == '$')
 			return (get_path(shell, str));
 		i++;
