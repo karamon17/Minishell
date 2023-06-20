@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 16:58:14 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/16 13:45:43 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:58:21 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	delnode(t_shell *shell, t_env *env)
 	while (tmp->next != env)
 		tmp = tmp->next;
 	tmp->next = env->next;
+	free(env->key);
+	free(env->value);
 	free(env);
 }
 

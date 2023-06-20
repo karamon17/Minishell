@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 18:31:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/16 14:37:08 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:56:09 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,9 @@ void	ft_export(t_shell *shell, int *flag)
 			*(ft_strchr(tmp[i], '=')) = 0;
 		}
 		if (ft_checkletter(tmp[i], cat))
-			check_add(shell, tmp[i], value, cat);
+			check_add(shell, ft_strdup(tmp[i]), value, cat);
 		else
 			ft_printerror(tmp[i], value);
 	}
+	ft_free_path(tmp);
 }
