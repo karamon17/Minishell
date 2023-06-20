@@ -12,21 +12,28 @@
 
 #include "minishell.h"
 
-// char    *gen_random_name(void)
-// {
-//     char    buffer[4];
-//     int     fd;    
-//     fd = open("/dev/random", O_RDONLY);
-// 	if (fd < -1)
-// 		return (-1);
-// 	read(fd, buff, 4);
-// 	nbr = *(int *)buff;
-// 	if (nbr < 0)
-// 		nbr++;
-// 	if (nbr < 0)
-// 		nbr = nbr * (-1);
-// 	return ('a' + nbr % 26);
-// }
+char    *gen_random_name(void)
+{
+	char			buff[4];
+	char			*name;
+	int				fd;
+	int				nbr;
+
+	name = ft_calloc(1, sizeof(char));
+	fd = open("/dev/urandom", O_RDONLY);
+ 	if (fd < -1)
+ 		return ("ERROR");
+ 	read(fd, buff, 4);
+ 	nbr = *(int *)buff;
+ 	if (nbr < 0)
+ 		nbr++;
+ 	if (nbr < 0)
+	{
+ 		nbr = nbr * (-1);
+		*name = ('a' + nbr % 26);
+	}
+ 	return (name);
+ }
 
 void	kani_heredoc(t_shell **shell)
 {
@@ -59,14 +66,15 @@ void	kani_heredoc(t_shell **shell)
 int	exec_heredoc(t_token *tokens, int i)
 {
 	int		tmp_fd;
-	char	random_name[] = "tmp_file";
+	char	*random_name;
 	char	*limit;
 	char	*line;
 
+	random_name = NULL;
 	limit = tokens->next->data;
-    // if (random_name)
-    // 		free(readom_name);
-    //random_name = gen_random_name();
+    if (random_name)
+     	free(random_name);
+    random_name = gen_random_name();
 	tmp_fd = open(random_name, O_CREAT | O_APPEND | O_EXCL | O_RDWR, 0400 | 0200 | 0040 | 0004);
 	if (tmp_fd == -1)
 	{
