@@ -12,24 +12,6 @@
 
 #include "minishell.h"
 
-void	aveletsnel_shvl(void)
-{
-    char	*shlvl;
-	int		level;
-	char	*newLevel;
-
-	shlvl = getenv("SHLVL");
-    if (shlvl == NULL) 
-        setenv("SHLVL", "1", 1);
-	else
-	{
-       	level = ft_atoi(shlvl);
-        level++;
-		newLevel = ft_itoa(level);
-	}
-        setenv("SHLVL", newLevel, 1);
-}
-
 char	*find_env_val(t_env *env_lst, char *key)
 {
 	t_env	*head;

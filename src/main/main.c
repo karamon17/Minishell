@@ -101,7 +101,7 @@ int	main(int ac, char **av, char **envp)
 	shell = NULL;
 	print_cool_head();
 	init_shell(&shell);
-	aveletsnel_shvl();
+	add_shlvl(envp);
 	get_env_var(&(shell->env_lst), envp);
 	shell_loop(&shell);
 	free_env_list(shell);

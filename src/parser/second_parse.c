@@ -77,7 +77,9 @@ t_token	*check_options(t_token *tokens)
 	char	*to_free;
 
 	tmp = tokens->next;
-	to_free = ft_strtrim(tmp->data, "n");
+	to_free = NULL;
+	if (tmp)
+		to_free = ft_strtrim(tmp->data, "n");
 	if (tmp && tmp->data[0] == '-'
 		&& !ft_strncmp(to_free, "-", 2))
 	{
