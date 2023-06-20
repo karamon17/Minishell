@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 16:54:52 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/20 13:45:01 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/20 18:16:37 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,29 +43,22 @@ int	update_in_q(char *input, int j, int in_q)
 
 char	*set_tmp(char *input, int j, char *tmp)
 {
-	char *to_free;
-	char *for_free;
+	char	*for_free;
 
 	if (j > 0 && input[j - 1] != ' ')
 	{
 		if (!(input[j] == '<' && input[j - 1] == '<') || \
 				(input[j] == '>' && input[j - 1] == '>'))
 		{
-			to_free = tmp;
-			tmp = ft_strjoin(tmp, " ");
-			free(to_free);
+			tmp = ft_mystrjoin(tmp, " ");
 		}
 	}
-	to_free = tmp;
 	for_free = ft_substr(input, j, 1);
-	tmp = ft_strjoin(tmp, for_free);
-	free(to_free);
+	tmp = ft_mystrjoin(tmp, for_free);
 	free(for_free);
 	if (input[j + 1] != ' ' && input[j + 1] != input[j])
 	{
-		to_free = tmp;
-		tmp = ft_strjoin(tmp, " ");
-		free(to_free);
+		tmp = ft_mystrjoin(tmp, " ");
 	}	
 	return (tmp);
 }

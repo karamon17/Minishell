@@ -6,49 +6,38 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/19 14:22:55 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/20 18:13:52 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_child(t_shell *shell, t_constr *constr)
+void	ft_child(t_shell *shell, t_constr *constr, int *pid)
 {
-	pid_t	pid;
-
-	if (!g_error_status)
+	*pid = fork();
+	if (*pid == -1)
+		return (ft_fork_error(constr));
+	if (*pid == 0)
 	{
-		pipe(constr->fd);
-		pid = fork();
-		if (pid == -1)
+		if (constr->command && shell->constrs == constr)
 		{
-			ft_putstr_fd("Minishell: fork: Resource temporarily unavailable\n", 2);
-			g_error_status = 1;
+			dup2(constr->fd[1], 1);
+			close(constr->fd[1]);
+		}
+		else if (constr->command)
+		{
+			dup2(constr->prev->fd[0], 0);
+			dup2(constr->fd[1], 1);
 			ft_close_pipe(constr->prev->fd);
-			return ;
 		}
-		if (pid == 0)
+		else
 		{
-			if (constr->command && shell->constrs == constr)
-			{
-				dup2(constr->fd[1], 1);
-				close(constr->fd[1]);
-			}
-			else if (constr->command)
-			{
-				dup2(constr->prev->fd[0], 0);
-				dup2(constr->fd[1], 1);
-				ft_close_pipe(constr->prev->fd);
-			}
-			else
-			{
-				dup2(constr->prev->fd[0], 0);
-				ft_close_pipe(constr->prev->fd);
-			}
-			if (!execute_builtin(shell))
-				execute(shell);
-			exit(0);
+			dup2(constr->prev->fd[0], 0);
+			ft_close_pipe(constr->prev->fd);
 		}
+		if (!execute_builtin(shell))
+			execute(shell);
+		exit(g_error_status);
 	}
 }
 
@@ -95,6 +84,7 @@ int	check_builtin(t_shell *shell)
 void	ft_mainpipe(t_shell *shell, t_constr *constr)
 {
 	char	*path;
+	pid_t	pid;
 
 	if (constr->command && !ft_strncmp(constr->command, "|", 2))
 	{
@@ -109,7 +99,11 @@ void	ft_mainpipe(t_shell *shell, t_constr *constr)
 		else
 		{
 			free(path);
-			ft_child(shell, constr);
+			if (!g_error_status)
+			{
+				pipe(constr->fd);
+				ft_child(shell, constr, &pid);
+			}
 		}
 	}
 	else if (!constr->command && !execute_builtin(shell))

@@ -6,17 +6,46 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/19 17:34:46 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:50:22 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exec_error(char *str)
+int	ft_exec_error(char *str, char **argv, char **env2darray)
 {
-	ft_putstr_fd("Minishell: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	if (!argv && !env2darray)
+	{
+		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": command not found\n", 2);
+		return (127);
+	}
+	else if (!str && !argv && !env2darray)
+	{
+		ft_putstr_fd("Minishell: fork: Resource temporarily unavailable\n", 2);
+		g_error_status = 1;
+		return (1);
+	}
+	else
+	{
+		ft_free_path(argv);
+		ft_free_path(env2darray);
+		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		exit(126);
+	}
+}
+
+void	ft_child_exec(t_shell *shell)
+{
+	if (!shell->constrs->command && shell->constrs->prev
+		&& shell->constrs->prev->command)
+	{
+		dup2(shell->constrs->prev->fd[0], 0);
+		ft_close_pipe(shell->constrs->prev->fd);
+	}
 }
 
 int	execute_command(t_shell *shell, char *path)
@@ -27,63 +56,30 @@ int	execute_command(t_shell *shell, char *path)
 	int		status;
 
 	if (!path)
-	{
-		ft_exec_error(shell->tokens->data);
-		return (127);
-	}
+		return (ft_exec_error(shell->tokens->data, NULL, NULL));
 	pid = 0;
 	if (!g_error_status)
 	{
 		pid = fork();
 		if (pid == -1)
-		{
-			ft_putstr_fd("Minishell: fork: Resource temporarily unavailable\n", 2);
-			g_error_status = 1;
-			return (1);
-		}
+			return (ft_exec_error(NULL, NULL, NULL));
 		if (pid == 0)
 		{
-			if (!shell->constrs->command && shell->constrs->prev
-				&& shell->constrs->prev->command)
-			{
-				dup2(shell->constrs->prev->fd[0], 0);
-				ft_close_pipe(shell->constrs->prev->fd);
-			}
+			ft_child_exec(shell);
 			argv = ft_split(shell->constrs->data, ' ');
 			env2darray = env_to_2darray(shell);
 			execve(path, argv, env2darray);
-			ft_free_path(argv);
-			ft_free_path(env2darray);
-			ft_putstr_fd("Minishell: ", 2);
-			ft_putstr_fd(shell->constrs->data, 2);
-			ft_putstr_fd(": is a directory\n", 2);
-			exit(126);
+			ft_exec_error(shell->constrs->data, argv, env2darray);
 		}
 	}
 	waitpid(pid, &status, 0);
 	return (status / 256);
 }
 
-void	ft_free_path(char **path)
-{
-	int	i;
-
-	if (path == NULL)
-		return ;
-	i = 0;
-	while (path[i])
-	{
-		free(path[i]);
-		i++;
-	}
-	free(path);
-}
-
 char	*check_path(t_shell *shell)
 {
 	char	**path;
 	char	*res;
-	char	*tmp;
 	int		i;
 	char	*to_free;
 
@@ -95,12 +91,8 @@ char	*check_path(t_shell *shell)
 		return (0);
 	while (path[++i])
 	{
-		tmp = path[i];
-		path[i] = ft_strjoin(path[i], "/");
-		free(tmp);
-		tmp = path[i];
-		path[i] = ft_strjoin(path[i], shell->tokens->data);
-		free(tmp);
+		path[i] = ft_mystrjoin(path[i], "/");
+		path[i] = ft_mystrjoin(path[i], shell->tokens->data);
 	}
 	i = -1;
 	while (path[++i])
@@ -117,7 +109,8 @@ int	execute(t_shell *shell)
 {
 	char	*str_path;
 
-	if (ft_strchr(shell->tokens->data, '/') && !access(shell->tokens->data, X_OK))
+	if (ft_strchr(shell->tokens->data, '/')
+		&& !access(shell->tokens->data, X_OK))
 		str_path = ft_strdup(shell->tokens->data);
 	else
 		str_path = check_path(shell);
