@@ -71,8 +71,8 @@ int	shell_loop(t_shell **shell)
 			env_check(*shell, head_tokens);
 			(*shell)->tokens = stugel(head_tokens);
 			g_error_status = 0;
-			kani_heredoc(shell);
 			head_constr = create_constr(*shell);
+			kani_heredoc(shell);
 			if ((*shell)->constrs)
 				ft_pipex(*shell);
 			free_constrs(head_constr);

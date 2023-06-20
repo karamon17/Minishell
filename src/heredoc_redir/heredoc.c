@@ -67,10 +67,10 @@ int	exec_heredoc(t_token *tokens, int i)
     // if (random_name)
     // 		free(readom_name);
     //random_name = gen_random_name();
-	tmp_fd = open(random_name, O_CREAT, O_APPEND, O_EXCL | O_RDWR , 0644);
+	tmp_fd = open(random_name, O_CREAT | O_APPEND | O_EXCL | O_RDWR, 0400 | 0200 | 0040 | 0004);
 	if (tmp_fd == -1)
 	{
-		printf("error\n");
+		ft_putstr_fd("heredoc error\n", 2);
 		exit(1);
 	}
 	while ((ft_strncmp(limit, line = readline("> "), ft_strlen(limit)) != 0))
