@@ -54,6 +54,8 @@ char	*env_in_dqs(t_shell *shell, char *str)
 		}
 		while (is_env == 1 && str[i] != '\0' && str[i] != '"' && str[i] != ' ')
 		{
+			if (str[i] == '\'')
+				break ;
 			for_free = ft_substr(str, i, 1);
 			to_free = path;
 			path = ft_strjoin(path, for_free);
@@ -75,8 +77,23 @@ char	*env_in_dqs(t_shell *shell, char *str)
 		free(for_free);
 		free(to_free);
 	}
-	free(path);
 	return (tmp);
+}
+
+char *check_str(t_shell *shell, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '"')
+			return (env_in_dqs(shell, str));
+		else if (str[i] == '$')
+			return (get_path(shell, str));
+		i++;
+	}
+	return (str);
 }
 
 t_token	*env_check(t_shell *shell, t_token *tokens)

@@ -152,8 +152,8 @@ t_token	*first_parse(char *tmp, t_shell *shell, int i)
 			i++;
 	}
 	free(tmp);
-	// if (quote_check(shell->tokens) == -1)
-	// 	clean_shell(&shell);
+	if (quote_check(shell->tokens) == -1)
+		return (shell->tokens);
 	cut_spaces(&shell->tokens);
 	return (shell->tokens);
 }

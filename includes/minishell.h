@@ -93,7 +93,7 @@ typedef struct s_shell
 }	t_shell;
 
 int			execute_builtin(t_shell *shell);
-void		aveletsnel_shvl(t_env *env_lst);
+void		add_shlvl(char **envp);
 char		*find_env_val(t_env *env_lst, char *key);
 t_env		*ft_add_env_back(t_env *env_list, char *key, char *value);
 void		get_env_var(t_env **env_lst, char **envp);
@@ -166,5 +166,7 @@ void		ft_free_path(char **path);
 char		*ft_mystrjoin(char const *s1, char const *s2);
 void		ft_oldpwd_notset(void);
 void		ft_fork_error(t_constr *constr);
+
+int 		ft_setlvl(const char *name, char **envp, char *val);
 
 #endif
