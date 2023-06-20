@@ -93,7 +93,7 @@ typedef struct s_shell
 }	t_shell;
 
 int			execute_builtin(t_shell *shell);
-void		aveletsnel_shvl(t_env *env_lst);
+void		add_shlvl(char **envp);
 char		*find_env_val(t_env *env_lst, char *key);
 t_env		*ft_add_env_back(t_env *env_list, char *key, char *value);
 void		get_env_var(t_env **env_lst, char **envp);
@@ -163,5 +163,7 @@ void		kani_heredoc(t_shell **shell);
 int			exec_heredoc(t_token *tokens, int i);
 char		*str_lower(char *str);
 void		ft_free_path(char **path);
+
+int 		ft_setlvl(const char *name, char **envp, char *val);
 
 #endif
