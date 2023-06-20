@@ -19,39 +19,39 @@ char	*get_path(t_shell *shell, char *str)
 	return (str);
 }
 
-char	*env_in_dqs(t_shell *shell, char *str, int i, int is_env)
+char *env_in_dqs(t_shell *shell, char *str, int i, int is_env)
 {
-	char	*tmp;
-	//char	*new_str;
-	char	*path;
+    char *tmp = ft_calloc(1, sizeof(char));
+    char *path = ft_calloc(1, sizeof(char));
 
-	tmp = ft_calloc(1, sizeof(char));
-	path = ft_calloc(1, sizeof(char));
-	while (str[i])
-	{
-		if (str[i] == '$')
-		{
-			is_env = 1;
-			i++;
-		}
-		while (is_env == 1 && str[i] != '\0' && str[i] != '"' && str[i] != ' ' && str[i] != '$')
-		{
-			path = ft_strjoin(path, ft_substr(str, i, 1));
-			i++;
-		}
-		if ((getenv(path) != NULL) && is_env == 1)
-		{
-			path = ft_getenv(shell, path);
-			tmp = ft_strjoin(tmp, path);
-			is_env = 0;
-			continue ;
-		}
-		tmp = ft_strjoin(tmp, ft_substr(str, i, 1));
-		i++;
-	}
-	free(path);
-	return (tmp);
+    while (str[i])
+    {
+        if (str[i] == '$')
+        {
+            is_env = 1;
+            i++;
+        }
+        while (is_env == 1 && str[i] != '\0' && str[i] != '"' && str[i] != ' ' && str[i] != '$')
+        {
+            path = ft_strjoin(path, ft_substr(str, i, 1));
+            i++;
+        }
+        if (is_env == 1)
+        {
+            char *env_value = ft_getenv(shell, path);
+            tmp = ft_strjoin(tmp, env_value != NULL ? env_value : "");
+            is_env = 0;
+        }
+        if (str[i] != '\0')
+        {
+            tmp = ft_strjoin(tmp, ft_substr(str, i, 1));
+            i++;
+        }
+    }
+    free(path);
+    return tmp;
 }
+
 
 t_token	*env_check(t_shell *shell, t_token *tokens)
 {
