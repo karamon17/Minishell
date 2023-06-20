@@ -35,12 +35,37 @@ char    *gen_random_name(void)
  	return (name);
  }
 
+static int	check_next_node(t_token *tmp)
+{
+	if (tmp->next == NULL || tmp->next->data == NULL)
+		return (-1);
+	else if (!ft_strncmp(tmp->next->data, "<<", 3) || !ft_strncmp(tmp->next->data, "<", 2))
+		return (-1);
+	else if (!ft_strncmp(tmp->next->data, ">>", 3) || !ft_strncmp(tmp->next->data, ">", 2))
+		return (-1);
+	return (0);
+}
+
+static	int	count_heredoc(t_shell **shell, int i)
+{
+	t_token *tmp;
+
+	tmp = (*shell)->tokens;
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->data, "<<", 3))
+			i++;
+		tmp = tmp->next;
+	}
+	return (i);
+}
+
 void	kani_heredoc(t_shell **shell)
 {
 	int		i;
 	t_token	*tmp;
 
-	i = 0;
+	i = count_heredoc(shell, 0);
 	tmp = (*shell)->tokens;
 	while (tmp)
 	{
@@ -53,7 +78,19 @@ void	kani_heredoc(t_shell **shell)
 	{
 		if (!ft_strncmp(tmp->data, "<<", 3))
 		{
+			if (check_next_node(tmp) == -1)
+			{
+				ft_putstr_fd("syntax error near unexpected token `<<'\n", 2);
+				tmp->type = 'E';
+				break ;
+			}
 			i = exec_heredoc(tmp, i);
+			if (i == -1)
+			{
+				ft_putstr_fd("syntax error near unexpected token `<<'\n", 2);
+				tmp->type = 'E';
+				break ;
+			}
 			delete_token(&(*shell)->tokens, tmp);
 			tmp = tmp->next;
 			if (ft_strncmp(tmp->data, "<<", 3))
@@ -79,7 +116,7 @@ int	exec_heredoc(t_token *tokens, int i)
 	if (tmp_fd == -1)
 	{
 		ft_putstr_fd("heredoc error\n", 2);
-		exit(1);
+		return (-1);
 	}
 	while ((ft_strncmp(limit, line = readline("> "), ft_strlen(limit)) != 0))
 	{

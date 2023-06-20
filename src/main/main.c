@@ -66,6 +66,7 @@ int	shell_loop(t_shell **shell)
 		{
 			add_history(input);
 			head_tokens = first_parse(input, (*shell), 0);
+			kani_heredoc(shell);
 			if (error_in_tokens(shell) == -1)
 				continue ;
 			env_check(*shell, head_tokens);
