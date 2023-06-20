@@ -32,12 +32,10 @@ char	*get_path(t_shell *shell, char *str)
 	return (str);
 }
 
-char	*env_in_dqs(t_shell *shell, char *str)
+char	*env_in_dqs(t_shell *shell, char *str, int is_env, int i)
 {
 	char	*tmp;
 	char	*path;
-	int		i;
-	int		is_env;
 	char	*to_free;
 	char	*for_free;
 
@@ -88,7 +86,7 @@ char *check_str(t_shell *shell, char *str)
 	while (str[i])
 	{
 		if (str[i] == '"')
-			return (env_in_dqs(shell, str));
+			return (env_in_dqs(shell, str, 0, -1));
 		else if (str[i] == '$')
 			return (get_path(shell, str));
 		i++;
@@ -110,7 +108,7 @@ t_token	*env_check(t_shell *shell, t_token *tokens)
 		if (tmp->data[0] == '"')
 		{
 			for_free = tmp->data;
-			tmp->data = env_in_dqs(shell, tmp->data);
+			tmp->data = env_in_dqs(shell, tmp->data, 0, -1);
 			free(for_free);
 		}
 		else if (ft_strchr(tmp->data, '$') && *(ft_strchr(tmp->data, '$') + 1)
