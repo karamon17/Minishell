@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/20 14:03:26 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:55:50 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void		free_tokens(t_token	*tokens);
 void		free_env_list(t_shell *shell);
 void		free_constrs(t_constr	*constrs);
 
-t_token *	delete_token(t_token **head, t_token *to_delete);
+t_token		*delete_token(t_token **head, t_token *to_delete);
 
 int			white_space_helper(char *input, int j, int in_q, int size);
 char		*allocate_and_check_tmp(int size);
@@ -163,5 +163,8 @@ void		kani_heredoc(t_shell **shell);
 int			exec_heredoc(t_token *tokens, int i);
 char		*str_lower(char *str);
 void		ft_free_path(char **path);
+char		*ft_mystrjoin(char const *s1, char const *s2);
+void		ft_oldpwd_notset(void);
+void		ft_fork_error(t_constr *constr);
 
 #endif
