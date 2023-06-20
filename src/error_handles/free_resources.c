@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 14:47:08 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/14 18:22:59 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:27:21 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	free_tokens(t_token	*tokens)
 	t_token	*tmp;
 
 	tmp = tokens;
+	if (!tokens)
+		return ;
 	while (tokens->next != NULL)
 	{
 		tmp = tokens;
@@ -33,6 +35,8 @@ void	free_constrs(t_constr	*constrs)
 	t_constr	*tmp;
 
 	tmp = constrs;
+	if (!constrs)
+		return ;
 	while (constrs->next != NULL)
 	{
 		tmp = constrs;

@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/14 18:36:48 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:31:47 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,16 @@ int	shell_loop(t_shell **shell)
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
 		input = readline("Minishell $>");
+		(*shell)->constrs = NULL;
+		(*shell)->tokens = NULL;
 		if (!input)
 			return (printf("\x1b[1A\x1b[13Cexit\n"));
 		if (input[0])
 		{
 			add_history(input);
 			head_tokens = first_parse(input, (*shell), 0);
-			(*shell)->tokens = stugel(head_tokens);
 			env_check(*shell, head_tokens);
+			(*shell)->tokens = stugel(head_tokens);
 			g_error_status = 0;
 			kani_heredoc(shell);
 			head_constr = create_constr(*shell);
@@ -57,8 +59,10 @@ int	shell_loop(t_shell **shell)
 				ft_pipex(*shell);
 			free_tokens(head_tokens);
 			free_constrs(head_constr);
+			//system("leaks minishell");
 		}
-		free(input);
+		else
+			free(input);
 	}
 }
 

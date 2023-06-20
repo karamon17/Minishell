@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:02:00 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/14 13:16:31 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:53:21 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_constr	*create_newnode(char *token, char *command)
 		return (0);
 	newnode -> data = ft_strdup(token);
 	newnode -> command = ft_strdup(command);
-	newnode -> next = 0;
+	newnode -> next = NULL;
 	free(token);
 	free(command);
 	return (newnode);

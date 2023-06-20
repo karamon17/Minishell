@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/14 16:03:05 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/17 14:54:50 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_change_oldpwd(t_shell *shell, char *copy)
 		tmp = tmp->next;
 	}
 	if (!tmp)
-		ft_add_env_back(shell->env_lst, "OLDPWD", buf);
+		ft_add_env_back(shell->env_lst, ft_strdup("OLDPWD"), ft_strdup(buf));
 	else
 	{
 		free(tmp->value);
@@ -79,14 +79,14 @@ void	ft_chdir(t_shell *shell, char *cmd)
 	if (!access(cmd, F_OK))
 	{
 		if (!check_oldpwd(shell))
-			ft_add_env_back(shell->env_lst, "OLDPWD", buf);
+			ft_add_env_back(shell->env_lst,  ft_strdup("OLDPWD"), ft_strdup(buf));
 		tmp = opendir(cmd);
 		if (!tmp)
 			ft_cdprint_error(cmd);
 		else if (chdir(cmd) == -1)
 		{
 			g_error_status = 1;
-			ft_putstr_fd("Minishell : cd: ", 2);
+			ft_putstr_fd("Minishell: cd: ", 2);
 			ft_putstr_fd(cmd, 2);
 			ft_putstr_fd(": Permission denied\n", 2);
 		}
@@ -102,27 +102,36 @@ void	ft_cd(t_shell *shell, int *flag)
 {
 	char	*cmd;
 	t_token	*token;
+	char	*to_free;
 
 	token = shell->tokens->next;
 	*flag = 1;
+	
 	if (!token || (token->data[0] == '~' && !token->data[1]))
 		cmd = ft_getenv(shell, "HOME");
 	else if ((token->data[0] == '~' && token->data[1]))
-		cmd = ft_strjoin(ft_getenv(shell, "HOME"), token->data + 1);
+	{
+		to_free = ft_getenv(shell, "HOME");
+		cmd = ft_strjoin(to_free, token->data + 1);
+		free(to_free);
+	}
 	else if (token->data[0] == '-' && !token->data[1])
 	{
-		if (!ft_getenv(shell, "OLDPWD"))
+		cmd = ft_getenv(shell, "OLDPWD");
+		if (!cmd)
 		{
 			g_error_status = 1;
 			ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
 			return ;
 		}
-		cmd = ft_getenv(shell, "OLDPWD");
 	}
 	else
-		cmd = token->data;
+		cmd = ft_strdup(token->data);
 	ft_chdir(shell, cmd);
+	free(cmd);
+	to_free = ft_getenv(shell, "PWD");
 	if (token && token->data[0] == '-' && !token->data[1] && !g_error_status)
-		printf("%s\n", ft_getenv(shell, "PWD"));
+		printf("%s\n", to_free);
+	free(to_free);
 	return ;
 }

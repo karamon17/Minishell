@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:55:29 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/14 17:49:43 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/16 13:45:49 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	count_quotes(char type, char *str)
 	}
 	if (cnt % 2 != 0)
 	{
-		printf("QUOTE ERROR IN COUNT");
-		exit(1);
+		g_error_status = 258;
+		ft_putstr_fd("Minishell: syntax error: unexpected end of file\n", 2);
 	}
 }
 
@@ -54,8 +54,8 @@ char	set_quote_type(char *str)
 		cnt++;
 	if (cnt % 2 != 0 && cnt != 0)
 	{
-		printf("QUOTE ERROR");
-		exit(1);
+		g_error_status = 258;
+		ft_putstr_fd("Minishell: syntax error: unexpected end of file\n", 2);
 	}
 	if (fnd == '\'')
 		return ('\'');

@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/14 16:13:26 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:34:46 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_exec_error(char *str)
 {
-	ft_putstr_fd("Minishell : ", 2);
+	ft_putstr_fd("Minishell: ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": command not found\n", 2);
 }
@@ -22,34 +22,60 @@ void	ft_exec_error(char *str)
 int	execute_command(t_shell *shell, char *path)
 {
 	pid_t	pid;
+	char	**argv;
+	char	**env2darray;
+	int		status;
 
 	if (!path)
 	{
 		ft_exec_error(shell->tokens->data);
 		return (127);
 	}
-	pid = fork();
-	if (pid == 0)
+	pid = 0;
+	if (!g_error_status)
 	{
-		if (!shell->constrs->command && shell->constrs->prev
-			&& shell->constrs->prev->command)
+		pid = fork();
+		if (pid == -1)
 		{
-			dup2(shell->constrs->prev->fd[0], 0);
-			ft_close_pipe(shell->constrs->prev->fd);
+			ft_putstr_fd("Minishell: fork: Resource temporarily unavailable\n", 2);
+			g_error_status = 1;
+			return (1);
 		}
-		exit(execve(path, ft_split(shell->constrs->data, ' '),
-				env_to_2darray(shell)));
+		if (pid == 0)
+		{
+			if (!shell->constrs->command && shell->constrs->prev
+				&& shell->constrs->prev->command)
+			{
+				dup2(shell->constrs->prev->fd[0], 0);
+				ft_close_pipe(shell->constrs->prev->fd);
+			}
+			argv = ft_split(shell->constrs->data, ' ');
+			env2darray = env_to_2darray(shell);
+			execve(path, argv, env2darray);
+			ft_free_path(argv);
+			ft_free_path(env2darray);
+			ft_putstr_fd("Minishell: ", 2);
+			ft_putstr_fd(shell->constrs->data, 2);
+			ft_putstr_fd(": is a directory\n", 2);
+			exit(126);
+		}
 	}
-	return (0);
+	waitpid(pid, &status, 0);
+	return (status / 256);
 }
 
 void	ft_free_path(char **path)
 {
 	int	i;
 
+	if (path == NULL)
+		return ;
 	i = 0;
 	while (path[i])
-		free(path[i++]);
+	{
+		free(path[i]);
+		i++;
+	}
 	free(path);
 }
 
@@ -59,9 +85,14 @@ char	*check_path(t_shell *shell)
 	char	*res;
 	char	*tmp;
 	int		i;
+	char	*to_free;
 
-	path = ft_split(ft_getenv(shell, "PATH"), ':');
+	to_free = ft_getenv(shell, "PATH");
+	path = ft_split(to_free, ':');
+	free(to_free);
 	i = -1;
+	if (!path)
+		return (0);
 	while (path[++i])
 	{
 		tmp = path[i];
@@ -86,7 +117,7 @@ int	execute(t_shell *shell)
 {
 	char	*str_path;
 
-	if (!access(shell->tokens->data, X_OK))
+	if (ft_strchr(shell->tokens->data, '/') && !access(shell->tokens->data, X_OK))
 		str_path = ft_strdup(shell->tokens->data);
 	else
 		str_path = check_path(shell);

@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:36:20 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/12 17:31:12 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:02:27 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_getenv(t_shell *shell, char *name)
 	while (current)
 	{
 		if (!ft_strncmp(current->key, name, ft_strlen(name)))
-			return (current->value);
+			return (ft_strdup(current->value));
 		current = current->next;
 	}
 	return (0);
