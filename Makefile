@@ -1,5 +1,5 @@
 NAME     = minishell
-CFLAGS   = -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS   = -Wall -Wextra -Werror -g -fsanitize=address
 RM       = rm -rf
 LIBS     = -I./includes/ -I./readline/include
 
@@ -23,9 +23,9 @@ RDLINE_RESERV = $(addprefix $(RDLINE), -lib)
 RDLINE_DIR    = ./$(RDLINE)/lib
 
 RESET  = \033[0m
-RED    = \033[31;43;4m
-GREEN  = \033[32;47;1m
-YELLOW = \033[33;41;2m
+RED    = \033[31;1m
+GREEN  = \033[32;1m
+YELLOW = \033[33;1m
 
 all: readline $(NAME)
 	@echo > /dev/null

@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/14 14:44:55 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:22:55 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,41 @@
 
 void	ft_child(t_shell *shell, t_constr *constr)
 {
-	pipe(constr->fd);
-	if (fork() == 0)
+	pid_t	pid;
+
+	if (!g_error_status)
 	{
-		if (constr->command && shell->constrs == constr)
+		pipe(constr->fd);
+		pid = fork();
+		if (pid == -1)
 		{
-			dup2(constr->fd[1], 1);
-			close(constr->fd[1]);
-		}
-		else if (constr->command)
-		{
-			dup2(constr->prev->fd[0], 0);
-			dup2(constr->fd[1], 1);
+			ft_putstr_fd("Minishell: fork: Resource temporarily unavailable\n", 2);
+			g_error_status = 1;
 			ft_close_pipe(constr->prev->fd);
+			return ;
 		}
-		else
+		if (pid == 0)
 		{
-			dup2(constr->prev->fd[0], 0);
-			ft_close_pipe(constr->prev->fd);
+			if (constr->command && shell->constrs == constr)
+			{
+				dup2(constr->fd[1], 1);
+				close(constr->fd[1]);
+			}
+			else if (constr->command)
+			{
+				dup2(constr->prev->fd[0], 0);
+				dup2(constr->fd[1], 1);
+				ft_close_pipe(constr->prev->fd);
+			}
+			else
+			{
+				dup2(constr->prev->fd[0], 0);
+				ft_close_pipe(constr->prev->fd);
+			}
+			if (!execute_builtin(shell))
+				execute(shell);
+			exit(0);
 		}
-		if (!execute_builtin(shell))
-			execute(shell);
-		exit(0);
 	}
 }
 
@@ -60,19 +73,44 @@ int	ft_emptypipe(t_constr *constr)
 	return (0);
 }
 
+int	check_builtin(t_shell *shell)
+{
+	t_token	*tmp;
+	char	*low;
+	int		res;
+
+	tmp = shell->tokens;
+	low = str_lower(tmp->data);
+	res = (ft_strncmp(low, "pwd", 4)
+			|| ft_strncmp(tmp->data, "cd", 3)
+			|| ft_strncmp(low, "env", 4)
+			|| ft_strncmp(tmp->data, "exit", 5)
+			|| ft_strncmp(tmp->data, "unset", 6)
+			|| ft_strncmp(tmp->data, "export", 7)
+			|| ft_strncmp(low, "echo", 5));
+	free(low);
+	return (res);
+}
+
 void	ft_mainpipe(t_shell *shell, t_constr *constr)
 {
+	char	*path;
+
 	if (constr->command && !ft_strncmp(constr->command, "|", 2))
 	{
-		if (!check_path(shell))
+		path = check_path(shell);
+		if (!path && !check_builtin(shell))
 		{
 			g_error_status = 127;
-			ft_putstr_fd("Minishell : ", 2);
+			ft_putstr_fd("Minishell: ", 2);
 			ft_putstr_fd(shell->tokens->data, 2);
 			ft_putstr_fd(": command not found\n", 2);
 		}
 		else
+		{
+			free(path);
 			ft_child(shell, constr);
+		}
 	}
 	else if (!constr->command && !execute_builtin(shell))
 		execute(shell);
