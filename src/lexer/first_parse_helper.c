@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 15:03:10 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/19 19:27:38 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:04:17 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,11 @@ void	cut_spaces(t_token **tokens)
 	while (tmp)
 	{
 		if (tmp->data[0] == ' ')
-			delete_token(tokens, tmp);
-		tmp = tmp->next;
+		{
+			tmp = delete_token(tokens, tmp);
+		}
+		else
+			tmp = tmp->next;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:38:27 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/19 19:32:08 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:30:34 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,28 @@ t_token	*cut_command_quotes(t_token *tokens)
 	return (tokens);
 }
 
-void	delete_token(t_token **head, t_token *to_delete)
+t_token *delete_token(t_token **head, t_token *to_delete)
 {
 	t_token	*prev_node;
 
 	if (*head == NULL || to_delete == NULL)
-		return ;
+		return (NULL);
 	if (*head == to_delete)
 	{
 		(*head)->next = to_delete->next;
 		free(to_delete->data);
 		free(to_delete);
-		return ;
+		return (NULL);
 	}
 	prev_node = *head;
 	while (prev_node->next != NULL && prev_node->next != to_delete)
 		prev_node = prev_node->next;
 	if (prev_node->next == NULL)
-		return ;
+		return (NULL);
 	prev_node->next = to_delete->next;
 	free(to_delete->data);
 	free(to_delete);
+	return (prev_node->next);
 }
 
 t_token	*check_options(t_token *tokens)
@@ -77,7 +78,9 @@ t_token	*check_options(t_token *tokens)
 	char	*to_free;
 
 	tmp = tokens->next;
-	to_free = ft_strtrim(tmp->data, "n");
+	to_free = NULL;
+	if (tmp)
+		to_free = ft_strtrim(tmp->data, "n");
 	if (tmp && tmp->data[0] == '-'
 		&& !ft_strncmp(to_free, "-", 2))
 	{
