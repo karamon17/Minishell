@@ -26,7 +26,9 @@ t_token	*cut_command_quotes(t_token *tokens)
 		cpy = ft_calloc(1, sizeof(char));
 		while (tmp->data[++i])
 		{
-			if (tmp->data[i] == '\'' || tmp->data[i] == '"')
+			if (tmp->data[i] == '\'' && tmp->type == '\'')
+				continue ;
+			if (tmp->data[i] == '"' && tmp->type == '"')
 				continue ;
 			to_free = ft_substr(tmp->data, i, 1);
 			cpy = ft_mystrjoin(cpy, to_free);

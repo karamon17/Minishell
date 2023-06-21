@@ -31,7 +31,7 @@ char *env_in_dqs(t_shell *shell, char *str, int i, int is_env)
             is_env = 1;
             i++;
         }
-        while (is_env == 1 && str[i] != '\0' && str[i] != '"' && str[i] != ' ' && str[i] != '$')
+        while (is_env == 1 && str[i] != '\0' && str[i] != '"' && str[i] != ' ' && str[i] != '$' && str[i] != '\'')
         {
             path = ft_strjoin(path, ft_substr(str, i, 1));
             i++;
