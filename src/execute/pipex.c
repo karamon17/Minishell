@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/20 18:13:52 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/21 13:04:42 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_child(t_shell *shell, t_constr *constr, int *pid)
 		return (ft_fork_error(constr));
 	if (*pid == 0)
 	{
-		if (constr->command && shell->constrs == constr)
+		if (constr->command && !constr->prev)
 		{
 			dup2(constr->fd[1], 1);
 			close(constr->fd[1]);
@@ -47,16 +47,18 @@ int	ft_emptypipe(t_constr *constr)
 		&& !constr->next)
 	{
 		g_error_status = 258;
-		printf("Minishell: syntax error near unexpected token '%s'\n",
-			constr->command);
+		ft_putstr_fd("Minishell: syntax error near unexpected token '", 2);
+		ft_putstr_fd(constr->command, 2);
+		ft_putstr_fd("'\n", 2);
 		return (1);
 	}
 	else if (constr->command && !ft_strncmp(constr->command, "|", 2)
 		&& !constr->next->data[0])
 	{
 		g_error_status = 258;
-		printf("Minishell: syntax error near unexpected token '%s'\n",
-			constr->command);
+		ft_putstr_fd("Minishell: syntax error near unexpected token '", 2);
+		ft_putstr_fd(constr->command, 2);
+		ft_putstr_fd("'\n", 2);
 		return (1);
 	}
 	return (0);
@@ -86,16 +88,13 @@ void	ft_mainpipe(t_shell *shell, t_constr *constr)
 	char	*path;
 	pid_t	pid;
 
-	if (constr->command && !ft_strncmp(constr->command, "|", 2))
+	if ((constr->command && !ft_strncmp(constr->command, "|", 2)) || \
+		(constr->prev && constr->prev->command
+			&& !ft_strncmp(constr->prev->command, "|", 2)))
 	{
 		path = check_path(shell);
 		if (!path && !check_builtin(shell))
-		{
-			g_error_status = 127;
-			ft_putstr_fd("Minishell: ", 2);
-			ft_putstr_fd(shell->tokens->data, 2);
-			ft_putstr_fd(": command not found\n", 2);
-		}
+			ft_error_path(shell);
 		else
 		{
 			free(path);

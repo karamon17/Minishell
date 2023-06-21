@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/20 17:55:50 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/21 13:04:24 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,5 +168,7 @@ void		ft_oldpwd_notset(void);
 void		ft_fork_error(t_constr *constr);
 
 int 		ft_setlvl(const char *name, char **envp, char *val);
+int			error_in_tokens(t_shell **shell);
+void		ft_error_path(t_shell *shell);
 
 #endif
