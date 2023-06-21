@@ -12,44 +12,49 @@
 
 #include "minishell.h"
 
-char	*add_white_space(char *input, int j, int size, int in_q)
-{	
-	char	*tmp;
-	char	*to_free;
-	char	*for_free;
+char *add_white_space(char *input, int j, int size, int in_q)
+{
+    char *tmp;
+    char *to_free;
+    char *for_free;
 
-	while (input[j])
-	{
-		size = white_space_helper(input, j, in_q, size);
-		j++;
-	}
-	tmp = ft_calloc(size + 1, sizeof(char));
-	j = 0;
-	while (input[j])
-	{
-		if (!in_q && (input[j] == '|' || input[j] == '<' || input[j] == '>'))
-			tmp = set_tmp(input, j, tmp);
-		else if (input[j] == '"' || input[j] == '\'')
-		{
-			in_q = update_in_q(tmp, j, in_q);
-			to_free = tmp;
-			for_free = ft_substr(input, j, 1);
-			tmp = ft_strjoin(tmp, for_free);
-			free(to_free);
-			free(for_free);
-		}
-		else
-		{
-			to_free = tmp;
-			for_free = ft_substr(input, j, 1);
-			tmp = ft_strjoin(tmp, for_free);
-			free(to_free);
-			free(for_free);
-		}	
-		j++;
-	}
-	return (tmp);
+    while (input[j])
+    {
+        size = white_space_helper(input, j, in_q, size);
+        j++;
+    }
+    tmp = ft_calloc(size + 1, sizeof(char));
+    j = 0;
+    while (input[j])
+    {
+        if (!in_q && (input[j] == '|' || input[j] == '<' || input[j] == '>'))
+        {
+            tmp = set_tmp(input, j, tmp);
+        }
+        else if (input[j] == '"' || input[j] == '\'')
+        {
+            in_q = update_in_q(tmp, j, in_q);
+            to_free = tmp;
+            for_free = ft_substr(input, j, 1);
+            tmp = ft_strjoin(tmp, for_free);
+            free(to_free);
+            free(for_free);
+            if ((input[j] == '"' && input[j + 1] == '\'') || (input[j] == '\'' && input[j + 1] == '"'))
+                tmp = ft_strjoin(tmp, " ");
+        }
+        else
+        {
+            to_free = tmp;
+            for_free = ft_substr(input, j, 1);
+            tmp = ft_strjoin(tmp, for_free);
+            free(to_free);
+            free(for_free);
+        }
+        j++;
+    }
+    return tmp;
 }
+
 
 int	d_quotes(char *input, int i, t_token **new)
 {

@@ -167,7 +167,8 @@ char		*ft_mystrjoin(char const *s1, char const *s2);
 void		ft_oldpwd_notset(void);
 void		ft_fork_error(t_constr *constr);
 
-int			ft_setlvl(const char *name, char **envp, char *val);
+int 		ft_setlvl(const char *name, char **envp, char *val);
+int			error_in_tokens(t_shell **shell);
 void		ft_error_path(t_shell *shell);
 
 #endif
