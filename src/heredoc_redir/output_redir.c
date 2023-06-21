@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:54:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/21 14:02:07 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:11:09 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ void	redirect_output(t_constr *cmds)
 			2);
 		exit(1);
 	}	
-	if (!ft_strncmp(tmp->data, ">", 2) || !ft_strncmp(tmp->data, ">>", 3))
+	if (!ft_strncmp(tmp->command, ">", 2) || !ft_strncmp(tmp->command, ">>", 3))
 	{
-		if (tmp->prev)
-			overwrite = tmp->prev->data;
+		if (tmp)
+			overwrite = tmp->data;
 		else
 			overwrite = "";
 		file = tmp->next->data;
 	}
-	if (!ft_strncmp(tmp->data, ">", 2))
+	if (!ft_strncmp(tmp->command, ">", 2))
 		fill_file(overwrite, file);
-	else if (!ft_strncmp(tmp->data, ">>", 3))
+	else if (!ft_strncmp(tmp->command, ">>", 3))
 		append_to_file(overwrite, file);
 }

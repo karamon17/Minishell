@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/21 13:04:42 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:04:58 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ void	ft_mainpipe(t_shell *shell, t_constr *constr)
 	}
 	else if (!constr->command && !execute_builtin(shell))
 		execute(shell);
+	else if (!ft_strncmp(constr->command, ">", 2) || !ft_strncmp(constr->command, ">>", 3))
+		redirect_output(shell->constrs);
 }
 
 void	ft_pipex(t_shell *shell)
