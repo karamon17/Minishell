@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:54:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/16 12:16:00 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/21 14:02:07 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	redirect_output(t_constr *cmds)
 	tmp = cmds;
 	if (!tmp->next->data)
 	{
-		printf("syntax error near unexpected token `newline'\n");
+		ft_putstr_fd("Minishell: syntax error near unexpected token `newline'\n",
+			2);
 		exit(1);
 	}	
 	if (!ft_strncmp(tmp->data, ">", 2) || !ft_strncmp(tmp->data, ">>", 3))

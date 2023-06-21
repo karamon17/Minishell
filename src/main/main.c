@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/21 12:19:03 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/21 14:21:47 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,17 @@ void	print_cool_head(void)
 	printf(RED_COLOR "----------------------------------------\n" RESET_COLOR);
 }
 
-int	norm_helper_shell_loop(t_shell **shell, t_token *head_tokens, \
+void	shell_loop_help(t_shell **shell, t_token *head_tokens, \
 t_constr *head_constr, char *input)
 {
 	add_history(input);
 	head_tokens = first_parse(input, (*shell), 0);
-	kani_heredoc(shell);
 	if (error_in_tokens(shell) == -1)
-		return (-1);
+	{
+		free_tokens(head_tokens);
+		return ;
+	}
+	kani_heredoc(shell);
 	env_check(*shell, head_tokens);
 	(*shell)->tokens = stugel(head_tokens);
 	g_error_status = 0;
@@ -45,7 +48,8 @@ t_constr *head_constr, char *input)
 	kani_heredoc(shell);
 	if ((*shell)->constrs)
 		ft_pipex(*shell);
-	return (0);
+	free_tokens(head_tokens);
+	free_constrs(head_constr);
 }
 
 int	shell_loop(t_shell **shell)
@@ -67,12 +71,7 @@ int	shell_loop(t_shell **shell)
 		if (!input)
 			return (printf("\x1b[1A\x1b[13Cexit\n"));
 		if (input[0])
-		{
-			if (norm_helper_shell_loop(shell, head_tokens, \
-			head_constr, input) == -1)
-				continue ;
-			free_constrs(head_constr);
-		}
+			shell_loop_help(shell, head_tokens, head_constr, input);
 		else
 			free(input);
 	}
