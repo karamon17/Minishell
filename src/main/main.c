@@ -36,10 +36,7 @@ t_constr *head_constr, char *input)
 	add_history(input);
 	head_tokens = first_parse(input, (*shell), 0);
 	if (error_in_tokens(shell) == -1)
-	{
-		free_tokens(head_tokens);
-		return ;
-	}
+		return (free_tokens(head_tokens));
 	kani_heredoc(shell);
 	env_check(*shell, head_tokens);
 	(*shell)->tokens = stugel(head_tokens);
