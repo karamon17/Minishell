@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 13:11:11 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/20 17:50:22 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/21 19:59:00 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ int	ft_exec_error(char *str, char **argv, char **env2darray)
 	}
 }
 
-void	ft_child_exec(t_shell *shell)
-{
-	if (!shell->constrs->command && shell->constrs->prev
-		&& shell->constrs->prev->command)
-	{
-		dup2(shell->constrs->prev->fd[0], 0);
-		ft_close_pipe(shell->constrs->prev->fd);
-	}
-}
+// void	ft_child_exec(t_shell *shell)
+// {
+// 	if (!shell->constrs->command && shell->constrs->prev
+// 		&& shell->constrs->prev->command)
+// 	{
+// 		dup2(shell->constrs->prev->fd[0], 0);
+// 		ft_close_pipe(shell->constrs->prev->fd);
+// 	}
+// }
 
 int	execute_command(t_shell *shell, char *path)
 {
@@ -65,7 +65,7 @@ int	execute_command(t_shell *shell, char *path)
 			return (ft_exec_error(NULL, NULL, NULL));
 		if (pid == 0)
 		{
-			ft_child_exec(shell);
+			//ft_child_exec(shell);
 			argv = ft_split(shell->constrs->data, ' ');
 			env2darray = env_to_2darray(shell);
 			execve(path, argv, env2darray);
