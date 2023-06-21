@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 19:24:40 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/17 14:54:50 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:35:04 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ void	ft_chdir(t_shell *shell, char *cmd)
 	if (!access(cmd, F_OK))
 	{
 		if (!check_oldpwd(shell))
-			ft_add_env_back(shell->env_lst,  ft_strdup("OLDPWD"), ft_strdup(buf));
+			ft_add_env_back(shell->env_lst,
+				ft_strdup("OLDPWD"), ft_strdup(buf));
 		tmp = opendir(cmd);
 		if (!tmp)
 			ft_cdprint_error(cmd);
@@ -106,24 +107,15 @@ void	ft_cd(t_shell *shell, int *flag)
 
 	token = shell->tokens->next;
 	*flag = 1;
-	
 	if (!token || (token->data[0] == '~' && !token->data[1]))
 		cmd = ft_getenv(shell, "HOME");
 	else if ((token->data[0] == '~' && token->data[1]))
-	{
-		to_free = ft_getenv(shell, "HOME");
-		cmd = ft_strjoin(to_free, token->data + 1);
-		free(to_free);
-	}
+		cmd = ft_mystrjoin(ft_getenv(shell, "HOME"), token->data + 1);
 	else if (token->data[0] == '-' && !token->data[1])
 	{
 		cmd = ft_getenv(shell, "OLDPWD");
 		if (!cmd)
-		{
-			g_error_status = 1;
-			ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
-			return ;
-		}
+			return (ft_oldpwd_notset());
 	}
 	else
 		cmd = ft_strdup(token->data);
@@ -133,5 +125,4 @@ void	ft_cd(t_shell *shell, int *flag)
 	if (token && token->data[0] == '-' && !token->data[1] && !g_error_status)
 		printf("%s\n", to_free);
 	free(to_free);
-	return ;
 }

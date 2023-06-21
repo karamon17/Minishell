@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/20 12:09:02 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:19:03 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	shell_loop(t_shell **shell)
 		signal(SIGQUIT, SIG_IGN);
 		input = readline("Minishell $>");
 		(*shell)->constrs = NULL;
+		(*shell)->tokens = NULL;
 		if (!input)
 			return (printf("\x1b[1A\x1b[13Cexit\n"));
 		if (input[0])

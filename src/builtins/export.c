@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 18:31:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/20 12:18:27 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:17:36 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,22 @@ void	check_add(t_shell *shell, char *key, char *value, int *cat)
 	}
 }
 
-void	ft_print_export(t_shell *shell)
+void	ft_print_export(t_shell *shell, char **tmp)
 {
 	t_env	*current;
 
-	current = shell->env_lst;
-	while (current)
+	if (!tmp[1])
 	{
-		printf("declare -x ");
-		printf("%s", current->key);
-		if (current->value)
-			printf("=\"%s\"", current->value);
-		printf("\n");
-		current = current->next;
+		current = shell->env_lst;
+		while (current)
+		{
+			printf("declare -x ");
+			printf("%s", current->key);
+			if (current->value)
+				printf("=\"%s\"", current->value);
+			printf("\n");
+			current = current->next;
+		}
 	}
 }
 
@@ -108,8 +111,7 @@ void	ft_export(t_shell *shell, int *flag)
 	*cat = 0;
 	tmp = ft_split(shell->constrs->data, ' ');
 	i = 0;
-	if (!tmp[1])
-		ft_print_export(shell);
+	ft_print_export(shell, tmp);
 	while (tmp[++i])
 	{
 		if (!ft_strchr(tmp[i], '='))
