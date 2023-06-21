@@ -165,5 +165,6 @@ char		*str_lower(char *str);
 void		ft_free_path(char **path);
 
 int 		ft_setlvl(const char *name, char **envp, char *val);
+int			error_in_tokens(t_shell **shell);
 
 #endif

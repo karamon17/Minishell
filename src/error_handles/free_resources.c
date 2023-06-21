@@ -12,6 +12,23 @@
 
 #include "minishell.h"
 
+int	error_in_tokens(t_shell **shell)
+{
+	t_token	*tmp;
+
+	tmp = (*shell)->tokens;
+	while (tmp)
+	{
+		if (tmp->type != '\0')
+		{
+			if (tmp->type == 'E')
+				return (-1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 void	free_tokens(t_token	*tokens)
 {
 	t_token	*tmp;
