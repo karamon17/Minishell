@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/21 14:21:47 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/21 14:23:57 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ t_constr *head_constr, char *input)
 	add_history(input);
 	head_tokens = first_parse(input, (*shell), 0);
 	if (error_in_tokens(shell) == -1)
-	{
-		free_tokens(head_tokens);
-		return ;
-	}
+		return (free_tokens(head_tokens));
 	kani_heredoc(shell);
 	env_check(*shell, head_tokens);
 	(*shell)->tokens = stugel(head_tokens);
