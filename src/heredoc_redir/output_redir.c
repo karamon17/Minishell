@@ -12,12 +12,29 @@
 
 #include "minishell.h"
 
+static char *isolate_str(char *str)
+{
+    int i;
+    int j;
+    i = 0;
+    while (str[i] != ' ')
+        i++;
+    while  (str[i] == ' ')
+        i++;
+    j = i;
+    while (str[i] != ' ' && str[i])
+        i++;
+    return (ft_substr(str, j, i));
+}
+
 static void	fill_file(char *overwrite, char *file)
 {
 	int	fd;
 
+    overwrite = isolate_str(overwrite);
 	fd = open(file, O_CREAT | O_TRUNC | O_WRONLY);
 	write(fd, overwrite, ft_strlen(overwrite));
+    write(fd, "\n", 1);
 	close(fd);
 }
 
@@ -27,6 +44,7 @@ static void	append_to_file(char *overwrite, char *file)
 
 	fd = open(file, O_CREAT | O_APPEND | O_WRONLY);
 	write(fd, overwrite, ft_strlen(overwrite));
+    write(fd, "\n", 1);
 	close(fd);
 }
 
