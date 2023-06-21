@@ -107,7 +107,7 @@ void	ft_mainpipe(t_shell *shell, t_constr *constr)
 	}
 	else if (!constr->command && !execute_builtin(shell))
 		execute(shell);
-	else if (!ft_strncmp(constr->command, ">", 2) || !ft_strncmp(constr->command, ">>", 3))
+	else if (constr->command && (!ft_strncmp(constr->command, ">", 2) || !ft_strncmp(constr->command, ">>", 3)))
 		redirect_output(shell->constrs);
 }
 
