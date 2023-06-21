@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 16:57:48 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/20 18:38:23 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/21 13:04:12 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,11 @@ void	ft_fork_error(t_constr *constr)
 	ft_putstr_fd("Minishell: fork: Resource temporarily unavailable\n", 2);
 	g_error_status = 1;
 	ft_close_pipe(constr->prev->fd);
+}
+void	ft_error_path(t_shell *shell)
+{
+	g_error_status = 127;
+	ft_putstr_fd("Minishell: ", 2);
+	ft_putstr_fd(shell->tokens->data, 2);
+	ft_putstr_fd(": command not found\n", 2);
 }

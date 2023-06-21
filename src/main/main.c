@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/20 18:52:17 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:19:03 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ int	shell_loop(t_shell **shell)
 			kani_heredoc(shell);
 			if ((*shell)->constrs)
 				ft_pipex(*shell);
+			free_tokens(head_tokens);
 			free_constrs(head_constr);
-			//system("leaks minishell");
 		}
 		else
 			free(input);

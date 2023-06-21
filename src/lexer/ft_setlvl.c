@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_setlvl.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 15:28:57 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/20 15:28:59 by jfrances         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:14:23 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int ft_setlvl(const char *name, char **envp, char *val)
     if (!ft_strncmp(name, tmp[i], 5))
     {
         str = ft_substr(tmp[i], 0, 6);
-        tmp[i] = ft_strjoin(str, val);
+        tmp[i] = ft_mystrjoin(str, val);
+		free(val);
         return (0);
     }
     return (-1);
