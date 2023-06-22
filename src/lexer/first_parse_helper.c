@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 15:03:10 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/20 17:19:32 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/22 11:32:33 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ int	parse_norm_helper(char *tmp, t_token *new, int i)
 		if (tmp[i + 1] == tmp[i])
 		{
 			free(new);
-			new = ft_new_token(ft_substr(tmp, i, 2));
-			i++;
+			new = ft_new_token(ft_substr(tmp, i++, 2));
 		}
 		else
 		{
