@@ -12,13 +12,19 @@
 
 #include "minishell.h"
 
+void	print_and_set_type(char *type)
+{
+	ft_putstr_fd("syntax error near unexpected token `<<'\n", 2);
+	type[0] = 'E';
+}
+
 void	write_helper(int tmp_fd, char *line)
 {
 	write(tmp_fd, line, ft_strlen(line));
 	write(tmp_fd, "\n", 1);
 }
 
-char    *gen_random_name(void)
+char	*gen_random_name(void)
 {
 	char			buff[4];
 	char			*name;
@@ -27,8 +33,8 @@ char    *gen_random_name(void)
 
 	name = ft_calloc(1, sizeof(char));
 	fd = open("/dev/urandom", O_RDONLY);
- 	if (fd < -1)
- 		return ("ERROR");
+	if (fd < -1)
+		return ("ERROR");
  	read(fd, buff, 4);
  	nbr = *(int *)buff;
  	if (nbr < 0)
@@ -45,9 +51,11 @@ static int	check_next_node(t_token *tmp)
 {
 	if (tmp->next == NULL || tmp->next->data == NULL)
 		return (-1);
-	else if (!ft_strncmp(tmp->next->data, "<<", 3) || !ft_strncmp(tmp->next->data, "<", 2))
+	else if (!ft_strncmp(tmp->next->data, "<<", 3) || \
+	!ft_strncmp(tmp->next->data, "<", 2))
 		return (-1);
-	else if (!ft_strncmp(tmp->next->data, ">>", 3) || !ft_strncmp(tmp->next->data, ">", 2))
+	else if (!ft_strncmp(tmp->next->data, ">>", 3) || \
+	!ft_strncmp(tmp->next->data, ">", 2))
 		return (-1);
 	return (0);
 }
@@ -93,14 +101,12 @@ void	kani_heredoc(t_shell **shell)
 		{
 			if (check_next_node(tmp) == -1)
 			{
-				ft_putstr_fd("syntax error near unexpected token `<<'\n", 2);
-				tmp->type = 'E';
+				print_and_set_type(&tmp->type);
 				break ;
 			}
 			if (exec_heredoc(tmp) == -1)
 			{
-				ft_putstr_fd("syntax error near unexpected token `<<'\n", 2);
-				tmp->type = 'E';
+				print_and_set_type(&tmp->type);
 				break ;
 			}
 			delete_token(&(*shell)->tokens, tmp);
