@@ -46,6 +46,8 @@ char	set_quote_type(char *str)
 
 	i = 0;
 	cnt = 0;
+	if (!str)
+		return ('\0');
 	while (str[i] != '\'' && str[i] != '"' && str[i])
 		i++;
 	if (str[i] == '\'' || str[i] == '"')
@@ -53,7 +55,8 @@ char	set_quote_type(char *str)
 		fnd = str[i];
 		cnt++;
 	}
-	i++;
+	if (str[i])
+		i++;
 	while (str[i])
 	{
 		if (str[i] == fnd && fnd != '\0')

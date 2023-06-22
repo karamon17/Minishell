@@ -26,7 +26,9 @@ t_token	*cut_command_quotes(t_token *tokens)
 		cpy = ft_calloc(1, sizeof(char));
 		while (tmp->data[++i])
 		{
-			if (tmp->data[i] == '\'' || tmp->data[i] == '"')
+			if (tmp->data[i] == '\'' && tmp->type == '\'')
+				continue ;
+			if (tmp->data[i] == '"' && tmp->type == '"')
 				continue ;
 			to_free = ft_substr(tmp->data, i, 1);
 			cpy = ft_mystrjoin(cpy, to_free);
@@ -48,10 +50,10 @@ t_token	*delete_token(t_token **head, t_token *to_delete)
 		return (NULL);
 	if (*head == to_delete)
 	{
-		(*head)->next = to_delete->next;
+		(*head) = to_delete->next;
 		free(to_delete->data);
 		free(to_delete);
-		return (NULL);
+		return ((*head));
 	}
 	prev_node = *head;
 	while (prev_node->next != NULL && prev_node->next != to_delete)
@@ -92,8 +94,7 @@ t_token	*check_options(t_token *tokens)
 	to_free = NULL;
 	if (tmp)
 		to_free = ft_strtrim(tmp->data, "n");
-	if (tmp && tmp->data[0] == '-'
-		&& !ft_strncmp(to_free, "-", 2))
+	if (tmp && tmp->data[0] == '-' && !ft_strncmp(to_free, "-", 2))
 	{
 		temp_str = tmp->data;
 		tmp->data = ft_strdup("-n");
@@ -112,6 +113,8 @@ t_token	*stugel(t_token *tokens)
 	t_token	*tmp;
 	int		i;
 
+	if (!tokens)
+		return (NULL);
 	tmp = tokens;
 	i = 0;
 	while (tmp)

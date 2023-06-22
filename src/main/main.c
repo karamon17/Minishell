@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/21 14:23:57 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/22 13:38:55 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ t_constr *head_constr, char *input)
 	head_tokens = first_parse(input, (*shell), 0);
 	if (error_in_tokens(shell) == -1)
 		return (free_tokens(head_tokens));
-	kani_heredoc(shell);
+	//assign_redirect_input(shell);
+	head_tokens = kani_heredoc(shell);
 	env_check(*shell, head_tokens);
 	(*shell)->tokens = stugel(head_tokens);
 	g_error_status = 0;
 	head_constr = create_constr(*shell);
-	kani_heredoc(shell);
 	if ((*shell)->constrs)
 		ft_pipex(*shell);
 	free_tokens(head_tokens);
@@ -71,8 +71,10 @@ int	shell_loop(t_shell **shell)
 			shell_loop_help(shell, head_tokens, head_constr, input);
 		else
 			free(input);
+		if ((*shell)->heredoc_name)
+			unlink((*shell)->heredoc_name);
+    }
 	}
-}
 
 void	init_shell(t_shell **shell)
 {
