@@ -40,10 +40,8 @@ char	*gen_random_name(void)
  	if (nbr < 0)
  		nbr++;
  	if (nbr < 0)
-	{
  		nbr = nbr * (-1);
-		*name = ('a' + nbr % 26);
-	}
+	*name = ('a' + nbr % 26);
  	return (name);
  }
 
@@ -75,7 +73,6 @@ int	exec_heredoc(t_token *tokens)
     random_name = gen_random_name();
 	file_name = ft_strdup("_heredoc_tmp");
 	file_name = ft_strjoin(random_name, file_name);
-	printf("[%s]\n", file_name);
 	tmp_fd = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (tmp_fd == -1)
 	{
@@ -90,15 +87,18 @@ int	exec_heredoc(t_token *tokens)
 	return (0);
 }
 
-void	kani_heredoc(t_shell **shell)
+t_token	*kani_heredoc(t_shell **shell)
 {
 	t_token	*tmp;
+	int		flag;
 
+	flag = 0;
 	tmp = (*shell)->tokens;
 	while (tmp)
 	{
 		if (!ft_strncmp(tmp->data, "<<", 3))
 		{
+			flag = 1;
 			if (check_next_node(tmp) == -1)
 			{
 				print_and_set_type(&tmp->type);
@@ -109,11 +109,16 @@ void	kani_heredoc(t_shell **shell)
 				print_and_set_type(&tmp->type);
 				break ;
 			}
-			delete_token(&(*shell)->tokens, tmp);
-			tmp = tmp->next;
-			if (ft_strncmp(tmp->data, "<<", 3))
-				delete_token(&(*shell)->tokens, tmp);
+			tmp = delete_token(&(*shell)->tokens, tmp);
+			//tmp = tmp->next;
+			if (tmp->data)
+				tmp = delete_token(&(*shell)->tokens, tmp);
 		}
-		tmp = tmp->next;
+		if (tmp)
+			tmp = tmp->next;
 	}
+	if (flag == 1)
+		return (tmp);
+	else
+		return ((*shell)->tokens);
 }

@@ -38,12 +38,11 @@ t_constr *head_constr, char *input)
 	if (error_in_tokens(shell) == -1)
 		return (free_tokens(head_tokens));
 	//assign_redirect_input(shell);
-	kani_heredoc(shell);
+	head_tokens = kani_heredoc(shell);
 	env_check(*shell, head_tokens);
 	(*shell)->tokens = stugel(head_tokens);
 	g_error_status = 0;
 	head_constr = create_constr(*shell);
-	kani_heredoc(shell);
 	if ((*shell)->constrs)
 		ft_pipex(*shell);
 	free_tokens(head_tokens);
@@ -82,7 +81,7 @@ void	init_shell(t_shell **shell)
 	(*shell)->tokens = NULL;
 	(*shell)->constrs = NULL;
 	(*shell)->env_lst = NULL;
-	(*shell)->redirs = NULL;
+	//(*shell)->redirs = NULL;
 }
 
 int	main(int ac, char **av, char **envp)

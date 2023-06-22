@@ -94,12 +94,15 @@ t_token	*env_check(t_shell *shell, t_token *tokens)
 {
 	t_token	*tmp;
 
+    //if (!tokens->data)
+        //printf("true");
+        //return (NULL);
 	tmp = tokens;
 	while (tmp)
 	{
-		if (tmp->data[0] == '"')
+		if (tmp->data && tmp->data[0] == '"')
 			tmp->data = env_in_dqs(shell, tmp->data, 0, 0);
-		else if (tmp->data[0] == '$')
+		else if (tmp->data && tmp->data[0] == '$')
 			tmp->data = get_path(shell, tmp->data, 0, 0);
 		tmp = tmp->next;
 	}

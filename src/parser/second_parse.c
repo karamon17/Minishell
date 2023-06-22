@@ -50,10 +50,10 @@ t_token	*delete_token(t_token **head, t_token *to_delete)
 		return (NULL);
 	if (*head == to_delete)
 	{
-		(*head)->next = to_delete->next;
+		(*head) = to_delete->next;
 		free(to_delete->data);
 		free(to_delete);
-		return (NULL);
+		return ((*head));
 	}
 	prev_node = *head;
 	while (prev_node->next != NULL && prev_node->next != to_delete)
@@ -113,6 +113,8 @@ t_token	*stugel(t_token *tokens)
 	t_token	*tmp;
 	int		i;
 
+	if (!tokens)
+		return (NULL);
 	tmp = tokens;
 	i = 0;
 	while (tmp)
