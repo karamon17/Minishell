@@ -53,9 +53,9 @@ char	*get_path(t_shell *shell, char *str, int i, int is_env)
 
 char *env_in_dqs(t_shell *shell, char *str, int i, int is_env)
 {
-    char *tmp;
-    char *path;
-    char *env_value;
+	char	*tmp;
+    char	*path;
+    char	*env_value;
 
     tmp = ft_calloc(1, sizeof(char));
     path = ft_calloc(1, sizeof(char));
@@ -94,9 +94,7 @@ t_token	*env_check(t_shell *shell, t_token *tokens)
 {
 	t_token	*tmp;
 
-    //if (!tokens->data)
-        //printf("true");
-        //return (NULL);
+
 	tmp = tokens;
 	while (tmp)
 	{

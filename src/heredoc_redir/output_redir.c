@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 17:54:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/21 17:11:09 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/22 13:56:31 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static char *isolate_str(char *str)
 {
     int i;
     int j;
+
     i = 0;
     while (str[i] != ' ')
         i++;
@@ -31,7 +32,7 @@ static void	fill_file(char *overwrite, char *file)
 {
 	int	fd;
 
-    overwrite = isolate_str(overwrite);
+	overwrite = isolate_str(overwrite);
 	fd = open(file, O_CREAT | O_TRUNC | O_WRONLY);
 	write(fd, overwrite, ft_strlen(overwrite));
     write(fd, "\n", 1);
@@ -48,19 +49,11 @@ static void	append_to_file(char *overwrite, char *file)
 	close(fd);
 }
 
-void	redirect_output(t_constr *cmds)
+void	redirect_output_echo(t_constr *tmp)
 {
-	t_constr	*tmp;
-	char		*overwrite;
-	char		*file;
+	char	*overwrite;
+	char	*file;
 
-	tmp = cmds;
-	if (!tmp->next->data)
-	{
-		ft_putstr_fd("Minishell: syntax error near unexpected token `newline'\n",
-			2);
-		exit(1);
-	}	
 	if (!ft_strncmp(tmp->command, ">", 2) || !ft_strncmp(tmp->command, ">>", 3))
 	{
 		if (tmp)
@@ -73,4 +66,23 @@ void	redirect_output(t_constr *cmds)
 		fill_file(overwrite, file);
 	else if (!ft_strncmp(tmp->command, ">>", 3))
 		append_to_file(overwrite, file);
+}
+
+void	redirect_output(t_constr *cmds)
+{
+	t_constr	*tmp;
+	char		*overwrite;
+	char		*file;
+
+	tmp = cmds;
+	if (!tmp->next->data)
+	{
+		ft_putstr_fd("Minishell: syntax error near unexpected token `newline'\n",
+			2);
+		return ;
+	}
+	if (ft_strncmp("echo", tmp->data, 4))
+		redirect_output_echo(tmp);
+	else
+		 grab_file_name(tmp);
 }
