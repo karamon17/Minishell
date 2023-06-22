@@ -71,7 +71,9 @@ int	shell_loop(t_shell **shell)
 			shell_loop_help(shell, head_tokens, head_constr, input);
 		else
 			free(input);
-	}
+		if ((*shell)->heredoc_name)
+			unlink((*shell)->heredoc_name);
+    }
 }
 
 void	init_shell(t_shell **shell)
@@ -81,7 +83,6 @@ void	init_shell(t_shell **shell)
 	(*shell)->tokens = NULL;
 	(*shell)->constrs = NULL;
 	(*shell)->env_lst = NULL;
-	//(*shell)->redirs = NULL;
 }
 
 int	main(int ac, char **av, char **envp)

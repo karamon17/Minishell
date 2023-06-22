@@ -18,10 +18,18 @@ void	print_and_set_type(char *type)
 	type[0] = 'E';
 }
 
-void	write_helper(int tmp_fd, char *line)
+void	heredoc_helper(int tmp_fd, char *line, char **str, int flag)
 {
-	write(tmp_fd, line, ft_strlen(line));
-	write(tmp_fd, "\n", 1);
+	if (flag == 1)
+	{
+		write(tmp_fd, line, ft_strlen(line));
+		write(tmp_fd, "\n", 1);
+	}
+	else if (flag == 0)
+	{
+		free(*str);
+		close(tmp_fd);
+	}
 }
 
 char	*gen_random_name(void)
@@ -58,7 +66,7 @@ static int	check_next_node(t_token *tmp)
 	return (0);
 }
 
-int	exec_heredoc(t_token *tokens)
+int	exec_heredoc(t_shell **shell, t_token *tokens)
 {
 	int		tmp_fd;
 	char	*random_name;
@@ -80,10 +88,10 @@ int	exec_heredoc(t_token *tokens)
 		return (-1);
 	}
 	while ((ft_strncmp(limit, line = readline("> "), ft_strlen(limit)) != 0))
-		write_helper(tmp_fd, line);
+		heredoc_helper(tmp_fd, line, NULL, 1);
+	(*shell)->heredoc_name = ft_strdup(file_name);
 	free(random_name);
-	free(file_name);
-	close(tmp_fd);
+	heredoc_helper(tmp_fd, NULL, &file_name, 0);
 	return (0);
 }
 
@@ -104,13 +112,12 @@ t_token	*kani_heredoc(t_shell **shell)
 				print_and_set_type(&tmp->type);
 				break ;
 			}
-			if (exec_heredoc(tmp) == -1)
+			if (exec_heredoc(shell, tmp) == -1)
 			{
 				print_and_set_type(&tmp->type);
 				break ;
 			}
 			tmp = delete_token(&(*shell)->tokens, tmp);
-			//tmp = tmp->next;
 			if (tmp->data)
 				tmp = delete_token(&(*shell)->tokens, tmp);
 		}

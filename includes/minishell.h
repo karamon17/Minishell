@@ -90,7 +90,7 @@ typedef struct s_shell
 	struct s_token	*tokens;
 	struct s_constr	*constrs;
 	struct s_env	*env_lst;
-	char			*heredoc;
+	char			*heredoc_name;
 }	t_shell;
 
 int			execute_builtin(t_shell *shell);
@@ -161,7 +161,7 @@ void		cut_spaces(t_token **tokens);
 void		clean_shell(t_shell **shell);
 int			parse_norm_helper(char *tmp, t_token *new, int i);
 t_token		*kani_heredoc(t_shell **shell);
-int			exec_heredoc(t_token *tokens);
+int			exec_heredoc(t_shell **shell, t_token *tokens);
 char		*str_lower(char *str);
 void		ft_free_path(char **path);
 char		*ft_mystrjoin(char const *s1, char const *s2);
