@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+void	write_helper(int tmp_fd, char *line)
+{
+	write(tmp_fd, line, ft_strlen(line));
+	write(tmp_fd, "\n", 1);
+}
+
 char    *gen_random_name(void)
 {
 	char			buff[4];
@@ -46,35 +52,42 @@ static int	check_next_node(t_token *tmp)
 	return (0);
 }
 
-static	int	count_heredoc(t_shell **shell, int i)
+int	exec_heredoc(t_token *tokens)
 {
-	t_token *tmp;
+	int		tmp_fd;
+	char	*random_name;
+	char	*limit;
+	char	*line;
+	char	*file_name;
 
-	tmp = (*shell)->tokens;
-	while (tmp)
+	random_name = NULL;
+	limit = tokens->next->data;
+    if (random_name)
+     	free(random_name);
+    random_name = gen_random_name();
+	file_name = ft_strdup("_heredoc_tmp");
+	file_name = ft_strjoin(random_name, file_name);
+	printf("[%s]\n", file_name);
+	tmp_fd = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (tmp_fd == -1)
 	{
-		if (!ft_strncmp(tmp->data, "<<", 3))
-			i++;
-		tmp = tmp->next;
+		ft_putstr_fd("heredoc error\n", 2);
+		return (-1);
 	}
-	return (i);
+	while ((ft_strncmp(limit, line = readline("> "), ft_strlen(limit)) != 0))
+		write_helper(tmp_fd, line);
+	free(random_name);
+	free(file_name);
+	close(tmp_fd);
+	return (0);
 }
 
 void	kani_heredoc(t_shell **shell)
 {
-	int		i;
 	t_token	*tmp;
 
-	i = count_heredoc(shell, 0);
 	tmp = (*shell)->tokens;
 	while (tmp)
-	{
-		if (!ft_strncmp(tmp->data, "<<", 3))
-			i++;
-		tmp = tmp->next;
-	}
-	tmp = (*shell)->tokens;
-	while (tmp && i > 0)
 	{
 		if (!ft_strncmp(tmp->data, "<<", 3))
 		{
@@ -84,8 +97,7 @@ void	kani_heredoc(t_shell **shell)
 				tmp->type = 'E';
 				break ;
 			}
-			i = exec_heredoc(tmp, i);
-			if (i == -1)
+			if (exec_heredoc(tmp) == -1)
 			{
 				ft_putstr_fd("syntax error near unexpected token `<<'\n", 2);
 				tmp->type = 'E';
@@ -98,31 +110,4 @@ void	kani_heredoc(t_shell **shell)
 		}
 		tmp = tmp->next;
 	}
-}
-
-int	exec_heredoc(t_token *tokens, int i)
-{
-	int		tmp_fd;
-	char	*random_name;
-	char	*limit;
-	char	*line;
-
-	random_name = NULL;
-	limit = tokens->next->data;
-    if (random_name)
-     	free(random_name);
-    random_name = gen_random_name();
-	tmp_fd = open(random_name, O_CREAT | O_APPEND | O_EXCL | O_RDWR, 0400 | 0200 | 0040 | 0004);
-	if (tmp_fd == -1)
-	{
-		ft_putstr_fd("heredoc error\n", 2);
-		return (-1);
-	}
-	while ((ft_strncmp(limit, line = readline("> "), ft_strlen(limit)) != 0))
-	{
-		write(tmp_fd, line, ft_strlen(line));
-		write(tmp_fd, "\n", 1);
-	}
-	close(tmp_fd);
-	return (i - 1);
 }

@@ -168,7 +168,7 @@ void		cut_spaces(t_token **tokens);
 void		clean_shell(t_shell **shell);
 int			parse_norm_helper(char *tmp, t_token *new, int i);
 void		kani_heredoc(t_shell **shell);
-int			exec_heredoc(t_token *tokens, int i);
+int			exec_heredoc(t_token *tokens);
 char		*str_lower(char *str);
 void		ft_free_path(char **path);
 char		*ft_mystrjoin(char const *s1, char const *s2);
