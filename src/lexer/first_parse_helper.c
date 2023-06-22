@@ -6,16 +6,11 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 15:03:10 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/22 11:32:33 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/22 13:23:03 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// void	clean_shell(t_shell **shell)
-// {
-// 	free_shell(*shell);
-// }
 
 int	parse_norm_helper(char *tmp, t_token *new, int i)
 {
