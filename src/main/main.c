@@ -37,6 +37,7 @@ t_constr *head_constr, char *input)
 	head_tokens = first_parse(input, (*shell), 0);
 	if (error_in_tokens(shell) == -1)
 		return (free_tokens(head_tokens));
+	//assign_redirect_input(shell);
 	kani_heredoc(shell);
 	env_check(*shell, head_tokens);
 	(*shell)->tokens = stugel(head_tokens);
@@ -81,6 +82,7 @@ void	init_shell(t_shell **shell)
 	(*shell)->tokens = NULL;
 	(*shell)->constrs = NULL;
 	(*shell)->env_lst = NULL;
+	(*shell)->redirs = NULL;
 }
 
 int	main(int ac, char **av, char **envp)

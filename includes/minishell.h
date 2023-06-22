@@ -39,12 +39,19 @@
 
 int g_error_status;
 
-typedef struct s_cnt
+//typedef struct s_cnt
+//{
+//	int	i;
+//	int	singles;
+//	int	doubles;
+//}			t_cnt;
+
+typedef struct s_redir
 {
-	int	i;
-	int	singles;
-	int	doubles;
-}			t_cnt;
+	char			*src;
+	int				flag;
+	struct s_redir	*next;
+}				t_redir;
 
 typedef struct s_token
 {
@@ -90,6 +97,7 @@ typedef struct s_shell
 	struct s_token	*tokens;
 	struct s_constr	*constrs;
 	struct s_env	*env_lst;
+	struct s_redir	*redirs;
 }	t_shell;
 
 int			execute_builtin(t_shell *shell);

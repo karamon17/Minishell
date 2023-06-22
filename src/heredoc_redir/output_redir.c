@@ -42,7 +42,7 @@ static void	append_to_file(char *overwrite, char *file)
 {
 	int	fd;
 
-	fd = open(file, O_CREAT | O_APPEND | O_WRONLY);
+	fd = open(file, O_CREAT | O_APPEND | O_WRONLY, 0400 | 0200 | 0040 | 0004);
 	write(fd, overwrite, ft_strlen(overwrite));
     write(fd, "\n", 1);
 	close(fd);
