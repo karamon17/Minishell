@@ -172,6 +172,6 @@ int 		ft_setlvl(const char *name, char **envp, char *val);
 int			error_in_tokens(t_shell **shell);
 void		ft_error_path(t_shell *shell);
 char		*ft_mystrjoin2(char const *s1, char const *s2);
-void		redirect_output(t_constr *cmds);
-
+int			execute_command(t_shell *shell, char *path);
+void		redirect_output(t_shell *shell, t_constr *cmds);
 #endif

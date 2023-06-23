@@ -1,9 +1,15 @@
 #include "minishell.h"
 
-void	grab_file_name(t_constr *tmp)
-{
-	char *file_name;
+// void	grab_file_name(t_constr *tmp)
+// {
+// 	t_constr	*tmp;
 
-	file_name = ft_strdup(tmp->next->data) ;
+// 	tmp = cmds;
+// 	while (tmp)
+// 	{
+// 		if (!ft_strncmp(tmp->command, '>', 2))
 
-}
+// 		else if (!ft_strncmp(tmp->command, '>>', 3))
+
+// 	}
+// }
