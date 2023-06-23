@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:57:30 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/22 13:38:55 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/23 11:06:44 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ int	shell_loop(t_shell **shell)
 			free(input);
 		if ((*shell)->heredoc_name)
 			unlink((*shell)->heredoc_name);
-    }
 	}
+}
 
 void	init_shell(t_shell **shell)
 {

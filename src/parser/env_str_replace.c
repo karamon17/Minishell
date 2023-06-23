@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:51:52 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/22 14:30:40 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/23 11:41:51 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,14 @@ char	*get_path(t_shell *shell, char *str, int i, int is_env)
 		if (is_env == 1)
 		{
 			tmp = ft_mystrjoin2(tmp, ft_getenv(shell, path));
+			if (path[0] == '?')
+			{
+				tmp = ft_mystrjoin2(tmp, ft_itoa(g_error_status));
+				tmp = ft_mystrjoin(tmp, path + 1);
+			}
 			is_env = 0;
 			free(path);
-			path = ft_strdup("");
+			path = ft_calloc(1, sizeof(char));
 		}
 		if (str[i] && str[i] != '$')
 			tmp = ft_mystrjoin2(tmp, ft_substr(str, i++, 1));
@@ -57,6 +62,11 @@ char	*env_in_dqs(t_shell *shell, char *str, int i, int is_env)
 		if (is_env == 1)
 		{
 			tmp = ft_mystrjoin2(tmp, ft_getenv(shell, path));
+			if (path[0] == '?')
+			{
+				tmp = ft_mystrjoin2(tmp, ft_itoa(g_error_status));
+				tmp = ft_mystrjoin(tmp, path + 1);
+			}
 			is_env = 0;
 			free(path);
 			path = ft_strdup("");
@@ -78,12 +88,6 @@ t_token	*env_check(t_shell *shell, t_token *tokens)
 	{
 		if (tmp->data && tmp->data[0] == '"')
 			tmp->data = env_in_dqs(shell, tmp->data, 0, 0);
-		else if (ft_strchr(tmp->data, '$') && *(ft_strchr(tmp->data, '$') + 1)
-			== '?')
-		{
-			*(ft_strchr(tmp->data, '$')) = 0;
-			tmp->data = ft_mystrjoin2(tmp->data, ft_itoa(g_error_status));
-		}
 		else if (tmp->data && tmp->data[0] == '$')
 			tmp->data = get_path(shell, tmp->data, 0, 0);
 		tmp = tmp->next;

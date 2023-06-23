@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:53:37 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/21 15:50:28 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/23 12:01:55 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ char	*add_white_space(char *input, int j, int size, int in_q)
 		{
 			in_q = update_in_q(tmp, j, in_q);
 			tmp = ft_mystrjoin2(tmp, ft_substr(input, j, 1));
-			if ((input[j] == '"' && input[j + 1] == '\'')
-				|| (input[j] == '\'' && input[j + 1] == '"'))
-				tmp = ft_mystrjoin(tmp, " ");
+			// if ((input[j] == '"' && input[j + 1] == '\'')
+			// 	|| (input[j] == '\'' && input[j + 1] == '"'))
+			// 	tmp = ft_mystrjoin(tmp, " ");
 		}
 		else
 			tmp = ft_mystrjoin2(tmp, ft_substr(input, j, 1));
@@ -41,72 +41,34 @@ char	*add_white_space(char *input, int j, int size, int in_q)
 
 int	d_quotes(char *input, int i, t_token **new)
 {
-	char	*for_free;
-	char	*to_free;
-
 	while ((input[i] != '\0'))
 	{
-		for_free = ft_substr(input, i, 1);
-		to_free = (*new)->data;
-		(*new)->data = ft_strjoin(to_free, for_free);
-		free(for_free);
-		free(to_free);
-		i++;
+		(*new)->data = ft_mystrjoin2((*new)->data, ft_substr(input, i++, 1));
 		if (input[i] == '"' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
 			break ;
 	}
 	if (input[i] != '\0')
-	{
-		for_free = ft_substr(input, i, 1);
-		to_free = (*new)->data;
-		(*new)->data = ft_strjoin(to_free, for_free);
-		free(for_free);
-		free(to_free);
-	}
+		(*new)->data = ft_mystrjoin2((*new)->data, ft_substr(input, i, 1));
 	return (i);
 }
 
 int	append_word(char *input, int i, t_token **new)
 {
-	char	*for_free;
-	char	*to_free;
-
 	while (input[i] != ' ' && input[i] != '\0')
-	{
-		for_free = ft_substr(input, i, 1);
-		to_free = (*new)->data;
-		(*new)->data = ft_strjoin(to_free, for_free);
-		free(for_free);
-		free(to_free);
-		i++;
-	}
+		(*new)->data = ft_mystrjoin2((*new)->data, ft_substr(input, i++, 1));
 	return (i);
 }
 
 int	s_quotes(char *input, int i, t_token **new)
 {
-	char	*for_free;
-	char	*to_free;
-
 	while ((input[i] != '\0'))
 	{
-		to_free = (*new)->data;
-		for_free = ft_substr(input, i, 1);
-		(*new)->data = ft_strjoin(to_free, for_free);
-		free(for_free);
-		free(to_free);
-		i++;
+		(*new)->data = ft_mystrjoin2((*new)->data, ft_substr(input, i++, 1));
 		if (input[i] == '\'' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
 			break ;
 	}
 	if (input[i] != '\0')
-	{
-		to_free = (*new)->data;
-		for_free = ft_substr(input, i, 1);
-		(*new)->data = ft_strjoin(to_free, for_free);
-		free(for_free);
-		free(to_free);
-	}
+		(*new)->data = ft_mystrjoin2((*new)->data, ft_substr(input, i, 1));
 	return (i);
 }
 
