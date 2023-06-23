@@ -49,68 +49,69 @@
 // 	close(fd);
 // }
 
-#include <fcntl.h>
-#include <unistd.h>
+// #include <fcntl.h>
+// #include <unistd.h>
 
-void redirect_output_echo(t_shell *shell, t_constr *tmp)
-{
-	char	*file;
-	int		fd;
-	char buffer[1024];
-	ssize_t bytes_read;
+// void redirect_output_echo(t_shell *shell, t_constr *tmp)
+// {
+// 	char	*file;
+// 	int		fd;
+// 	char buffer[1024];
+// 	ssize_t bytes_read;
+// 	int pipefd[2];
+// 	pid_t pid;
 
-	if (!ft_strncmp(tmp->command, ">", 2) || !ft_strncmp(tmp->command, ">>", 3))
-		file = tmp->next->data;
-	if (!ft_strncmp(tmp->command, ">", 2) || !ft_strncmp(tmp->command, ">>", 3))
-	{
-		int pipefd[2];
-		pipe(pipefd);
+// 	if (!ft_strncmp(tmp->command, ">", 2) || !ft_strncmp(tmp->command, ">>", 3))
+// 		file = tmp->next->data;
+// 	if (!ft_strncmp(tmp->command, ">", 2) || !ft_strncmp(tmp->command, ">>", 3))
+// 	{
+// 		pipe(pipefd);
+// 		pid = fork();
+// 		if (pid < 0)
+// 			printf("ERROR REDIRECT");
+// 		// else if (pid == 0)
+// 		// {
+// 		// 	// child process
+// 		// 	close(pipefd[0]); //close the read end
 
-		pid_t pid = fork();
-		if (pid < 0)
-			printf("ERROR REDIRECT");
-		else if (pid == 0)
-		{
-			// child process
-			close(pipefd[0]); //close the read end
+// 		// 	// redirect stdout to the write end
+// 		// 	dup2(pipefd[1], STDOUT_FILENO);
 
-			// redirect stdout to the write end
-			dup2(pipefd[1], STDOUT_FILENO);
+// 		// 	if (!ft_strncmp(tmp->command, ">", 2))
+// 		// 		execute_command(shell, tmp->prev->data);
+// 		// 	else if (!ft_strncmp(tmp->command, ">>", 3))
+// 		// 		execute_command(shell, tmp->prev->data);
 
-			if (!ft_strncmp(tmp->command, ">", 2))
-				execute_command(shell, tmp->prev->data);
-			else if (!ft_strncmp(tmp->command, ">>", 3))
-				execute_command(shell, tmp->prev->data);
+// 		// 	exit(0); // exit child
+// 		// }
+// 		else if (pid == 0)
+// 		{
+// 			//parent
+// 			close(pipefd[1]); // close write end
 
-			exit(0); // exit child
-		}
-		else
-		{
-			//parent
-			close(pipefd[1]); // close write end
+// 			//open the output file and write the contents from pipe to file
+// 			execute_command(shell, tmp->prev->data);
+// 			fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+// 			while ((bytes_read = read(pipefd[0], buffer, sizeof(buffer))) > 0)
+// 				write(fd, buffer, bytes_read);
+// 			close(fd);
+// 			close(pipefd[0]);
 
-			//open the output file and write the contents from pipe to file
-			fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-			while ((bytes_read = read(pipefd[0], buffer, sizeof(buffer))) > 0)
-				write(fd, buffer, bytes_read);
-			close(fd);
-			close(pipefd[0]);
+// 			waitpid(pid, NULL, 0); //wait for child process to finish
+// 		}
+// 	}
+// }
 
-			waitpid(pid, NULL, 0); //wait for child process to finish
-		}
-	}
-}
+// void	redirect_output(t_shell *shell, t_constr *cmds)
+// {
+// 	t_constr	*tmp;
 
-void	redirect_output(t_shell *shell, t_constr *cmds)
-{
-	t_constr	*tmp;
-
-	tmp = cmds;
-	if (!tmp->next->data)
-	{
-		ft_putstr_fd("Minishell: syntax error near unexpected token `newline'\n",
-			2);
-		return ;
-	}
-	redirect_output_echo(shell, tmp);
-}
+// 	tmp = cmds;
+// 	if (!tmp->next->data)
+// 	{
+// 		ft_putstr_fd("Minishell: syntax error near unexpected token `newline'\n",
+// 			2);
+// 		return ;
+// 	}
+// 	redirect_output_echo(shell, tmp);
+// }

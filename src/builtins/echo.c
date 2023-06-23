@@ -12,26 +12,36 @@
 
 #include "minishell.h"
 
-void	ft_withoutn(t_token	*tokens)
+void	ft_withoutn(t_token	*tokens, t_constr *example)
 {
+	int	fd;
+
+	fd = 1;
+	if (!ft_strncmp(example->command, ">>", 3))
+			fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	while (tokens && tokens->data[0] != '|' && tokens->data[0] != '<'
 		&& tokens->data[0] != '>' && ft_strncmp(tokens->data, "<<", 2)
 		!= 0 && ft_strncmp(tokens->data, ">>", 2) != 0)
 	{
-		printf("%s", tokens->data);
+		ft_putstr_fd(tokens->data, fd);
 		if (tokens->next && tokens->next->data[0] != '|')
 			printf(" ");
 		tokens = tokens->next;
 	}
-	printf("\n");
+	ft_putstr_fd("\n", fd);
+	if (fd != 1)
+		close(fd);
 }
 
-void	ft_echo(t_shell *shell, int *flag)
+void	ft_echo(t_shell *shell, int *flag, t_constr *example)
 {
 	t_token	*tokens;
 
 	*flag = 1;
 	tokens = shell->tokens->next;
+	int	fd;
+
+	fd = 1;
 	if (!tokens)
 	{	
 		printf("\n");
@@ -40,14 +50,18 @@ void	ft_echo(t_shell *shell, int *flag)
 	if (!ft_strncmp(tokens->data, "-n", 3))
 	{	
 		tokens = tokens->next;
+		if (!ft_strncmp(example->command, ">>", 3))
+			fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		while (tokens)
 		{
-			printf("%s", tokens->data);
+			ft_putstr_fd(tokens->data, fd);
 			if (tokens->next && tokens->next->data[0] != '|')
 				printf(" ");
 			tokens = tokens->next;
 		}
+		if (fd != 1)
+			close (fd);
 	}
 	else
-		ft_withoutn(tokens);
+		ft_withoutn(tokens, example);
 }

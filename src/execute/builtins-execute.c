@@ -32,7 +32,9 @@ int	execute_builtin(t_shell *shell)
 	t_token	*tmp;
 	int		flag[1];
 	char	*low;
+	t_constr	example;
 
+	example = *shell->constrs;
 	*flag = 0;
 	tmp = shell->tokens;
 	low = str_lower(tmp->data);
@@ -49,7 +51,7 @@ int	execute_builtin(t_shell *shell)
 	else if (!ft_strncmp(tmp->data, "export", 7))
 		ft_export(shell, flag);
 	else if (!ft_strncmp(low, "echo", 5))
-		ft_echo(shell, flag);
+		ft_echo(shell, flag, &example);
 	free(low);
 	return (*flag);
 }
