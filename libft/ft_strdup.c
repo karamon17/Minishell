@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:51:23 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/09 12:04:10 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:30:34 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ char	*ft_strdup(const char *s1)
 		return (NULL);
 	while (*s1)
 		ptr[i++] = *s1++;
-	ptr[i] = '\0';
+	ptr[i] = 0;
 	return (ptr);
 }

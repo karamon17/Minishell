@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:55:29 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/21 12:38:07 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:28:09 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ char	count_quotes(char type, char *str)
 		if (type != '\0')
 		{
 			if (str[i] == type)
+			{
 				cnt++;
+			}
 		}
 		i++;
 	}

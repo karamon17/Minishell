@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:53:37 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/23 12:01:55 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:05:49 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,19 @@ char	*add_white_space(char *input, int j, int size, int in_q)
 
 int	d_quotes(char *input, int i, t_token **new)
 {
+	int	flag;
+
+	flag = 0;
 	while ((input[i] != '\0'))
 	{
 		(*new)->data = ft_mystrjoin2((*new)->data, ft_substr(input, i++, 1));
-		if (input[i] == '"' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
+		if (input[i] == '"')
+			flag = 1;
+		if (flag && (input[i] == ' ' || input[i] == '\0'))
 			break ;
 	}
 	if (input[i] != '\0')
-		(*new)->data = ft_mystrjoin2((*new)->data, ft_substr(input, i, 1));
+		(*new)->data = ft_mystrjoin2((*new)->data, NULL);
 	return (i);
 }
 
@@ -61,10 +66,15 @@ int	append_word(char *input, int i, t_token **new)
 
 int	s_quotes(char *input, int i, t_token **new)
 {
+	int	flag;
+
+	flag = 0;
 	while ((input[i] != '\0'))
 	{
 		(*new)->data = ft_mystrjoin2((*new)->data, ft_substr(input, i++, 1));
-		if (input[i] == '\'' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
+		if (input[i] == '\'')
+			flag = 1;
+		if (flag && (input[i + 1] == ' ' || input[i + 1] == '\0'))
 			break ;
 	}
 	if (input[i] != '\0')

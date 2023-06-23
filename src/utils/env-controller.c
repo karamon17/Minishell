@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:36:20 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/19 15:02:27 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:36:08 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	*ft_getenv(t_shell *shell, char *name)
 {
 	t_env	*current;
 
+	if (!name && !name[0])
+		return (NULL);
 	current = shell->env_lst;
 	while (current)
 	{
@@ -23,7 +25,7 @@ char	*ft_getenv(t_shell *shell, char *name)
 			return (ft_strdup(current->value));
 		current = current->next;
 	}
-	return (0);
+	return (NULL);
 }
 
 int	ft_envlen(t_env	*current)
