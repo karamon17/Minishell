@@ -37,7 +37,6 @@ t_constr *head_constr, char *input)
 	head_tokens = first_parse(input, (*shell), 0);
 	if (error_in_tokens(shell) == -1)
 		return (free_tokens(head_tokens));
-	//assign_redirect_input(shell);
 	head_tokens = kani_heredoc(shell);
 	env_check(*shell, head_tokens);
 	(*shell)->tokens = stugel(head_tokens);
