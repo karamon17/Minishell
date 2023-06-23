@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:53:37 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/23 15:05:49 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/23 19:24:14 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ int	s_quotes(char *input, int i, t_token **new)
 	while ((input[i] != '\0'))
 	{
 		(*new)->data = ft_mystrjoin2((*new)->data, ft_substr(input, i++, 1));
-		if (input[i] == '\'')
+		if (input[i - 1] == '\'')
 			flag = 1;
-		if (flag && (input[i + 1] == ' ' || input[i + 1] == '\0'))
+		if (flag && (input[i] == ' ' || input[i] == '\0'))
 			break ;
 	}
-	if (input[i] != '\0')
+	if (input[i] != '\0' && input[i] != ' ')
 		(*new)->data = ft_mystrjoin2((*new)->data, ft_substr(input, i, 1));
 	return (i);
 }

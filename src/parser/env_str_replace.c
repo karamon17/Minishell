@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:51:52 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/23 15:42:39 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/23 19:50:34 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_path(t_shell *shell, char *str, int i, int is_env)
 			is_env = 1;
 		else if (!str[i])
 			return (ft_strdup("$"));
-		while (is_env == 1 && str[i] && str[i] != '$')
+		while (is_env == 1 && str[i] && str[i] != '$' && str[i] != '\'' && str[i] != '"' && str[i] != '/')
 			path = ft_mystrjoin2(path, ft_substr(str, i++, 1));
 		if (is_env == 1)
 		{
@@ -39,7 +39,13 @@ char	*get_path(t_shell *shell, char *str, int i, int is_env)
 			free(path);
 			path = ft_calloc(1, sizeof(char));
 		}
-		if (str[i] && str[i] != '$')
+		if (str[i] && str[i] != '$' && str[i] == '\'')
+		{
+			i++;
+			while (str[i] && str[i] != '\'')
+				tmp = ft_mystrjoin2(tmp, ft_substr(str, i++, 1));
+		}
+		else if (str[i] && str[i] != '$')
 			tmp = ft_mystrjoin2(tmp, ft_substr(str, i++, 1));
 	}
 	free(str);
@@ -59,7 +65,7 @@ char	*env_in_dqs(t_shell *shell, char *str, int i, int is_env)
 		if (str[i] == '$' && str[i++])
 			is_env = 1;
 		while (is_env == 1 && str[i] != '\0' && str[i] != '"' && str[i] != ' '
-			&& str[i] != '$' && str[i] != '\'')
+			&& str[i] != '$' && str[i] != '\''  && str[i] != '/')
 			path = ft_mystrjoin2(path, ft_substr(str, i++, 1));
 		if (is_env == 1)
 		{
@@ -75,6 +81,12 @@ char	*env_in_dqs(t_shell *shell, char *str, int i, int is_env)
 			free(path);
 			path = ft_strdup("");
 		}
+		// if (str[i] && str[i] != '$' && str[i] == '\'')
+		// {
+		// 	i++;
+		// 	while (str[i] && str[i] != '\'')
+		// 		tmp = ft_mystrjoin2(tmp, ft_substr(str, i++, 1));
+		// }
 		if (str[i] && str[i] != '$')
 			tmp = ft_mystrjoin2(tmp, ft_substr(str, i++, 1));
 	}
@@ -90,19 +102,46 @@ t_token	*env_check(t_shell *shell, t_token *tokens)
 	char	*prikvel;
 
 	tmp = tokens;
-	prikvel = ft_calloc(1, sizeof(char));
 	while (tmp)
 	{
+		prikvel = ft_calloc(1, sizeof(char));
 		i = 0;
-		while (tmp->data && tmp->data[i] != '"' && tmp->data[i] != '$')
+		while (tmp->data[i] && tmp->data[i] != '"' && tmp->data[i] != '$' && tmp->data[i] != '\'')
 			i++;
-		if (i != 0)
+		if (i != 0 && tmp->data[i] == '\'')
+		{
+			i++;
+			while (tmp->data[i] != '\'')
+				i++;
+			free(prikvel);
 			prikvel = ft_substr(tmp->data, 0, i);
+		}
+		else if (i == 0 && tmp->data[i] == '\'')
+		{
+			if (tmp->data[i + 1] == '\'')
+				while (tmp->data[i] == '\'')
+					i++;
+			else
+			{
+				while (tmp->data[i + 1] != '\'')
+					i++;
+				free(prikvel);
+				prikvel = ft_substr(tmp->data, 0, i);
+			}
+		}
+		else if (i != 0)
+		{
+			free(prikvel);
+			prikvel = ft_substr(tmp->data, 0, i);
+		}
 		if (tmp->data && tmp->data[i] == '"')
 			tmp->data = ft_mystrjoin2(prikvel, env_in_dqs(shell, tmp->data, i, 0));
 		else if (tmp->data && tmp->data[i] == '$')
 			tmp->data = ft_mystrjoin2(prikvel, get_path(shell, tmp->data, i, 0));
+		else
+			free(prikvel);
 		tmp = tmp->next;
+		
 	}
 	return (tokens);
 }
