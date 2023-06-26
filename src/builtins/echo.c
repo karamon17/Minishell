@@ -18,16 +18,16 @@ void	ft_withoutn(t_token	*tokens, t_constr *example)
 
 	fd = 1;
 	if (example->command && !ft_strncmp(example->command, ">>", 3))
-			fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			fd = open(example->next->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	else if (example->command && !ft_strncmp(example->command, ">", 3))
-			fd = open(example->next->data, O_CREAT | O_WRONLY, 0644);
+			fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	while (tokens && tokens->data[0] != '|' && tokens->data[0] != '<'
 		&& tokens->data[0] != '>' && ft_strncmp(tokens->data, "<<", 2)
 		!= 0 && ft_strncmp(tokens->data, ">>", 2) != 0)
 	{
 		ft_putstr_fd(tokens->data, fd);
 		if (tokens->next && tokens->next->data[0] != '|')
-			printf(" ");
+			ft_putstr_fd(" ", fd);
 		tokens = tokens->next;
 	}
 	ft_putstr_fd("\n", fd);
@@ -41,9 +41,8 @@ void	ft_echo(t_shell *shell, int *flag, t_constr *example)
 
 	*flag = 1;
 	tokens = shell->tokens->next;
-	int	fd;
 
-	fd = 1;
+	shell->fd = 1;
 	if (!tokens)
 	{	
 		printf("\n");
@@ -52,17 +51,19 @@ void	ft_echo(t_shell *shell, int *flag, t_constr *example)
 	if (!ft_strncmp(tokens->data, "-n", 3))
 	{	
 		tokens = tokens->next;
-		if (example->command && !ft_strncmp(example->command, ">", 3))
-			fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (example->command && !ft_strncmp(example->command, ">", 2))
+			shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		else if (example->command && !ft_strncmp(example->command, ">>", 3))
+			shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		while (tokens)
 		{
-			ft_putstr_fd(tokens->data, fd);
+			ft_putstr_fd(tokens->data, shell->fd);
 			if (tokens->next && tokens->next->data[0] != '|')
-				printf(" ");
+				ft_putstr_fd("\n", shell->fd);
 			tokens = tokens->next;
 		}
-		if (fd != 1)
-			close (fd);
+		if (shell->fd != 1)
+			close (shell->fd);
 	}
 	else
 		ft_withoutn(tokens, example);

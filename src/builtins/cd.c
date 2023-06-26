@@ -104,14 +104,13 @@ void	ft_cd(t_shell *shell, int *flag, t_constr *example)
 	char	*cmd;
 	t_token	*token;
 	char	*to_free;
-	int		fd;
 
 
-	fd = 1;
+	shell->fd = 1;
 	if (example->command && !ft_strncmp(example->command, ">", 3))
-		fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (example->command && !ft_strncmp(example->command, ">>", 3))
-		fd = open(example->next->data, O_CREAT | O_WRONLY, 0644);
+		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	token = shell->tokens->next;
 	*flag = 1;
 	if (!token || (token->data[0] == '~' && !token->data[1]))
@@ -132,6 +131,6 @@ void	ft_cd(t_shell *shell, int *flag, t_constr *example)
 	if (token && token->data[0] == '-' && !token->data[1] && !g_error_status)
 		printf("%s\n", to_free);
 	free(to_free);
-	if (fd != 1)
-		close(fd);
+	if (shell->fd != 1)
+		close(shell->fd);
 }

@@ -22,7 +22,7 @@ void	ft_pwd(int *flag, t_constr *example)
 	if (example->command && !ft_strncmp(example->command, ">", 3))
 		fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (example->command && !ft_strncmp(example->command, ">>", 3))
-		fd = open(example->next->data, O_CREAT | O_WRONLY, 0644);
+		fd = open(example->next->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		ft_putstr_fd(cwd, fd);

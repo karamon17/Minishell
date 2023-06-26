@@ -56,15 +56,14 @@ void	ft_unset(t_shell *shell, int *flag, t_constr *example)
 {
 	t_token	*tmp;
 	t_env	*env;
-	int		fd;
 
-	fd = 1;
+	shell->fd = 1;
 	*flag = 1;
 	tmp = shell->tokens->next;
 	if (example->command && !ft_strncmp(example->command, ">", 3))
-		fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (example->command && !ft_strncmp(example->command, ">>", 3))
-		fd = open(example->next->data, O_CREAT | O_WRONLY, 0644);
+		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (!tmp)
 		return ;
 	while (tmp && tmp->data[0] != '|' && tmp->data[0] != '<'
@@ -85,6 +84,6 @@ void	ft_unset(t_shell *shell, int *flag, t_constr *example)
 		}
 		tmp = tmp->next;
 	}
-	if (fd != 1)
-		close(fd);
+	if (shell->fd != 1)
+		close(shell->fd);
 }

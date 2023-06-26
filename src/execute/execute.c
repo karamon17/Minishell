@@ -63,7 +63,7 @@ int	execute_command(t_shell *shell, char *path, t_token *head, t_constr *example
 	if (example->command && !ft_strncmp(example->command, ">", 3))
 		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (example->command && !ft_strncmp(example->command, ">>", 3))
-		shell->fd = open(example->next->data, O_CREAT | O_WRONLY, 0644);
+		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (!g_error_status)
 	{
 		pid = fork();

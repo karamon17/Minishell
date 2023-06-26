@@ -106,18 +106,17 @@ void	ft_export(t_shell *shell, int *flag, t_constr *example)
 	char	**tmp;
 	int		i;
 	int		cat[1];
-	int		fd;
 
-	fd = 1;
+	shell->fd = 1;
 	*flag = 1;
 	*cat = 0;
 	tmp = ft_split(shell->constrs->data, ' ');
 	i = 0;
 	ft_print_export(shell, tmp);
 	if (example->command && !ft_strncmp(example->command, ">", 3))
-		fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (example->command && !ft_strncmp(example->command, ">>", 3))
-		fd = open(example->next->data, O_CREAT | O_WRONLY, 0644);
+		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	while (tmp[++i])
 	{
 		if (!ft_strchr(tmp[i], '='))
@@ -133,6 +132,6 @@ void	ft_export(t_shell *shell, int *flag, t_constr *example)
 			ft_printerror(tmp[i], value);
 	}
 	ft_free_path(tmp);
-	if (fd != 1)
-		close(fd);
+	if (shell->fd != 1)
+		close(shell->fd);
 }
