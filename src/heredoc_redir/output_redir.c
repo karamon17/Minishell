@@ -21,10 +21,10 @@ int file_check(t_constr *example, int fd)
 		fd = open(tmp->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (tmp->command && !ft_strncmp(tmp->command, ">>", 3))
 		fd = open(tmp->next->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	if (tmp->next->command)
+	if (tmp->next && tmp->next->command)
 	{
 		tmp = tmp->next;
-		while (tmp && (!ft_strncmp(tmp->next->command, ">", 2) || !ft_strncmp(tmp->next->command, ">>", 3)))
+		while (tmp && (tmp->command && (!ft_strncmp(tmp->command, ">", 2) || !ft_strncmp(tmp->command, ">>", 3))))
 		{
 			if (fd != 1)
 				close(fd);
