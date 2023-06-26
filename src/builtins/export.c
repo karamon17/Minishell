@@ -113,10 +113,7 @@ void	ft_export(t_shell *shell, int *flag, t_constr *example)
 	tmp = ft_split(shell->constrs->data, ' ');
 	i = 0;
 	ft_print_export(shell, tmp);
-	if (example->command && !ft_strncmp(example->command, ">", 3))
-		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else if (example->command && !ft_strncmp(example->command, ">>", 3))
-		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	shell->fd = file_check(example, shell->fd);
 	while (tmp[++i])
 	{
 		if (!ft_strchr(tmp[i], '='))

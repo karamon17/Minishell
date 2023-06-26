@@ -107,10 +107,7 @@ void	ft_cd(t_shell *shell, int *flag, t_constr *example)
 
 
 	shell->fd = 1;
-	if (example->command && !ft_strncmp(example->command, ">", 3))
-		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else if (example->command && !ft_strncmp(example->command, ">>", 3))
-		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	shell->fd = file_check(example, shell->fd);
 	token = shell->tokens->next;
 	*flag = 1;
 	if (!token || (token->data[0] == '~' && !token->data[1]))

@@ -60,10 +60,7 @@ void	ft_unset(t_shell *shell, int *flag, t_constr *example)
 	shell->fd = 1;
 	*flag = 1;
 	tmp = shell->tokens->next;
-	if (example->command && !ft_strncmp(example->command, ">", 3))
-		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else if (example->command && !ft_strncmp(example->command, ">>", 3))
-		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	shell->fd = file_check(example, shell->fd);
 	if (!tmp)
 		return ;
 	while (tmp && tmp->data[0] != '|' && tmp->data[0] != '<'

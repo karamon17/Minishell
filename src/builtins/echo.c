@@ -17,10 +17,7 @@ void	ft_withoutn(t_token	*tokens, t_constr *example)
 	int	fd;
 
 	fd = 1;
-	if (example->command && !ft_strncmp(example->command, ">>", 3))
-			fd = open(example->next->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	else if (example->command && !ft_strncmp(example->command, ">", 3))
-			fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	fd = file_check(example, fd);
 	while (tokens && tokens->data[0] != '|' && tokens->data[0] != '<'
 		&& tokens->data[0] != '>' && ft_strncmp(tokens->data, "<<", 2)
 		!= 0 && ft_strncmp(tokens->data, ">>", 2) != 0)
@@ -51,10 +48,7 @@ void	ft_echo(t_shell *shell, int *flag, t_constr *example)
 	if (!ft_strncmp(tokens->data, "-n", 3))
 	{	
 		tokens = tokens->next;
-		if (example->command && !ft_strncmp(example->command, ">", 2))
-			shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		else if (example->command && !ft_strncmp(example->command, ">>", 3))
-			shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		shell->fd = file_check(example, shell->fd);
 		while (tokens)
 		{
 			ft_putstr_fd(tokens->data, shell->fd);

@@ -60,10 +60,7 @@ int	execute_command(t_shell *shell, char *path, t_token *head, t_constr *example
 	if (!path)
 		return (ft_exec_error(shell->tokens->data, NULL, NULL));
 	pid = 0;
-	if (example->command && !ft_strncmp(example->command, ">", 3))
-		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else if (example->command && !ft_strncmp(example->command, ">>", 3))
-		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	shell->fd = file_check(example, shell->fd);
 	if (!g_error_status)
 	{
 		pid = fork();
