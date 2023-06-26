@@ -48,7 +48,7 @@ void	ft_child_exec(t_shell *shell)
 	}
 }
 
-int	execute_command(t_shell *shell, char *path, t_token *head)
+int	execute_command(t_shell *shell, char *path, t_token *head, t_constr *example)
 {
 	pid_t	pid;
 	char	**argv;
@@ -60,6 +60,10 @@ int	execute_command(t_shell *shell, char *path, t_token *head)
 	if (!path)
 		return (ft_exec_error(shell->tokens->data, NULL, NULL));
 	pid = 0;
+	if (example->command && !ft_strncmp(example->command, ">", 3))
+		shell->fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	else if (example->command && !ft_strncmp(example->command, ">>", 3))
+		shell->fd = open(example->next->data, O_CREAT | O_WRONLY, 0644);
 	if (!g_error_status)
 	{
 		pid = fork();
@@ -67,6 +71,7 @@ int	execute_command(t_shell *shell, char *path, t_token *head)
 			return (ft_exec_error(NULL, NULL, NULL));
 		if (pid == 0)
 		{
+			dup2(shell->fd, 1);
 			ft_child_exec(shell);
 			argv = ft_split(shell->constrs->data, ' ');
 			env2darray = env_to_2darray(shell);
@@ -74,6 +79,7 @@ int	execute_command(t_shell *shell, char *path, t_token *head)
 			ft_exec_error(shell->constrs->data, argv, env2darray);
 		}
 	}
+	close(shell->fd);
 	waitpid(pid, &status, 0);
 	return (status / 256);
 }
@@ -109,14 +115,16 @@ char	*check_path(t_shell *shell)
 
 int	execute(t_shell *shell, t_token *head)
 {
-	char	*str_path;
+	char		*str_path;
+	t_constr	*example;
 
+	example = shell->constrs;
 	if (ft_strchr(shell->tokens->data, '/')
 		&& !access(shell->tokens->data, X_OK))
 		str_path = ft_strdup(shell->tokens->data);
 	else
 		str_path = check_path(shell);
-	g_error_status = execute_command(shell, str_path, head);
+	g_error_status = execute_command(shell, str_path, head, example);
 	free(str_path);
 	return (0);
 }

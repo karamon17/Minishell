@@ -106,9 +106,7 @@ void	ft_mainpipe(t_shell *shell, t_constr *constr, t_token *head)
 		}
 	}
 	else if (constr->prev && constr->prev->command && ft_strncmp(constr->prev->command, "|", 2))
-		{
 			return ;
-		}
 	else if ((!constr->command && !execute_builtin(shell)) || (constr->command && ft_strncmp(constr->command, "|", 2) && !execute_builtin(shell)))
 		execute(shell, head);
 }
@@ -116,7 +114,7 @@ void	ft_mainpipe(t_shell *shell, t_constr *constr, t_token *head)
 void	ft_pipex(t_shell *shell)
 {
 	t_constr	*constr;
-	t_token	*head;
+	t_token		*head;
 
 	head = shell->tokens;
 	constr = shell->constrs;

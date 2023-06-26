@@ -82,6 +82,7 @@ void	init_shell(t_shell **shell)
 	(*shell)->tokens = NULL;
 	(*shell)->constrs = NULL;
 	(*shell)->env_lst = NULL;
+	(*shell)->fd = 1;
 }
 
 int	main(int ac, char **av, char **envp)

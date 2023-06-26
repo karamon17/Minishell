@@ -90,6 +90,7 @@ typedef struct s_shell
 	struct s_token	*tokens;
 	struct s_constr	*constrs;
 	struct s_env	*env_lst;
+	int				fd;
 	char			*heredoc_name;
 }	t_shell;
 
@@ -180,7 +181,7 @@ void		redirect_output(t_shell *shell, t_constr *cmds);
 char	*prev_node(t_token *head, t_token *token);
 
 int	execute(t_shell *shell, t_token *head);
-int	execute_command(t_shell *shell, char *path, t_token *head);
+int	execute_command(t_shell *shell, char *path, t_token *head, t_constr *example);
 void	ft_mainpipe(t_shell *shell, t_constr *constr, t_token *head);
 void	ft_child(t_shell *shell, t_constr *constr, int *pid, t_token *head);void
 ft_env(t_shell *shell, int *flag, t_constr *example);
