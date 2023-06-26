@@ -57,7 +57,7 @@ int	execute_command(t_shell *shell, char *path, t_token *head)
 	char	*check;
 
 	check = prev_node(head, shell->tokens);
-	if (!path) //&& (ft_strncmp(check, ">", 2) || ft_strncmp(check, ">>", 3) || ft_strncmp(check, "<", 2)))
+	if (!path)
 		return (ft_exec_error(shell->tokens->data, NULL, NULL));
 	pid = 0;
 	if (!g_error_status)

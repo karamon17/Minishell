@@ -52,7 +52,7 @@ void	ft_echo(t_shell *shell, int *flag, t_constr *example)
 	if (!ft_strncmp(tokens->data, "-n", 3))
 	{	
 		tokens = tokens->next;
-		if (!ft_strncmp(example->command, ">", 3))
+		if (example->command && !ft_strncmp(example->command, ">", 3))
 			fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		while (tokens)
 		{

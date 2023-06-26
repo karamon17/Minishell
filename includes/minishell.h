@@ -125,14 +125,14 @@ void		second_parse(t_token **tokens);
 void		is_redir(t_token **head);
 void		is_option(t_token **head);
 
-void		ft_pwd(int *flag);
-void		ft_env(t_shell *shell, int *flag);
-void		ft_exit(t_shell *shell, int *flag);
-void		ft_unset(t_shell *shell, int *flag);
-void		ft_export(t_shell *shell, int *flag);
+//void		ft_pwd(int *flag);
+//void		ft_env(t_shell *shell, int *flag);
+//void		ft_exit(t_shell *shell, int *flag);
+//void		ft_unset(t_shell *shell, int *flag);
+//void		ft_export(t_shell *shell, int *flag);
 void	ft_echo(t_shell *shell, int *flag, t_constr *example);
 //void		ft_echo(t_shell *shell, int *flag);
-void		ft_cd(t_shell *shell, int *flag);
+//void		ft_cd(t_shell *shell, int *flag);
 char		*ft_getenv(t_shell *shell, char *name);
 t_token		*env_check(t_shell *shell, t_token *tokens);
 void		sigint_handler(int signum);
@@ -182,5 +182,11 @@ char	*prev_node(t_token *head, t_token *token);
 int	execute(t_shell *shell, t_token *head);
 int	execute_command(t_shell *shell, char *path, t_token *head);
 void	ft_mainpipe(t_shell *shell, t_constr *constr, t_token *head);
-void	ft_child(t_shell *shell, t_constr *constr, int *pid, t_token *head);
+void	ft_child(t_shell *shell, t_constr *constr, int *pid, t_token *head);void
+ft_env(t_shell *shell, int *flag, t_constr *example);
+void	ft_unset(t_shell *shell, int *flag, t_constr *example);
+void	ft_export(t_shell *shell, int *flag, t_constr *example);
+void	ft_exit(t_shell *shell, int *flag, t_constr *example);
+void	ft_cd(t_shell *shell, int *flag, t_constr *example);
+void	ft_pwd(int *flag, t_constr *example);
 #endif

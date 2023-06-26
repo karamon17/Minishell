@@ -32,26 +32,26 @@ int	execute_builtin(t_shell *shell)
 	t_token	*tmp;
 	int		flag[1];
 	char	*low;
-	t_constr	example;
+	t_constr	*example;
 
-	example = *shell->constrs;
+	example = shell->constrs;
 	*flag = 0;
 	tmp = shell->tokens;
 	low = str_lower(tmp->data);
 	if (!ft_strncmp(low, "pwd", 4))
-		ft_pwd(flag);
+		ft_pwd(flag, example);
 	else if (!ft_strncmp(tmp->data, "cd", 3))
-		ft_cd(shell, flag);
+		ft_cd(shell, flag, example);
 	else if (!ft_strncmp(low, "env", 4))
-		ft_env(shell, flag);
+		ft_env(shell, flag, example);
 	else if (!ft_strncmp(tmp->data, "exit", 5))
-		ft_exit(shell, flag);
+		ft_exit(shell, flag, example);
 	else if (!ft_strncmp(tmp->data, "unset", 6))
-		ft_unset(shell, flag);
+		ft_unset(shell, flag, example);
 	else if (!ft_strncmp(tmp->data, "export", 7))
-		ft_export(shell, flag);
+		ft_export(shell, flag, example);
 	else if (!ft_strncmp(low, "echo", 5))
-		ft_echo(shell, flag, &example);
+		ft_echo(shell, flag, example);
 	free(low);
 	return (*flag);
 }

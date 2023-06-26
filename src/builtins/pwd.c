@@ -12,18 +12,27 @@
 
 #include "minishell.h"
 
-void	ft_pwd(int *flag)
+void	ft_pwd(int *flag, t_constr *example)
 {
 	char	cwd[PATH_MAX];
+	int		fd;
 
+	fd = 1;
 	*flag = 1;
+	if (example->command && !ft_strncmp(example->command, ">", 3))
+		fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	else if (example->command && !ft_strncmp(example->command, ">>", 3))
+		fd = open(example->next->data, O_CREAT | O_WRONLY, 0644);
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		printf("%s\n", cwd);
+		ft_putstr_fd(cwd, fd);
+		ft_putstr_fd("\n", fd);
 	}
 	else
 	{
 		g_error_status = 1;
 		perror("getcwd() error");
 	}
+	if (fd != 1)
+		close(fd);
 }
