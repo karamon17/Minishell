@@ -175,4 +175,6 @@ void		ft_error_path(t_shell *shell);
 char		*ft_mystrjoin2(char const *s1, char const *s2);
 int			execute_command(t_shell *shell, char *path);
 void		redirect_output(t_shell *shell, t_constr *cmds);
+
+char	*prev_node(t_shell *shell, t_token *token);
 #endif
