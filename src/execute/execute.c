@@ -48,7 +48,7 @@ void	ft_child_exec(t_shell *shell)
 	}
 }
 
-int	execute_command(t_shell *shell, char *path)
+int	execute_command(t_shell *shell, char *path, t_token *head)
 {
 	pid_t	pid;
 	char	**argv;
@@ -56,8 +56,8 @@ int	execute_command(t_shell *shell, char *path)
 	int		status;
 	char	*check;
 
-	check = prev_node(shell, shell->tokens);
-	if (!path && (ft_strncmp(check, ">", 2) || ft_strncmp(check, ">>", 3) || ft_strncmp(check, "<", 2)))
+	check = prev_node(head, shell->tokens);
+	if (!path) //&& (ft_strncmp(check, ">", 2) || ft_strncmp(check, ">>", 3) || ft_strncmp(check, "<", 2)))
 		return (ft_exec_error(shell->tokens->data, NULL, NULL));
 	pid = 0;
 	if (!g_error_status)
@@ -107,7 +107,7 @@ char	*check_path(t_shell *shell)
 	return (res);
 }
 
-int	execute(t_shell *shell)
+int	execute(t_shell *shell, t_token *head)
 {
 	char	*str_path;
 
@@ -116,7 +116,7 @@ int	execute(t_shell *shell)
 		str_path = ft_strdup(shell->tokens->data);
 	else
 		str_path = check_path(shell);
-	g_error_status = execute_command(shell, str_path);
+	g_error_status = execute_command(shell, str_path, head);
 	free(str_path);
 	return (0);
 }

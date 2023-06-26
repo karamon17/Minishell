@@ -136,7 +136,7 @@ void		ft_cd(t_shell *shell, int *flag);
 char		*ft_getenv(t_shell *shell, char *name);
 t_token		*env_check(t_shell *shell, t_token *tokens);
 void		sigint_handler(int signum);
-int			execute(t_shell *shell);
+//int			execute(t_shell *shell);
 t_constr	*create_constr(t_shell *shell);
 char		**env_to_2darray(t_shell *shell);
 void		ft_pipex(t_shell *shell);
@@ -173,8 +173,14 @@ int 		ft_setlvl(const char *name, char **envp, char *val);
 int			error_in_tokens(t_shell **shell);
 void		ft_error_path(t_shell *shell);
 char		*ft_mystrjoin2(char const *s1, char const *s2);
-int			execute_command(t_shell *shell, char *path);
+//int			execute_command(t_shell *shell, char *path);
 void		redirect_output(t_shell *shell, t_constr *cmds);
 
-char	*prev_node(t_shell *shell, t_token *token);
+//char	*prev_node(t_shell *shell, t_token *token);
+char	*prev_node(t_token *head, t_token *token);
+
+int	execute(t_shell *shell, t_token *head);
+int	execute_command(t_shell *shell, char *path, t_token *head);
+void	ft_mainpipe(t_shell *shell, t_constr *constr, t_token *head);
+void	ft_child(t_shell *shell, t_constr *constr, int *pid, t_token *head);
 #endif

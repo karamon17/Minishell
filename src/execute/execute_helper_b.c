@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-char	*prev_node(t_shell *shell, t_token *token)
+char	*prev_node(t_token *head, t_token *token)
 {
 	t_token	*tmp;
 
-	tmp = shell->tokens;
+	tmp = head;
 	if (tmp == token)
 		return (NULL);
 	while (tmp)

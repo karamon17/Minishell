@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_child(t_shell *shell, t_constr *constr, int *pid)
+void	ft_child(t_shell *shell, t_constr *constr, int *pid, t_token *head)
 {
 	*pid = fork();
 	if (*pid == -1)
@@ -36,7 +36,7 @@ void	ft_child(t_shell *shell, t_constr *constr, int *pid)
 			ft_close_pipe(constr->prev->fd);
 		}
 		if (!execute_builtin(shell))
-			execute(shell);
+			execute(shell, head);
 		exit(g_error_status);
 	}
 }
@@ -83,7 +83,7 @@ int	check_builtin(t_shell *shell)
 	return (res);
 }
 
-void	ft_mainpipe(t_shell *shell, t_constr *constr)
+void	ft_mainpipe(t_shell *shell, t_constr *constr, t_token *head)
 {
 	char	*path;
 	pid_t	pid;
@@ -101,26 +101,32 @@ void	ft_mainpipe(t_shell *shell, t_constr *constr)
 			if (!g_error_status)
 			{
 				pipe(constr->fd);
-				ft_child(shell, constr, &pid);
+				ft_child(shell, constr, &pid, head);
 			}
 		}
 	}
-	else if (!constr->command && !execute_builtin(shell))
-		execute(shell);
+	else if (constr->prev && constr->prev->command && ft_strncmp(constr->prev->command, "|", 2))
+		{
+			return ;
+		}
+	else if ((!constr->command && !execute_builtin(shell)) || (constr->command && ft_strncmp(constr->command, "|", 2) && !execute_builtin(shell)))
+		execute(shell, head);
 }
 
 void	ft_pipex(t_shell *shell)
 {
 	t_constr	*constr;
+	t_token	*head;
 
+	head = shell->tokens;
 	constr = shell->constrs;
 	while (constr)
 	{
 		if (ft_emptypipe(constr))
 			return ;
-		ft_mainpipe(shell, constr);
+		ft_mainpipe(shell, constr, head);
 		move_shell_tokens(shell);
-		if (constr->prev && constr->prev->command && !g_error_status)
+		if (constr->prev && !ft_strncmp(constr->prev->command, "|", 2) && !g_error_status)
 			ft_close_pipe(constr->prev->fd);
 		shell->constrs = constr->next;
 		constr = shell->constrs;
