@@ -56,6 +56,7 @@ int	execute_command(t_shell *shell, char *path, t_token *head, t_constr *example
 	int		status;
 	char	*check;
 
+	shell->fd = 1;
 	check = prev_node(head, shell->tokens);
 	if (!path)
 		return (ft_exec_error(shell->tokens->data, NULL, NULL));
