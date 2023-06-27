@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 18:31:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/20 17:17:36 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/27 15:26:47 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,10 @@ void	check_add(t_shell *shell, char *key, char *value, int *cat)
 	{
 		free(env->value);
 		env->value = ft_strdup(value);
+		free(value);
 	}
 	else
-	{
-		free(env->value);
-		env->value = ft_strjoin(env->value, value);
-	}
+		env->value = ft_mystrjoin2(env->value, value);
 }
 
 void	ft_print_export(t_shell *shell, char **tmp)
@@ -86,18 +84,19 @@ void	ft_printerror(char *tmp, char *value)
 	g_error_status = 1;
 	if (value)
 	{
-		ft_putstr_fd("Minishell: export: ", 2);
+		ft_putstr_fd("Minishell: export: `", 2);
 		ft_putstr_fd(tmp, 2);
 		ft_putstr_fd("=", 2);
 		ft_putstr_fd(value, 2);
-		ft_putstr_fd(": not a valid identifier\n", 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
 	}
 	else
 	{
-		ft_putstr_fd("Minishell: export: ", 2);
+		ft_putstr_fd("Minishell: export: `", 2);
 		ft_putstr_fd(tmp, 2);
-		ft_putstr_fd(": not a valid identifier\n", 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
 	}
+	free(value);
 }
 
 void	ft_export(t_shell *shell, int *flag)
