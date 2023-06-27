@@ -72,13 +72,13 @@ int	check_builtin(t_shell *shell)
 
 	tmp = shell->tokens;
 	low = str_lower(tmp->data);
-	res = (ft_strncmp(low, "pwd", 4)
-			|| ft_strncmp(tmp->data, "cd", 3)
-			|| ft_strncmp(low, "env", 4)
-			|| ft_strncmp(tmp->data, "exit", 5)
-			|| ft_strncmp(tmp->data, "unset", 6)
-			|| ft_strncmp(tmp->data, "export", 7)
-			|| ft_strncmp(low, "echo", 5));
+	res = (!ft_strncmp(low, "pwd", 4)
+			|| !ft_strncmp(tmp->data, "cd", 3)
+			|| !ft_strncmp(low, "env", 4)
+			|| !ft_strncmp(tmp->data, "exit", 5)
+			|| !ft_strncmp(tmp->data, "unset", 6)
+			|| !ft_strncmp(tmp->data, "export", 7)
+			|| !ft_strncmp(low, "echo", 5));
 	free(low);
 	return (res);
 }
@@ -107,8 +107,13 @@ void	ft_mainpipe(t_shell *shell, t_constr *constr, t_token *head)
 	}
 	else if (constr->prev && constr->prev->command && ft_strncmp(constr->prev->command, "|", 2))
 			return ;
-	else if ((!constr->command && !execute_builtin(shell)) || (constr->command && ft_strncmp(constr->command, "|", 2) && !execute_builtin(shell)))
-		execute(shell, head);
+	else if (!constr->command || (constr->command && ft_strncmp(constr->command, "|", 2)))
+	{
+		if (check_builtin(shell))
+			execute_builtin(shell);
+		else
+			execute(shell, head);
+	}
 }
 
 void	ft_pipex(t_shell *shell)

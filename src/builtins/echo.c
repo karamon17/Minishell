@@ -61,4 +61,6 @@ void	ft_echo(t_shell *shell, int *flag, t_constr *example)
 	}
 	else
 		ft_withoutn(tokens, example, &shell->flag);
+	if (example->command && !ft_strncmp(example->command, "<", 2))
+		printf("\n");
 }

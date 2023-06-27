@@ -48,6 +48,31 @@ void	ft_child_exec(t_shell *shell)
 	}
 }
 
+void	open_stuff(t_shell *shell, char *path, char **argv, char **env2darray)
+{
+	int	pid;
+	t_constr	*example;
+	int			fd;
+	int			status;
+
+	fd = 1;
+	example = shell->constrs;
+	pid = fork();
+	if (pid == 0)
+	{
+		fd = open(example->next->data, O_CREAT | O_RDONLY, 0644);
+		dup2(fd, 0);
+		ft_child_exec(shell);
+		argv = ft_split(shell->constrs->data, ' ');
+		env2darray = env_to_2darray(shell);
+		execve(path, argv, env2darray);
+		ft_exec_error(shell->constrs->data, argv, env2darray);
+	}
+	if (fd != 1)
+		close(fd);
+	waitpid(fd, &status, 0);
+}
+
 int	execute_command(t_shell *shell, char *path, t_token *head, t_constr *example)
 {
 	pid_t	pid;
@@ -56,6 +81,8 @@ int	execute_command(t_shell *shell, char *path, t_token *head, t_constr *example
 	int		status;
 	char	*check;
 
+	env2darray = NULL;
+	argv = NULL;
 	shell->fd = 1;
 	check = prev_node(head, shell->tokens);
 	if (!path)
@@ -64,6 +91,11 @@ int	execute_command(t_shell *shell, char *path, t_token *head, t_constr *example
 	shell->fd = file_check(example, shell->fd, &shell->flag);
 	if (!g_error_status)
 	{
+		if (shell->flag != 1)
+		{
+			open_stuff(shell, path, argv, env2darray);
+			return (0);
+		}
 		pid = fork();
 		if (pid == -1)
 			return (ft_exec_error(NULL, NULL, NULL));
