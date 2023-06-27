@@ -133,6 +133,7 @@ t_token	*first_parse(char *tmp, t_shell *shell, int i)
 			i++;
 	}
 	free(tmp);
+	shell->tokens = check_redirects(new);
 	if (quote_check(shell->tokens) == -1)
 		return (shell->tokens);
 	return (cut_spaces(&shell->tokens), shell->tokens);

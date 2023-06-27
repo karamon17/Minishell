@@ -62,3 +62,36 @@ int	is_special_token(char *token)
 {
 	return (ft_strcmp(token, "<<") == 0 || ft_strcmp(token, ">>") == 0);
 }
+
+char	message_status(void)
+{
+	g_error_status = 258;
+	ft_putstr_fd("Minishell : syntax error: unexpected end of file\n", 2);
+	return ('E');
+}
+
+t_token	*check_redirects(t_token *new)
+{
+	t_token	*tmp;
+
+	tmp = new;
+	if (ft_token_size(tmp) == 1 && (ft_strncmp(tmp->data, "<", 2) || \
+	ft_strncmp(tmp->data, ">", 2) || ft_strncmp(tmp->data, ">>", 3)))
+		tmp->type = message_status();
+	while (tmp)
+	{
+		if (tmp->next && (ft_strncmp(tmp->data, "<", 2) \
+		|| ft_strncmp(tmp->data, ">", 2) \
+		|| ft_strncmp(tmp->next->data, ">>", 3)) \
+		&& (ft_strncmp(tmp->next->data, "<", 2) \
+		|| ft_strncmp(tmp->next->data, ">", 2) \
+		|| ft_strncmp(tmp->next->data, ">>", 3)))
+		{
+			tmp->type = message_status();
+			break ;
+		}
+		printf("tmp->type = %c\n", tmp->type);
+		tmp = tmp->next;
+	}
+	return (new);
+}

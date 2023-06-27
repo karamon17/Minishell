@@ -57,29 +57,13 @@ int	execute_builtin(t_shell *shell)
 	t_token	*tmp;
 	int		flag[1];
 	t_constr	*example;
-	//int			pid;
 	int			fd;
-	//int			status;
 
 	fd = 1;
 	example = shell->constrs;
 	*flag = 0;
 	tmp = shell->tokens;
 	file_check(example, shell->fd, &shell->flag);
-	// if (shell->flag != 1)
-	// {
-	// 	pid = fork();
-	// 	fd = open(example->next->data, O_CREAT | O_RDONLY, 0644);
-	// 	if (pid == 0)
-	// 	{
-	// 		dup2(fd, 0);
-	// 		*flag = builtin_conditonals(shell, tmp, example);
-	// 		if (fd != 1 && fd != -1)
-	// 			close(fd);
-	// 	}
-	// 	waitpid(fd, &status, 0);
-	// }
-	// else
 	*flag = builtin_conditonals(shell, tmp, example);
 	return (*flag);
 }
