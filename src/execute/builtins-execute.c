@@ -27,21 +27,17 @@ char	*str_lower(char *str)
 	return (res);
 }
 
-int	execute_builtin(t_shell *shell)
+int	builtin_conditonals(t_shell *shell, t_token *tmp, t_constr *example)
 {
-	t_token	*tmp;
 	int		flag[1];
 	char	*low;
-	t_constr	*example;
 
-	example = shell->constrs;
 	*flag = 0;
-	tmp = shell->tokens;
 	low = str_lower(tmp->data);
 	if (!ft_strncmp(low, "pwd", 4))
 		ft_pwd(flag, example);
 	else if (!ft_strncmp(tmp->data, "cd", 3))
-		ft_cd(shell, flag, example);
+		ft_cd(shell, example);
 	else if (!ft_strncmp(low, "env", 4))
 		ft_env(shell, flag, example);
 	else if (!ft_strncmp(tmp->data, "exit", 5))
@@ -53,5 +49,37 @@ int	execute_builtin(t_shell *shell)
 	else if (!ft_strncmp(low, "echo", 5))
 		ft_echo(shell, flag, example);
 	free(low);
+	return (*flag);
+}
+
+int	execute_builtin(t_shell *shell)
+{
+	t_token	*tmp;
+	int		flag[1];
+	t_constr	*example;
+	int			pid;
+	int			fd;
+	int			status;
+
+	fd = 1;
+	example = shell->constrs;
+	*flag = 0;
+	tmp = shell->tokens;
+	file_check(example, shell->fd, &shell->flag);
+	if (shell->flag != 1)
+	{
+		pid = fork();
+		fd = open(example->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (pid == 0)
+		{
+			dup2(fd, 1);
+			*flag = builtin_conditonals(shell, tmp, example);
+			if (fd != 1 && fd != -1)
+				close(fd);
+		}
+		waitpid(fd, &status, 0);
+	}
+	else
+		*flag = builtin_conditonals(shell, tmp, example);
 	return (*flag);
 }

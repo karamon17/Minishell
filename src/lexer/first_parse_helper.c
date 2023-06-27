@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   first_parse_helper.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/14 15:03:10 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/20 17:19:32 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/06/27 14:00:16 by jfrances          #+#    #+#             */
+/*   Updated: 2023/06/27 14:00:18 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// void	clean_shell(t_shell **shell)
-// {
-// 	free_shell(*shell);
-// }
 
 int	parse_norm_helper(char *tmp, t_token *new, int i)
 {

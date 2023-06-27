@@ -57,7 +57,7 @@ void	ft_exit(t_shell *shell, int *flag, t_constr *example)
 
 	shell->fd = 1;
 	*flag = 1;
-	shell->fd = file_check(example, shell->fd);
+	shell->fd = file_check(example, shell->fd, &shell->flag);
 	printf("exit\n");
 	if (!shell->tokens->next)
 		exit(0);

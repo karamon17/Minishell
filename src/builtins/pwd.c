@@ -16,10 +16,12 @@ void	ft_pwd(int *flag, t_constr *example)
 {
 	char	cwd[PATH_MAX];
 	int		fd;
+	int		chk_flg;
 
+	chk_flg = 1;
 	fd = 1;
 	*flag = 1;
-	fd = file_check(example, fd);
+	fd = file_check(example, fd, &chk_flg);
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		ft_putstr_fd(cwd, fd);

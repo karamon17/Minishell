@@ -42,7 +42,7 @@ t_constr *head_constr, char *input)
 	(*shell)->tokens = stugel(head_tokens);
 	g_error_status = 0;
 	head_constr = create_constr(*shell);
-	if ((*shell)->constrs) //&& !is_redirects()
+	if ((*shell)->constrs)
 		ft_pipex(*shell);
 	free_tokens(head_tokens);
 	free_constrs(head_constr);

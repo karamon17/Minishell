@@ -19,7 +19,7 @@ void	ft_env(t_shell *shell, int *flag, t_constr *example)
 	shell->fd = 1;
 	*flag = 1;
 	current = shell->env_lst;
-	shell->fd = file_check(example, shell->fd);
+	shell->fd = file_check(example, shell->fd, &shell->flag);
 	while (current)
 	{
 		if (current->value)

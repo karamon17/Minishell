@@ -61,7 +61,7 @@ int	execute_command(t_shell *shell, char *path, t_token *head, t_constr *example
 	if (!path)
 		return (ft_exec_error(shell->tokens->data, NULL, NULL));
 	pid = 0;
-	shell->fd = file_check(example, shell->fd);
+	shell->fd = file_check(example, shell->fd, &shell->flag);
 	if (!g_error_status)
 	{
 		pid = fork();
@@ -69,7 +69,8 @@ int	execute_command(t_shell *shell, char *path, t_token *head, t_constr *example
 			return (ft_exec_error(NULL, NULL, NULL));
 		if (pid == 0)
 		{
-			dup2(shell->fd, 1);
+			if (shell->fd != 1)
+				dup2(shell->fd, 1);
 			ft_child_exec(shell);
 			argv = ft_split(shell->constrs->data, ' ');
 			env2darray = env_to_2darray(shell);
@@ -77,7 +78,8 @@ int	execute_command(t_shell *shell, char *path, t_token *head, t_constr *example
 			ft_exec_error(shell->constrs->data, argv, env2darray);
 		}
 	}
-	close(shell->fd);
+	if (shell->fd != 1)
+		close(shell->fd);
 	waitpid(pid, &status, 0);
 	return (status / 256);
 }

@@ -92,6 +92,7 @@ typedef struct s_shell
 	struct s_env	*env_lst;
 	int				fd;
 	char			*heredoc_name;
+	int				flag;
 }	t_shell;
 
 int			execute_builtin(t_shell *shell);
@@ -188,7 +189,7 @@ ft_env(t_shell *shell, int *flag, t_constr *example);
 void	ft_unset(t_shell *shell, int *flag, t_constr *example);
 void	ft_export(t_shell *shell, int *flag, t_constr *example);
 void	ft_exit(t_shell *shell, int *flag, t_constr *example);
-void	ft_cd(t_shell *shell, int *flag, t_constr *example);
+void	ft_cd(t_shell *shell, t_constr *example);
 void	ft_pwd(int *flag, t_constr *example);
-int file_check(t_constr *example, int fd);
+int file_check(t_constr *example, int fd, int *flag);
 #endif

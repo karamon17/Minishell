@@ -60,7 +60,7 @@ void	ft_unset(t_shell *shell, int *flag, t_constr *example)
 	shell->fd = 1;
 	*flag = 1;
 	tmp = shell->tokens->next;
-	shell->fd = file_check(example, shell->fd);
+	shell->fd = file_check(example, shell->fd, &shell->flag);
 	if (!tmp)
 		return ;
 	while (tmp && tmp->data[0] != '|' && tmp->data[0] != '<'

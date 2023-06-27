@@ -113,7 +113,7 @@ void	ft_export(t_shell *shell, int *flag, t_constr *example)
 	tmp = ft_split(shell->constrs->data, ' ');
 	i = 0;
 	ft_print_export(shell, tmp);
-	shell->fd = file_check(example, shell->fd);
+	shell->fd = file_check(example, shell->fd, &shell->flag);
 	while (tmp[++i])
 	{
 		if (!ft_strchr(tmp[i], '='))
