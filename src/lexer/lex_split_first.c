@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 16:53:37 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/23 19:24:14 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/26 17:49:49 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ char	*add_white_space(char *input, int j, int size, int in_q)
 		{
 			in_q = update_in_q(tmp, j, in_q);
 			tmp = ft_mystrjoin2(tmp, ft_substr(input, j, 1));
-			// if ((input[j] == '"' && input[j + 1] == '\'')
-			// 	|| (input[j] == '\'' && input[j + 1] == '"'))
-			// 	tmp = ft_mystrjoin(tmp, " ");
 		}
 		else
 			tmp = ft_mystrjoin2(tmp, ft_substr(input, j, 1));

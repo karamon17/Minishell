@@ -6,40 +6,27 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 19:38:27 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/23 15:32:08 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/27 13:42:24 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*cut_command_quotes(t_token *tokens)
+void	cut_command_quotes(t_token *tmp, int i, int count_d, int count_s)
 {
-	int		i;
-	int		count_d;
-	int		count_s;
 	char	*cpy;
-	t_token	*tmp;
 	char	*to_free;
 
-	tmp = tokens;
 	while (tmp != NULL)
 	{
-		count_d = 0;
-		count_s = 0;
 		i = -1;
 		cpy = ft_calloc(1, sizeof(char));
 		while (tmp->data[++i])
 		{
-			if (tmp->data[i] == '\'' && !(count_d % 2))
-			{
-				count_s++;
+			if (tmp->data[i] == '\'' && !(count_d % 2) && ++count_s)
 				continue ;
-			}
-			if (tmp->data[i] == '"' && !(count_s % 2))
-			{
-				count_d++;
+			if (tmp->data[i] == '"' && !(count_s % 2) && ++count_d)
 				continue ;
-			}
 			cpy = ft_mystrjoin2(cpy, ft_substr(tmp->data, i, 1));
 		}
 		to_free = tmp->data;
@@ -47,7 +34,6 @@ t_token	*cut_command_quotes(t_token *tokens)
 		free(to_free);
 		tmp = tmp->next;
 	}
-	return (tokens);
 }
 
 t_token	*delete_token(t_token **head, t_token *to_delete)
@@ -125,7 +111,7 @@ t_token	*stugel(t_token *tokens)
 
 	if (!tokens)
 		return (NULL);
-	tokens = cut_command_quotes(tokens);
+	cut_command_quotes(tokens, 0, 0, 0);
 	tmp = tokens;
 	i = 0;
 	while (tmp)
