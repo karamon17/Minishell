@@ -28,29 +28,30 @@ void	open_stuff(t_shell *shell, char *path, char **argv, char **env2darray)
 {
 	int			pid;
 	t_const		*example;
-	int			fd;
+	//int			fd;
 	int			status;
 
-	fd = 1;
+	//fd = 1;
 	example = shell->constrs;
 	pid = fork();
 	signal(SIGINT, sigint_handler2);
 	signal(SIGQUIT, SIG_IGN);
 	if (pid == 0)
 	{
-		fd = open(example->next->data, O_RDONLY, 0644);
-		if (fd == -1)
+		if (shell->fd == 1)
+			shell->fd = open(example->next->data, O_RDONLY, 0644);
+		if (shell->fd == -1)
 			return (ft_print_error_red(example->next->data));
-		dup2(fd, 0);
+		dup2(shell->fd, 0);
 		ft_child_exec(shell);
 		argv = ft_split(shell->constrs->data, ' ');
 		env2darray = env_to_2darray(shell);
 		execve(path, argv, env2darray);
 		ft_exec_error(shell->constrs->data, argv, env2darray);
 	}
-	if (fd != 1)
-		close(fd);
-	waitpid(fd, &status, 0);
+	if (shell->fd != 1)
+		close(shell->fd);
+	waitpid(shell->fd, &status, 0);
 }
 
 int	exec_comm(t_shell *shell, char *path)

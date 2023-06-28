@@ -21,27 +21,25 @@ static t_token	*token_helper(t_shell *shell, t_token *tokens)
 	return (tokens);
 }
 
-void	ft_withoutn(t_token	*tokens, t_const *example, int *flag)
+void	ft_withoutn(t_shell *sh, t_token *tokens, t_const *example, int *flag)
 {
-	int	fd;
 
-	fd = 1;
-	if (example->command && example->command[0] == '<')
-		fd = file_check(example, 0, flag);
-	if (fd == -1)
+	if (example->command)
+		sh->fd = file_check(example, 0, flag);
+	if (sh->fd == -1)
 		return ;
 	while (tokens && tokens->data[0] != '|' && tokens->data[0] != '<'
 		&& tokens->data[0] != '>' && ft_strncmp(tokens->data, "<<", 2)
 		!= 0 && ft_strncmp(tokens->data, ">>", 2) != 0)
 	{
-		ft_putstr_fd(tokens->data, fd);
+		ft_putstr_fd(tokens->data, sh->fd);
 		if (tokens->next && tokens->next->data[0] != '|')
-			ft_putstr_fd(" ", fd);
+			ft_putstr_fd(" ", sh->fd);
 		tokens = tokens->next;
 	}
-	ft_putstr_fd("\n", fd);
-	if (fd != 1)
-		close(fd);
+	ft_putstr_fd("\n", sh->fd);
+	if (sh->fd != 1)
+		close(sh->fd);
 }
 
 void	ft_echo(t_shell *shell, int *flag, t_const *example)
@@ -65,7 +63,7 @@ void	ft_echo(t_shell *shell, int *flag, t_const *example)
 			close (shell->fd);
 	}
 	else
-		ft_withoutn(tokens, example, &shell->flag);
+		ft_withoutn(shell, tokens, example, &shell->flag);
 	if (example->command && !ft_strncmp(example->command, "<", 2))
 		printf("\n");
 }

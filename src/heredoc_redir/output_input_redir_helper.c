@@ -16,7 +16,7 @@ int	open_helper(int *flag, t_const *tmp)
 {
 	int	fd;
 
-	fd = open(tmp->next->data, O_RDONLY, 0644);
+	fd = open(tmp->next->data, O_RDONLY, 644);
 	if (fd == -1)
 		ft_print_error_red(tmp->next->data);
 	*flag = 2;
