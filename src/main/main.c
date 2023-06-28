@@ -31,7 +31,7 @@ void	print_cool_head(void)
 }
 
 void	shell_loop_help(t_shell **shell, t_token *head_tokens, \
-t_constr *head_constr, char *input)
+t_const *head_constr, char *input)
 {
 	add_history(input);
 	head_tokens = first_parse(input, (*shell), 0);
@@ -51,7 +51,7 @@ t_constr *head_constr, char *input)
 int	shell_loop(t_shell **shell)
 {
 	t_token		*head_tokens;
-	t_constr	*head_constr;
+	t_const	*head_constr;
 	char		*input;
 
 	rl_catch_signals = 0;

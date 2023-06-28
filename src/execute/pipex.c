@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_child(t_shell *shell, t_constr *constr, int *pid, t_token *head)
+void	ft_child(t_shell *shell, t_const *constr, int *pid)
 {
 	*pid = fork();
 	if (*pid == -1)
@@ -36,12 +36,12 @@ void	ft_child(t_shell *shell, t_constr *constr, int *pid, t_token *head)
 			ft_close_pipe(constr->prev->fd);
 		}
 		if (!execute_builtin(shell))
-			execute(shell, head);
+			execute(shell);
 		exit(g_error_status);
 	}
 }
 
-int	ft_emptypipe(t_constr *constr)
+int	ft_emptypipe(t_const *constr)
 {
 	if (constr->command && !ft_strncmp(constr->command, "|", 2)
 		&& !constr->next)
@@ -83,14 +83,14 @@ int	check_builtin(t_shell *shell)
 	return (res);
 }
 
-void	ft_mainpipe(t_shell *shell, t_constr *constr, t_token *head)
+void	ft_mainpipe(t_shell *shell, t_const *c)
 {
 	char	*path;
 	pid_t	pid;
 
-	if ((constr->command && !ft_strncmp(constr->command, "|", 2)) || \
-		(constr->prev && constr->prev->command
-			&& !ft_strncmp(constr->prev->command, "|", 2)))
+	if ((c->command && !ft_strncmp(c->command, "|", 2)) || \
+	(c->prev && c->prev->command \
+	&& !ft_strncmp(c->prev->command, "|", 2)))
 	{
 		path = check_path(shell);
 		if (!path && !check_builtin(shell))
@@ -100,36 +100,31 @@ void	ft_mainpipe(t_shell *shell, t_constr *constr, t_token *head)
 			free(path);
 			if (!g_error_status)
 			{
-				pipe(constr->fd);
-				ft_child(shell, constr, &pid, head);
+				pipe(c->fd);
+				ft_child(shell, c, &pid);
 			}
 		}
 	}
-	else if (constr->prev && constr->prev->command && ft_strncmp(constr->prev->command, "|", 2))
-			return ;
-	else if (!constr->command || (constr->command && ft_strncmp(constr->command, "|", 2)))
-	{
-		if (check_builtin(shell))
-			execute_builtin(shell);
-		else
-			execute(shell, head);
-	}
+	else if (c->prev && c->prev->command \
+	&& ft_strncmp(c->prev->command, "|", 2))
+		return ;
+	else if (!c->command || (c->command && ft_strncmp(c->command, "|", 2)))
+		pipex_helper(shell);
 }
 
 void	ft_pipex(t_shell *shell)
 {
-	t_constr	*constr;
-	t_token		*head;
+	t_const	*constr;
 
-	head = shell->tokens;
 	constr = shell->constrs;
 	while (constr)
 	{
 		if (ft_emptypipe(constr))
 			return ;
-		ft_mainpipe(shell, constr, head);
+		ft_mainpipe(shell, constr);
 		move_shell_tokens(shell);
-		if (constr->prev && !ft_strncmp(constr->prev->command, "|", 2) && !g_error_status)
+		if (constr->prev && \
+		!ft_strncmp(constr->prev->command, "|", 2) && !g_error_status)
 			ft_close_pipe(constr->prev->fd);
 		shell->constrs = constr->next;
 		constr = shell->constrs;

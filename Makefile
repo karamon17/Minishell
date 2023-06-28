@@ -1,9 +1,5 @@
 NAME     = minishell
-<<<<<<< HEAD
-CFLAGS   = -Wall -Wextra -Werror -g ##-fsanitize=address
-=======
 CFLAGS   = -Wall -Wextra -Werror -g #-fsanitize=address
->>>>>>> newgevorg
 RM       = rm -rf
 LIBS     = -I./includes/ -I./readline/include
 

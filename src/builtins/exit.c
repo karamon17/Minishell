@@ -52,10 +52,15 @@ int	check(char *str)
 	return (0);
 }
 
-void	ft_exit(t_shell *shell, int *flag, t_constr *example)
+static void	print_error_message(t_shell *shell)
 {
+	ft_putstr_fd("Minishell: exit: ", 2);
+	ft_putstr_fd(shell->tokens->next->data, 2);
+	ft_putstr_fd(" numeric argument required\n", 2);
+}
 
-	shell->fd = 1;
+void	ft_exit(t_shell *shell, int *flag, t_const *example)
+{
 	*flag = 1;
 	shell->fd = file_check(example, shell->fd, &shell->flag);
 	printf("exit\n");
@@ -69,9 +74,7 @@ void	ft_exit(t_shell *shell, int *flag, t_constr *example)
 		exit(ft_atoi(shell->tokens->next->data));
 	else if (shell->tokens->next && check(shell->tokens->next->data))
 	{
-		ft_putstr_fd("Minishell: exit: ", 2);
-		ft_putstr_fd(shell->tokens->next->data, 2);
-		ft_putstr_fd(" numeric argument required\n", 2);
+		print_error_message(shell);
 		exit(255);
 	}
 	else

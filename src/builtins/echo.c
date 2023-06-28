@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_withoutn(t_token	*tokens, t_constr *example, int *flag)
+void	ft_withoutn(t_token	*tokens, t_const *example, int *flag)
 {
 	int	fd;
 
@@ -32,19 +32,15 @@ void	ft_withoutn(t_token	*tokens, t_constr *example, int *flag)
 		close(fd);
 }
 
-void	ft_echo(t_shell *shell, int *flag, t_constr *example)
+void	ft_echo(t_shell *shell, int *flag, t_const *example)
 {
 	t_token	*tokens;
 
 	*flag = 1;
 	tokens = shell->tokens->next;
-
 	shell->fd = 1;
 	if (!tokens)
-	{	
-		printf("\n");
-		return ;
-	}
+		return (ft_putstr_fd("\n", 1));
 	if (!ft_strncmp(tokens->data, "-n", 3))
 	{	
 		tokens = tokens->next;

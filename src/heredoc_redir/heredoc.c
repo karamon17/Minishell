@@ -12,12 +12,6 @@
 
 #include "minishell.h"
 
-void	print_and_set_type(char *type)
-{
-	ft_putstr_fd("syntax error near unexpected token `<<'\n", 2);
-	type[0] = 'E';
-}
-
 void	heredoc_helper(int tmp_fd, char *line, char **str, int flag)
 {
 	if (flag == 1)
@@ -43,17 +37,17 @@ char	*gen_random_name(void)
 	fd = open("/dev/urandom", O_RDONLY);
 	if (fd < -1)
 		return ("ERROR");
- 	read(fd, buff, 4);
- 	nbr = *(int *)buff;
- 	if (nbr < 0)
- 		nbr++;
- 	if (nbr < 0)
- 		nbr = nbr * (-1);
+	read(fd, buff, 4);
+	nbr = *(int *)buff;
+	if (nbr < 0)
+		nbr++;
+	if (nbr < 0)
+		nbr = nbr * (-1);
 	*name = ('a' + nbr % 26);
- 	return (name);
- }
+	return (name);
+}
 
-static int	check_next_node(t_token *tmp)
+int	check_next_node(t_token *tmp)
 {
 	if (tmp->next == NULL || tmp->next->data == NULL)
 		return (-1);
@@ -76,9 +70,9 @@ int	exec_heredoc(t_shell **shell, t_token *tokens)
 
 	random_name = NULL;
 	limit = tokens->next->data;
-    if (random_name)
-     	free(random_name);
-    random_name = gen_random_name();
+	if (random_name)
+		free(random_name);
+	random_name = gen_random_name();
 	file_name = ft_strdup("_heredoc_tmp");
 	file_name = ft_strjoin(random_name, file_name);
 	tmp_fd = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
@@ -87,12 +81,12 @@ int	exec_heredoc(t_shell **shell, t_token *tokens)
 		ft_putstr_fd("heredoc error\n", 2);
 		return (-1);
 	}
-	while ((ft_strncmp(limit, line = readline("> "), ft_strlen(limit)) != 0))
+	line = readline("> ");
+	while ((ft_strncmp(limit, line, ft_strlen(limit)) != 0))
 		heredoc_helper(tmp_fd, line, NULL, 1);
 	(*shell)->heredoc_name = ft_strdup(file_name);
-	free(random_name);
 	heredoc_helper(tmp_fd, NULL, &file_name, 0);
-	return (0);
+	return (free(random_name), 0);
 }
 
 t_token	*kani_heredoc(t_shell **shell)
@@ -106,17 +100,9 @@ t_token	*kani_heredoc(t_shell **shell)
 	{
 		if (!ft_strncmp(tmp->data, "<<", 3))
 		{
-			flag = 1;
-			if (check_next_node(tmp) == -1)
-			{
-				print_and_set_type(&tmp->type);
+			flag = heredoc_norm_helper(shell, &tmp);
+			if (flag == -1)
 				break ;
-			}
-			if (exec_heredoc(shell, tmp) == -1)
-			{
-				print_and_set_type(&tmp->type);
-				break ;
-			}
 			tmp = delete_token(&(*shell)->tokens, tmp);
 			if (tmp->data)
 				tmp = delete_token(&(*shell)->tokens, tmp);

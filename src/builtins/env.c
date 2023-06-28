@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_env(t_shell *shell, int *flag, t_constr *example)
+void	ft_env(t_shell *shell, int *flag, t_const *example)
 {
 	t_env	*current;
 

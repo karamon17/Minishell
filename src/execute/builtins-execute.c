@@ -27,7 +27,7 @@ char	*str_lower(char *str)
 	return (res);
 }
 
-int	builtin_conditonals(t_shell *shell, t_token *tmp, t_constr *example)
+int	builtin_conditonals(t_shell *shell, t_token *tmp, t_const *example)
 {
 	int		flag[1];
 	char	*low;
@@ -43,7 +43,7 @@ int	builtin_conditonals(t_shell *shell, t_token *tmp, t_constr *example)
 	else if (!ft_strncmp(tmp->data, "exit", 5))
 		ft_exit(shell, flag, example);
 	else if (!ft_strncmp(tmp->data, "unset", 6))
-		ft_unset(shell, flag, example);
+		ft_unset(shell, flag);
 	else if (!ft_strncmp(tmp->data, "export", 7))
 		ft_export(shell, flag, example);
 	else if (!ft_strncmp(low, "echo", 5))
@@ -54,9 +54,9 @@ int	builtin_conditonals(t_shell *shell, t_token *tmp, t_constr *example)
 
 int	execute_builtin(t_shell *shell)
 {
-	t_token	*tmp;
-	int		flag[1];
-	t_constr	*example;
+	t_token		*tmp;
+	int			flag[1];
+	t_const		*example;
 	int			fd;
 
 	fd = 1;

@@ -99,14 +99,13 @@ void	ft_printerror(char *tmp, char *value)
 	free(value);
 }
 
-void	ft_export(t_shell *shell, int *flag, t_constr *example)
+void	ft_export(t_shell *shell, int *flag, t_const *example)
 {
 	char	*value;
 	char	**tmp;
 	int		i;
 	int		cat[1];
 
-	shell->fd = 1;
 	*flag = 1;
 	*cat = 0;
 	tmp = ft_split(shell->constrs->data, ' ');
@@ -122,12 +121,8 @@ void	ft_export(t_shell *shell, int *flag, t_constr *example)
 			value = ft_strdup(ft_strchr(tmp[i], '=') + 1);
 			*(ft_strchr(tmp[i], '=')) = 0;
 		}
-		if (ft_checkletter(tmp[i], cat))
-			check_add(shell, ft_strdup(tmp[i]), value, cat);
-		else
-			ft_printerror(tmp[i], value);
+		export_helper(tmp[i], shell, value, cat);
 	}
 	ft_free_path(tmp);
-	if (shell->fd != 1)
-		close(shell->fd);
+	close_file(shell->fd);
 }

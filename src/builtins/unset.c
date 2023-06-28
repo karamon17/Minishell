@@ -52,15 +52,22 @@ void	ft_printerror_unset(char *tmp)
 	ft_putstr_fd(": not a valid identifier\n", 2);
 }
 
-void	ft_unset(t_shell *shell, int *flag, t_constr *example)
+t_token	*unset_helper(t_shell *shell, int *flag, t_const *example)
+{
+	t_token		*tmp;
+
+	tmp = shell->tokens->next;
+	shell->fd = file_check(example, shell->fd, &shell->flag);
+	*flag = 1;
+	return (tmp);
+}
+
+void	ft_unset(t_shell *shell, int *flag)
 {
 	t_token	*tmp;
 	t_env	*env;
 
-	shell->fd = 1;
-	*flag = 1;
-	tmp = shell->tokens->next;
-	shell->fd = file_check(example, shell->fd, &shell->flag);
+	tmp = unset_helper(shell, flag, shell->constrs);
 	if (!tmp)
 		return ;
 	while (tmp && tmp->data[0] != '|' && tmp->data[0] != '<'
@@ -81,6 +88,5 @@ void	ft_unset(t_shell *shell, int *flag, t_constr *example)
 		}
 		tmp = tmp->next;
 	}
-	if (shell->fd != 1)
-		close(shell->fd);
+	close_file(shell->fd);
 }

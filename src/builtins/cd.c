@@ -99,13 +99,12 @@ void	ft_chdir(t_shell *shell, char *cmd)
 		ft_cdprint_error2(cmd);
 }
 
-void	ft_cd(t_shell *shell, t_constr *example)
+void	ft_cd(t_shell *shell, t_const *example)
 {
 	char	*cmd;
 	t_token	*token;
 	char	*to_free;
 
-	shell->fd = 1;
 	shell->fd = file_check(example, shell->fd, &shell->flag);
 	token = shell->tokens->next;
 	if (!token || (token->data[0] == '~' && !token->data[1]))
@@ -126,6 +125,5 @@ void	ft_cd(t_shell *shell, t_constr *example)
 	if (token && token->data[0] == '-' && !token->data[1] && !g_error_status)
 		printf("%s\n", to_free);
 	free(to_free);
-	if (shell->fd != 1)
-		close(shell->fd);
+	close_file(shell->fd);
 }

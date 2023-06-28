@@ -42,3 +42,10 @@ void	ft_oldpwd_notset(void)
 	g_error_status = 1;
 	ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
 }
+
+void	close_file(int fd)
+{
+	if (fd != 1)
+		close(fd);
+}
+

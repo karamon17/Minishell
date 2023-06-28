@@ -84,3 +84,29 @@ int	quote_check(t_token *tokens)
 	}
 	return (0);
 }
+
+int	ft_exec_error(char *str, char **argv, char **env2darray)
+{
+	if (!argv && !env2darray)
+	{
+		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": command not found\n", 2);
+		return (127);
+	}
+	else if (!str && !argv && !env2darray)
+	{
+		ft_putstr_fd("Minishell: fork: Resource temporarily unavailable\n", 2);
+		g_error_status = 1;
+		return (1);
+	}
+	else
+	{
+		ft_free_path(argv);
+		ft_free_path(env2darray);
+		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		exit(126);
+	}
+}

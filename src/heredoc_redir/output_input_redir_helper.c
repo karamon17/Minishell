@@ -12,9 +12,18 @@
 
 #include "minishell.h"
 
-int file_check(t_constr *example, int fd, int *flag)
+int	open_helper(int *flag, t_const *tmp)
 {
-	t_constr	*tmp;
+	int	fd;
+
+	fd = open(tmp->next->data, O_CREAT | O_RDONLY | O_TRUNC, 0644);
+	*flag = 2;
+	return (fd);
+}
+
+int	file_check(t_const *example, int fd, int *flag)
+{
+	t_const	*tmp;
 
 	tmp = example;
 	if (tmp->command && !ft_strncmp(tmp->command, ">", 2))
@@ -22,18 +31,14 @@ int file_check(t_constr *example, int fd, int *flag)
 	else if (tmp->command && !ft_strncmp(tmp->command, ">>", 3))
 		fd = open(tmp->next->data, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	else if (tmp->command && !ft_strncmp(tmp->command, "<", 2))
-	{
-		fd = open(tmp->next->data, O_CREAT | O_RDONLY | O_TRUNC, 0644);
-		*flag = 2;
-		return (fd);
-	}
+		return (open_helper(flag, tmp));
 	if (tmp->next && tmp->next->command)
 	{
 		tmp = tmp->next;
-		while (tmp && (tmp->command && (!ft_strncmp(tmp->command, ">", 2) || !ft_strncmp(tmp->command, ">>", 3))))
+		while (tmp && (tmp->command && (!ft_strncmp(tmp->command, ">", 2) \
+		|| !ft_strncmp(tmp->command, ">>", 3))))
 		{
-			if (fd != 1)
-				close(fd);
+			close_file(fd);
 			if (tmp->command && !ft_strncmp(tmp->command, ">", 2))
 				fd = open(tmp->next->data, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			else if (tmp->command && !ft_strncmp(tmp->command, ">>", 3))

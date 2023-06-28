@@ -12,32 +12,6 @@
 
 #include "minishell.h"
 
-int	ft_exec_error(char *str, char **argv, char **env2darray)
-{
-	if (!argv && !env2darray)
-	{
-		ft_putstr_fd("Minishell: ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": command not found\n", 2);
-		return (127);
-	}
-	else if (!str && !argv && !env2darray)
-	{
-		ft_putstr_fd("Minishell: fork: Resource temporarily unavailable\n", 2);
-		g_error_status = 1;
-		return (1);
-	}
-	else
-	{
-		ft_free_path(argv);
-		ft_free_path(env2darray);
-		ft_putstr_fd("Minishell: ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": is a directory\n", 2);
-		exit(126);
-	}
-}
-
 void	ft_child_exec(t_shell *shell)
 {
 	if (!shell->constrs->command && shell->constrs->prev
@@ -50,8 +24,8 @@ void	ft_child_exec(t_shell *shell)
 
 void	open_stuff(t_shell *shell, char *path, char **argv, char **env2darray)
 {
-	int	pid;
-	t_constr	*example;
+	int			pid;
+	t_const		*example;
 	int			fd;
 	int			status;
 
@@ -73,47 +47,33 @@ void	open_stuff(t_shell *shell, char *path, char **argv, char **env2darray)
 	waitpid(fd, &status, 0);
 }
 
-int	execute_command(t_shell *shell, char *path, t_token *head, t_constr *example)
+int	exec_comm(t_shell *shell, char *path)
 {
-	pid_t	pid;
-	char	**argv;
-	char	**env2darray;
-	int		status;
-	char	*check;
+	t_helper	hp;
 
-	env2darray = NULL;
-	argv = NULL;
-	shell->fd = 1;
-	check = prev_node(head, shell->tokens);
-	if (!path)
-		return (ft_exec_error(shell->tokens->data, NULL, NULL));
-	pid = 0;
-	shell->fd = file_check(example, shell->fd, &shell->flag);
+	hp.env2darray = NULL;
+	hp.argv = NULL;
+	hp.pid = 0;
 	if (!g_error_status)
 	{
 		if (shell->flag != 1)
-		{
-			open_stuff(shell, path, argv, env2darray);
-			return (0);
-		}
-		pid = fork();
-		if (pid == -1)
+			return (open_stuff(shell, path, hp.argv, hp.env2darray), 0);
+		hp.pid = fork();
+		if (hp.pid == -1)
 			return (ft_exec_error(NULL, NULL, NULL));
-		if (pid == 0)
+		if (hp.pid == 0)
 		{
 			if (shell->fd != 1)
 				dup2(shell->fd, 1);
 			ft_child_exec(shell);
-			argv = ft_split(shell->constrs->data, ' ');
-			env2darray = env_to_2darray(shell);
-			execve(path, argv, env2darray);
-			ft_exec_error(shell->constrs->data, argv, env2darray);
+			hp.argv = ft_split(shell->constrs->data, ' ');
+			hp.env2darray = env_to_2darray(shell);
+			execve(path, hp.argv, hp.env2darray);
+			ft_exec_error(shell->constrs->data, hp.argv, hp.env2darray);
 		}
 	}
-	if (shell->fd != 1)
-		close(shell->fd);
-	waitpid(pid, &status, 0);
-	return (status / 256);
+	waitpid(hp.pid, &(hp.status), 0);
+	return (hp.status / 256);
 }
 
 char	*check_path(t_shell *shell)
@@ -145,10 +105,10 @@ char	*check_path(t_shell *shell)
 	return (res);
 }
 
-int	execute(t_shell *shell, t_token *head)
+int	execute(t_shell *shell)
 {
 	char		*str_path;
-	t_constr	*example;
+	t_const	*example;
 
 	example = shell->constrs;
 	if (ft_strchr(shell->tokens->data, '/')
@@ -156,7 +116,12 @@ int	execute(t_shell *shell, t_token *head)
 		str_path = ft_strdup(shell->tokens->data);
 	else
 		str_path = check_path(shell);
-	g_error_status = execute_command(shell, str_path, head, example);
+	shell->fd = file_check(example, shell->fd, &shell->flag);
+	if (!str_path)
+		g_error_status = ft_exec_error(shell->tokens->data, NULL, NULL);
+	else
+		g_error_status = exec_comm(shell, str_path);
+	close_file(shell->fd);
 	free(str_path);
 	return (0);
 }

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_constr	*mylstlast(t_constr *lst)
+t_const	*mylstlast(t_const *lst)
 {
 	if (!lst)
 		return (0);
@@ -21,11 +21,11 @@ t_constr	*mylstlast(t_constr *lst)
 	return (lst);
 }
 
-t_constr	*create_newnode(char *token, char *command)
+t_const	*create_newnode(char *token, char *command)
 {
-	t_constr	*newnode;
+	t_const	*newnode;
 
-	newnode = malloc(sizeof(t_constr));
+	newnode = malloc(sizeof(t_const));
 	if (!newnode)
 		return (0);
 	newnode -> data = ft_strdup(token);
@@ -36,7 +36,7 @@ t_constr	*create_newnode(char *token, char *command)
 	return (newnode);
 }
 
-void	constr_add_back(t_constr **lst, t_constr *new)
+void	constr_add_back(t_const **lst, t_const *new)
 {
 	if (!new)
 		return ;
@@ -64,7 +64,7 @@ void	ft_loop(char **tmp, char **str, t_token	**ptoken)
 	*ptoken = (*ptoken)->next;
 }
 
-t_constr	*create_constr(t_shell *shell)
+t_const	*create_constr(t_shell *shell)
 {
 	char		*str;
 	t_token		*ptoken;

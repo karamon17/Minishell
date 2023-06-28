@@ -33,7 +33,7 @@ void	move_shell_tokens(t_shell *shell)
 	shell->tokens = shell->tokens->next;
 }
 
-void	ft_fork_error(t_constr *constr)
+void	ft_fork_error(t_const *constr)
 {
 	ft_putstr_fd("Minishell: fork: Resource temporarily unavailable\n", 2);
 	g_error_status = 1;
@@ -46,4 +46,12 @@ void	ft_error_path(t_shell *shell)
 	ft_putstr_fd("Minishell: ", 2);
 	ft_putstr_fd(shell->tokens->data, 2);
 	ft_putstr_fd(": command not found\n", 2);
+}
+
+void	pipex_helper(t_shell *shell)
+{
+	if (check_builtin(shell))
+		execute_builtin(shell);
+	else
+		execute(shell);
 }

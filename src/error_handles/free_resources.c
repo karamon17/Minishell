@@ -47,9 +47,9 @@ void	free_tokens(t_token	*tokens)
 	free(tokens);
 }
 
-void	free_constrs(t_constr	*constrs)
+void	free_constrs(t_const	*constrs)
 {
-	t_constr	*tmp;
+	t_const	*tmp;
 
 	tmp = constrs;
 	if (!constrs)
@@ -101,11 +101,3 @@ void	ft_free_path(char **path)
 	}
 	free(path);
 }
-
-// void    free_shell(t_shell *shell)
-// {
-//     free_tokens(shell->tokens);
-//     free_env_list(shell);
-//     free(shell);
-//     exit (g_error_status);
-// }
