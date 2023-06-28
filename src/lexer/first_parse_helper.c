@@ -30,8 +30,7 @@ int	parse_norm_helper(char *tmp, t_token *new, int i)
 		if (tmp[i + 1] == tmp[i])
 		{
 			free(new);
-			new = ft_new_token(ft_substr(tmp, i, 2));
-			i++;
+			new = ft_new_token(ft_substr(tmp, i++, 2));
 		}
 		else
 		{

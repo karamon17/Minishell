@@ -12,34 +12,28 @@
 
 #include "minishell.h"
 
-t_token	*cut_command_quotes(t_token *tokens)
+void	cut_command_quotes(t_token *tmp, int i, int count_d, int count_s)
 {
-	int		i;
 	char	*cpy;
-	t_token	*tmp;
 	char	*to_free;
 
-	tmp = tokens;
 	while (tmp != NULL)
 	{
 		i = -1;
 		cpy = ft_calloc(1, sizeof(char));
 		while (tmp->data[++i])
 		{
-			if (tmp->data[i] == '\'' && tmp->type == '\'')
+			if (tmp->data[i] == '\'' && !(count_d % 2) && ++count_s)
 				continue ;
-			if (tmp->data[i] == '"' && tmp->type == '"')
+			if (tmp->data[i] == '"' && !(count_s % 2) && ++count_d)
 				continue ;
-			to_free = ft_substr(tmp->data, i, 1);
-			cpy = ft_mystrjoin(cpy, to_free);
-			free(to_free);
+			cpy = ft_mystrjoin2(cpy, ft_substr(tmp->data, i, 1));
 		}
 		to_free = tmp->data;
 		tmp->data = cpy;
 		free(to_free);
 		tmp = tmp->next;
 	}
-	return (tokens);
 }
 
 t_token	*delete_token(t_token **head, t_token *to_delete)
@@ -71,6 +65,8 @@ void	ft_check_options_help(t_token	*tmp, t_token *tokens)
 	char	*to_free;
 	t_token	*to_delete;
 
+	if (!tmp)
+		return ;
 	to_free = ft_strtrim(tmp->data, "n");
 	while (tmp && tmp->data[0] == '-'
 		&& !ft_strncmp(to_free, "-", 2))
@@ -115,6 +111,7 @@ t_token	*stugel(t_token *tokens)
 
 	if (!tokens)
 		return (NULL);
+	cut_command_quotes(tokens, 0, 0, 0);
 	tmp = tokens;
 	i = 0;
 	while (tmp)
@@ -124,7 +121,5 @@ t_token	*stugel(t_token *tokens)
 		tmp = tmp->next;
 		i++;
 	}
-	tmp = tokens;
-	tokens = cut_command_quotes(tmp);
 	return (tokens);
 }

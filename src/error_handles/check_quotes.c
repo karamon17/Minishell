@@ -12,68 +12,59 @@
 
 #include "minishell.h"
 
-char	count_quotes(char type, char *str)
+int	ft_move_double_quotes(char **str)
 {
-	int	cnt;
-	int	i;
-
-	cnt = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (type != '\0')
-		{
-			if (str[i] == type)
-				cnt++;
-		}
-		i++;
-	}
-	if (cnt % 2 != 0)
+	*str = ft_strchr(*str, '"');
+	(*str)++;
+	*str = ft_strchr(*str, '"');
+	if (!(*str))
 	{
 		g_error_status = 258;
 		ft_putstr_fd("Minishell: syntax error: unexpected end of file\n", 2);
-		type = 'E';
+		return (1);
 	}
-	return (type);
-
+	(*str)++;
+	return (0);
 }
 
-char	set_quote_type(char *str)
+int	ft_move_single_quotes(char **str)
 {
-	int		i;
-	char	fnd;
-	int		cnt;
-
-	i = 0;
-	cnt = 0;
-	if (!str)
-		return ('\0');
-	while (str[i] != '\'' && str[i] != '"' && str[i])
-		i++;
-	if (str[i] == '\'' || str[i] == '"')
-	{
-		fnd = str[i];
-		cnt++;
-	}
-	if (str[i])
-		i++;
-	while (str[i])
-	{
-		if (str[i] == fnd && fnd != '\0')
-			cnt++;
-		i++;
-	}
-	if (cnt % 2 != 0 && cnt != 0)
+	*str = ft_strchr(*str, '\'');
+	(*str)++;
+	*str = ft_strchr(*str, '\'');
+	if (!(*str))
 	{
 		g_error_status = 258;
 		ft_putstr_fd("Minishell: syntax error: unexpected end of file\n", 2);
-		return ('E');
+		return (1);
 	}
-	if (fnd == '\'')
-		return ('\'');
-	else if (fnd == '"')
-		return ('"');
-	return ('\0');
+	(*str)++;
+	return (0);
+}
+
+int	ft_count_quotes(char *str)
+{
+	while (str)
+	{
+		if (ft_strchr(str, '"') && ft_strchr(str, '\''))
+		{
+			if (ft_strchr(str, '"') < ft_strchr(str, '\'')
+				&& ft_move_double_quotes(&str))
+				return (1);
+			else if (ft_strchr(str, '"') > ft_strchr(str, '\'')
+				&& ft_move_double_quotes(&str))
+				return (1);
+		}
+		if (ft_strchr(str, '"') && !ft_strchr(str, '\'')
+			&& ft_move_double_quotes(&str))
+			return (1);
+		else if (!ft_strchr(str, '"') && ft_strchr(str, '\'')
+			&& ft_move_single_quotes(&str))
+			return (1);
+		else if (!ft_strchr(str, '"') && !ft_strchr(str, '\''))
+			return (0);
+	}
+	return (0);
 }
 
 int	quote_check(t_token *tokens)
@@ -83,13 +74,12 @@ int	quote_check(t_token *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		tmp->type = set_quote_type(tmp->data);
-		if (tmp->type != '\0')
+		if ((ft_strchr(tmp->data, '"') || ft_strchr(tmp->data, '\''))
+			&& ft_count_quotes(tmp->data))
 		{
-			if (!ft_strncmp(&tmp->type, "E", 2))
-				return (-1);
+			tmp->type = 'E';
+			return (-1);
 		}
-		tmp->type = count_quotes(tmp->type, tmp->data);
 		tmp = tmp->next;
 	}
 	return (0);

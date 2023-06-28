@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:15:26 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/21 16:55:33 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/26 17:47:03 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void		add_shlvl(char **envp);
 char		*find_env_val(t_env *env_lst, char *key);
 t_env		*ft_add_env_back(t_env *env_list, char *key, char *value);
 void		get_env_var(t_env **env_lst, char **envp);
+char		*ft_get_value(t_shell *shell, char *str, int *k);
 
 t_token		*stugel(t_token *tokens);
 t_token		*check_options(t_token *tmp);

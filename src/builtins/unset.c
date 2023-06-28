@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 16:58:14 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/20 11:58:21 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/27 16:44:58 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_checkletter_unset(char *arg)
 	res = !ft_strchr(arg, '-') && !ft_strchr(arg, '{')
 		&& !ft_strchr(arg, '}') && !ft_strchr(arg, '$')
 		&& !ft_strchr(arg, '#') && !ft_strchr(arg, '*')
-		&& !ft_strchr(arg, '.')
+		&& !ft_strchr(arg, '.') && !ft_strchr(arg, '/')
 		&& !ft_strchr(arg, '@') && !ft_strchr(arg, '=')
 		&& !ft_strchr(arg, '^');
 	if (ft_strchr(arg, '+') && ft_strchr(arg, '+') != &arg[ft_strlen(arg) - 1])

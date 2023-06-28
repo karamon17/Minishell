@@ -28,9 +28,6 @@ char	*add_white_space(char *input, int j, int size, int in_q)
 		{
 			in_q = update_in_q(tmp, j, in_q);
 			tmp = ft_mystrjoin2(tmp, ft_substr(input, j, 1));
-			if ((input[j] == '"' && input[j + 1] == '\'')
-				|| (input[j] == '\'' && input[j + 1] == '"'))
-				tmp = ft_mystrjoin(tmp, " ");
 		}
 		else
 			tmp = ft_mystrjoin2(tmp, ft_substr(input, j, 1));
@@ -41,72 +38,44 @@ char	*add_white_space(char *input, int j, int size, int in_q)
 
 int	d_quotes(char *input, int i, t_token **new)
 {
-	char	*for_free;
-	char	*to_free;
+	int	flag;
 
+	flag = 0;
 	while ((input[i] != '\0'))
 	{
-		for_free = ft_substr(input, i, 1);
-		to_free = (*new)->data;
-		(*new)->data = ft_strjoin(to_free, for_free);
-		free(for_free);
-		free(to_free);
-		i++;
-		if (input[i] == '"' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
+		(*new)->data = ft_mystrjoin2((*new)->data, ft_substr(input, i++, 1));
+		if (input[i] == '"')
+			flag = 1;
+		if (flag && (input[i] == ' ' || input[i] == '\0'))
 			break ;
 	}
 	if (input[i] != '\0')
-	{
-		for_free = ft_substr(input, i, 1);
-		to_free = (*new)->data;
-		(*new)->data = ft_strjoin(to_free, for_free);
-		free(for_free);
-		free(to_free);
-	}
+		(*new)->data = ft_mystrjoin2((*new)->data, NULL);
 	return (i);
 }
 
 int	append_word(char *input, int i, t_token **new)
 {
-	char	*for_free;
-	char	*to_free;
-
 	while (input[i] != ' ' && input[i] != '\0')
-	{
-		for_free = ft_substr(input, i, 1);
-		to_free = (*new)->data;
-		(*new)->data = ft_strjoin(to_free, for_free);
-		free(for_free);
-		free(to_free);
-		i++;
-	}
+		(*new)->data = ft_mystrjoin2((*new)->data, ft_substr(input, i++, 1));
 	return (i);
 }
 
 int	s_quotes(char *input, int i, t_token **new)
 {
-	char	*for_free;
-	char	*to_free;
+	int	flag;
 
+	flag = 0;
 	while ((input[i] != '\0'))
 	{
-		to_free = (*new)->data;
-		for_free = ft_substr(input, i, 1);
-		(*new)->data = ft_strjoin(to_free, for_free);
-		free(for_free);
-		free(to_free);
-		i++;
-		if (input[i] == '\'' && (input[i + 1] == ' ' || input[i + 1] == '\0'))
+		(*new)->data = ft_mystrjoin2((*new)->data, ft_substr(input, i++, 1));
+		if (input[i - 1] == '\'')
+			flag = 1;
+		if (flag && (input[i] == ' ' || input[i] == '\0'))
 			break ;
 	}
-	if (input[i] != '\0')
-	{
-		to_free = (*new)->data;
-		for_free = ft_substr(input, i, 1);
-		(*new)->data = ft_strjoin(to_free, for_free);
-		free(for_free);
-		free(to_free);
-	}
+	if (input[i] != '\0' && input[i] != ' ')
+		(*new)->data = ft_mystrjoin2((*new)->data, ft_substr(input, i, 1));
 	return (i);
 }
 

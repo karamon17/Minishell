@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/20 12:07:50 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/27 16:04:09 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,14 @@ void	ft_exit(t_shell *shell, int *flag, t_constr *example)
 	*flag = 1;
 	shell->fd = file_check(example, shell->fd, &shell->flag);
 	printf("exit\n");
-	if (!shell->tokens->next)
+	if (!shell->tokens->next || !ft_strncmp(shell->tokens->next->data, "|", 2))
 		exit(0);
+	else if ((shell->tokens->next && !shell->tokens->next->next && \
+			!check(shell->tokens->next->data)) || (shell->tokens->next && \
+			!ft_strncmp(shell->tokens->next->data, "|", 2)) || \
+			(shell->tokens->next->next && !check(shell->tokens->next->data) && \
+			!ft_strncmp(shell->tokens->next->next->data, "|", 2)))
+		exit(ft_atoi(shell->tokens->next->data));
 	else if (shell->tokens->next && check(shell->tokens->next->data))
 	{
 		ft_putstr_fd("Minishell: exit: ", 2);
@@ -68,8 +74,6 @@ void	ft_exit(t_shell *shell, int *flag, t_constr *example)
 		ft_putstr_fd(" numeric argument required\n", 2);
 		exit(255);
 	}
-	else if (shell->tokens->next && !shell->tokens->next->next)
-		exit(ft_atoi(shell->tokens->next->data));
 	else
 	{
 		g_error_status = 1;
