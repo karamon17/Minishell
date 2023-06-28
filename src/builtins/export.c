@@ -71,11 +71,11 @@ int	ft_checkletter(char *arg, int *cat)
 		(arg[0] >= 'A' && arg[0] <= 'Z') || arg[0] == '_');
 	if (!res)
 		return (0);
-	res = !ft_strchr(arg, '-') && !ft_strchr(arg, '{')
-		&& !ft_strchr(arg, '}') && !ft_strchr(arg, '$')
-		&& !ft_strchr(arg, '#') && !ft_strchr(arg, '*')
-		&& !ft_strchr(arg, '.') && !ft_strchr(arg, '@')
-		&& !ft_strchr(arg, '=') && !ft_strchr(arg, '^');
+	res = (!ft_strchr(arg, '-') && !ft_strchr(arg, '{') \
+	&& !ft_strchr(arg, '}') && !ft_strchr(arg, '$') \
+	&& !ft_strchr(arg, '#') && !ft_strchr(arg, '*') \
+	&& !ft_strchr(arg, '.') && !ft_strchr(arg, '@') \
+	&& !ft_strchr(arg, '=') && !ft_strchr(arg, '^'));
 	if (ft_strchr(arg, '+') && ft_strchr(arg, '+') != &arg[ft_strlen(arg) - 1])
 		res = 0;
 	else if (ft_strchr(arg, '+') == &arg[ft_strlen(arg) - 1])

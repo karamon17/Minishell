@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static t_token	token_helper(t_token *tokens)
+static t_token	*token_helper(t_shell *shell, t_token *tokens)
 {
 	ft_putstr_fd(tokens->data, shell->fd);
 	if (tokens->next && tokens->next->data[0] != '|')
@@ -60,7 +60,7 @@ void	ft_echo(t_shell *shell, int *flag, t_const *example)
 		if (shell->fd == -1)
 			return ;
 		while (tokens)
-			tokens = token_helper(tokens);
+			tokens = token_helper(shell, tokens);
 		if (shell->fd != 1)
 			close (shell->fd);
 	}

@@ -63,7 +63,7 @@ int	execute_builtin(t_shell *shell)
 	example = shell->constrs;
 	*flag = 0;
 	tmp = shell->tokens;
-	if(file_check(example, shell->fd, &shell->flag) == -1)
+	if (file_check(example, shell->fd, &shell->flag) == -1)
 		return (*flag);
 	*flag = builtin_conditonals(shell, tmp, example);
 	return (*flag);

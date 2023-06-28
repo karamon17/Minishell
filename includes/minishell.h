@@ -197,4 +197,10 @@ int		check_builtin(t_shell *shell);
 int		ft_checkletter(char *arg, int *cat);
 void	check_add(t_shell *shell, char *key, char *value, int *cat);
 void	ft_printerror(char *tmp, char *value);
+char	*helper(char *result);
+void	ft_print_error_red(char *cmd);
+void	sigint_handler2(int signum);
+void	cd_helper(t_shell *shell, t_token *token);
+int		check_redirects_helper(t_token *tmp, int flag);
+void	free_heredocs(t_shell **shell);
 #endif

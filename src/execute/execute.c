@@ -14,6 +14,8 @@
 
 void	ft_child_exec(t_shell *shell)
 {
+	if (shell->fd != 1)
+		dup2(shell->fd, 1);
 	if (!shell->constrs->command && shell->constrs->prev
 		&& shell->constrs->prev->command && !g_error_status)
 	{
@@ -64,13 +66,10 @@ int	exec_comm(t_shell *shell, char *path)
 			return (open_stuff(shell, path, hp.argv, hp.env2darray), 0);
 		hp.pid = fork();
 		signal(SIGINT, sigint_handler2);
-		signal(SIGQUIT, SIG_IGN);
 		if (hp.pid == -1)
 			return (ft_exec_error(NULL, NULL, NULL));
 		if (hp.pid == 0)
 		{
-			if (shell->fd != 1)
-				dup2(shell->fd, 1);
 			ft_child_exec(shell);
 			hp.argv = ft_split(shell->constrs->data, ' ');
 			hp.env2darray = env_to_2darray(shell);

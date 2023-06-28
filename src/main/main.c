@@ -51,7 +51,7 @@ t_const *head_constr, char *input)
 int	shell_loop(t_shell **shell)
 {
 	t_token		*head_tokens;
-	t_const	*head_constr;
+	t_const		*head_constr;
 	char		*input;
 
 	rl_catch_signals = 0;
@@ -71,12 +71,7 @@ int	shell_loop(t_shell **shell)
 			shell_loop_help(shell, head_tokens, head_constr, input);
 		else
 			free(input);
-		if ((*shell)->heredoc_name)
-		{
-			unlink((*shell)->heredoc_name);
-			free((*shell)->heredoc_name);
-			(*shell)->heredoc_name = NULL;
-		}
+		free_heredocs(shell);
 	}
 }
 

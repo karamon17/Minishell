@@ -33,12 +33,12 @@ int	ft_checkletter_unset(char *arg)
 		return (0);
 	res = ((arg[0] >= 'a' && arg[0] <= 'z') || \
 		(arg[0] >= 'A' && arg[0] <= 'Z') || arg[0] == '_');
-	res = !ft_strchr(arg, '-') && !ft_strchr(arg, '{')
-		&& !ft_strchr(arg, '}') && !ft_strchr(arg, '$')
-		&& !ft_strchr(arg, '#') && !ft_strchr(arg, '*')
-		&& !ft_strchr(arg, '.') && !ft_strchr(arg, '/')
-		&& !ft_strchr(arg, '@') && !ft_strchr(arg, '=')
-		&& !ft_strchr(arg, '^');
+	res = (!ft_strchr(arg, '-') && !ft_strchr(arg, '{') \
+		&& !ft_strchr(arg, '}') && !ft_strchr(arg, '$') \
+		&& !ft_strchr(arg, '#') && !ft_strchr(arg, '*') \
+		&& !ft_strchr(arg, '.') && !ft_strchr(arg, '/') \
+		&& !ft_strchr(arg, '@') && !ft_strchr(arg, '=') \
+		&& !ft_strchr(arg, '^'));
 	if (ft_strchr(arg, '+') && ft_strchr(arg, '+') != &arg[ft_strlen(arg) - 1])
 		res = 0;
 	return (res);

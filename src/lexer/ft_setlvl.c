@@ -12,6 +12,31 @@
 
 #include "minishell.h"
 
+int	check_redirects_helper(t_token *tmp, int flag)
+{
+	if (flag == 1)
+	{
+		if (tmp->next && (!ft_strncmp(tmp->data, "<", 2) \
+		|| !ft_strncmp(tmp->data, ">", 2) \
+		|| !ft_strncmp(tmp->data, ">>", 3) \
+		|| !ft_strncmp(tmp->data, "<<", 3)) \
+		&& (!ft_strncmp(tmp->next->data, "<", 2) \
+		|| !ft_strncmp(tmp->next->data, ">", 2) \
+		|| !ft_strncmp(tmp->next->data, ">>", 3) \
+		|| !ft_strncmp(tmp->next->data, "<<", 3)))
+			return (1);
+	}
+	else
+	{
+		if (!tmp->next && (!ft_strncmp(tmp->data, "<", 2) \
+		|| !ft_strncmp(tmp->data, ">", 2) \
+		|| !ft_strncmp(tmp->data, ">>", 3) \
+		|| !ft_strncmp(tmp->data, "<<", 3)))
+			return (2);
+	}
+	return (0);
+}
+
 int	ft_setlvl(const char *name, char **envp, char *val)
 {
 	char	**tmp;

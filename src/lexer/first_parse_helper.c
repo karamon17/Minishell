@@ -80,22 +80,12 @@ t_token	*check_redirects(t_token *new)
 		tmp->type = message_status();
 	while (tmp)
 	{
-		if (tmp->next && (!ft_strncmp(tmp->data, "<", 2) \
-		|| !ft_strncmp(tmp->data, ">", 2) \
-		|| !ft_strncmp(tmp->data, ">>", 3) \
-		|| !ft_strncmp(tmp->data, "<<", 3)) \
-		&& (!ft_strncmp(tmp->next->data, "<", 2) \
-		|| !ft_strncmp(tmp->next->data, ">", 2) \
-		|| !ft_strncmp(tmp->next->data, ">>", 3) \
-		|| !ft_strncmp(tmp->next->data, "<<", 3)))
+		if (check_redirects_helper(tmp, 1) == 1)
 		{
 			tmp->type = message_status();
 			break ;
 		}
-		if (!tmp->next && (!ft_strncmp(tmp->data, "<", 2) \
-		|| !ft_strncmp(tmp->data, ">", 2) \
-		|| !ft_strncmp(tmp->data, ">>", 3) \
-		|| !ft_strncmp(tmp->data, "<<", 3)))
+		if (check_redirects_helper(tmp, 2) == 2)
 		{
 			tmp->type = message_status();
 			break ;

@@ -81,7 +81,6 @@ int	exec_heredoc(t_shell **shell, t_token *tokens)
 	while (1)
 	{
 		signal(SIGINT, sigint_handler);
-		signal(SIGQUIT, SIG_IGN);
 		line = readline(">");
 		if (!line || (line && !ft_strncmp(limit, line, ft_strlen(limit))))
 			break ;

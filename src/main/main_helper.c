@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_utils.c                                     :+:      :+:    :+:   */
+/*   main_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/28 14:25:12 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/28 14:25:14 by jfrances         ###   ########.fr       */
+/*   Created: 2023/06/28 14:54:53 by jfrances          #+#    #+#             */
+/*   Updated: 2023/06/28 14:54:54 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	export_helper(char *tmp, t_shell *shell, char *value, int *cat)
+void	free_heredocs(t_shell **shell)
 {
-	if (ft_checkletter(tmp, cat))
-		check_add(shell, ft_strdup(tmp), value, cat);
-	else
-		ft_printerror(tmp, value);
+	if ((*shell)->heredoc_name)
+	{
+		unlink((*shell)->heredoc_name);
+		free((*shell)->heredoc_name);
+		(*shell)->heredoc_name = NULL;
+	}
 }

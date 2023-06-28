@@ -87,7 +87,7 @@ void	ft_exit(t_shell *shell, int *flag, t_const *example)
 		exit(255);
 	}
 	else
-	exit_helper();
+		exit_helper();
 	close_file(shell->fd);
 	return ;
 }

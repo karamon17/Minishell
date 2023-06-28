@@ -51,7 +51,7 @@ void	ft_oldpwd_notset(void)
 	ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
 }
 
-void	cd_helper(t_shell *shell, t_tokens *token)
+void	cd_helper(t_shell *shell, t_token *token)
 {
 	char	*to_free;
 
