@@ -75,22 +75,23 @@ t_token	*check_redirects(t_token *new)
 	t_token	*tmp;
 
 	tmp = new;
-	if (ft_token_size(tmp) == 1 && (ft_strncmp(tmp->data, "<", 2) || \
-	ft_strncmp(tmp->data, ">", 2) || ft_strncmp(tmp->data, ">>", 3)))
+	if (ft_token_size(tmp) == 1 && (!ft_strncmp(tmp->data, "<", 2) || \
+	!ft_strncmp(tmp->data, ">", 2) || !ft_strncmp(tmp->data, ">>", 3)))
 		tmp->type = message_status();
 	while (tmp)
 	{
-		if (tmp->next && (ft_strncmp(tmp->data, "<", 2) \
-		|| ft_strncmp(tmp->data, ">", 2) \
-		|| ft_strncmp(tmp->next->data, ">>", 3)) \
-		&& (ft_strncmp(tmp->next->data, "<", 2) \
-		|| ft_strncmp(tmp->next->data, ">", 2) \
-		|| ft_strncmp(tmp->next->data, ">>", 3)))
+		if (tmp->next && (!ft_strncmp(tmp->data, "<", 2) \
+		|| !ft_strncmp(tmp->data, ">", 2) \
+		|| !ft_strncmp(tmp->data, ">>", 3) \
+		|| !ft_strncmp(tmp->data, "<<", 3)) \
+		&& (!ft_strncmp(tmp->next->data, "<", 2) \
+		|| !ft_strncmp(tmp->next->data, ">", 2) \
+		|| !ft_strncmp(tmp->next->data, ">>", 3) \
+		|| !ft_strncmp(tmp->data, "<<", 3)))
 		{
 			tmp->type = message_status();
 			break ;
 		}
-		printf("tmp->type = %c\n", tmp->type);
 		tmp = tmp->next;
 	}
 	return (new);
