@@ -15,7 +15,7 @@
 void	ft_child_exec(t_shell *shell)
 {
 	if (!shell->constrs->command && shell->constrs->prev
-		&& shell->constrs->prev->command)
+		&& shell->constrs->prev->command && !g_error_status)
 	{
 		dup2(shell->constrs->prev->fd[0], 0);
 		ft_close_pipe(shell->constrs->prev->fd);
@@ -32,9 +32,13 @@ void	open_stuff(t_shell *shell, char *path, char **argv, char **env2darray)
 	fd = 1;
 	example = shell->constrs;
 	pid = fork();
+	signal(SIGINT, sigint_handler2);
+	signal(SIGQUIT, SIG_IGN);
 	if (pid == 0)
 	{
-		fd = open(example->next->data, O_CREAT | O_RDONLY, 0644);
+		fd = open(example->next->data, O_RDONLY, 0644);
+		if (fd == -1)
+			return (ft_print_error_red(example->next->data));
 		dup2(fd, 0);
 		ft_child_exec(shell);
 		argv = ft_split(shell->constrs->data, ' ');
@@ -59,6 +63,8 @@ int	exec_comm(t_shell *shell, char *path)
 		if (shell->flag != 1)
 			return (open_stuff(shell, path, hp.argv, hp.env2darray), 0);
 		hp.pid = fork();
+		signal(SIGINT, sigint_handler2);
+		signal(SIGQUIT, SIG_IGN);
 		if (hp.pid == -1)
 			return (ft_exec_error(NULL, NULL, NULL));
 		if (hp.pid == 0)
@@ -108,7 +114,7 @@ char	*check_path(t_shell *shell)
 int	execute(t_shell *shell)
 {
 	char		*str_path;
-	t_const	*example;
+	t_const		*example;
 
 	example = shell->constrs;
 	if (ft_strchr(shell->tokens->data, '/')
@@ -117,6 +123,11 @@ int	execute(t_shell *shell)
 	else
 		str_path = check_path(shell);
 	shell->fd = file_check(example, shell->fd, &shell->flag);
+	if (shell->fd == -1)
+	{
+		free(str_path);
+		return (g_error_status);
+	}
 	if (!str_path)
 		g_error_status = ft_exec_error(shell->tokens->data, NULL, NULL);
 	else

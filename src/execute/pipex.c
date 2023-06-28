@@ -122,6 +122,8 @@ void	ft_pipex(t_shell *shell)
 		if (ft_emptypipe(constr))
 			return ;
 		ft_mainpipe(shell, constr);
+		if (g_error_status)
+			return ;
 		move_shell_tokens(shell);
 		if (constr->prev && \
 		!ft_strncmp(constr->prev->command, "|", 2) && !g_error_status)

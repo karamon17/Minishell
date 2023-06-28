@@ -66,3 +66,9 @@ char	**env_to_2darray(t_shell *shell)
 	res[i] = NULL;
 	return (res);
 }
+
+void	close_file(int fd)
+{
+	if (fd != 1)
+		close(fd);
+}

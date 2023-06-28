@@ -34,7 +34,7 @@ char	*quotes_help(char *in_quotes, t_shell *shell, char **path, int *is_env)
 {
 	in_quotes = ft_mystrjoin2(in_quotes, ft_getenv(shell, *path));
 	if (!*path[0])
-		in_quotes = ft_strdup("$");
+		in_quotes = helper(in_quotes);
 	if (*path[0] == '?')
 	{
 		in_quotes = ft_mystrjoin2(in_quotes, ft_itoa(g_error_status));

@@ -103,9 +103,11 @@ void	ft_cd(t_shell *shell, t_const *example)
 {
 	char	*cmd;
 	t_token	*token;
-	char	*to_free;
 
-	shell->fd = file_check(example, shell->fd, &shell->flag);
+	if (example->command && example->command[0] == '<')
+		shell->fd = file_check(example, shell->fd, &shell->flag);
+	if (shell->fd == -1)
+		return ;
 	token = shell->tokens->next;
 	if (!token || (token->data[0] == '~' && !token->data[1]))
 		cmd = ft_getenv(shell, "HOME");
@@ -121,9 +123,5 @@ void	ft_cd(t_shell *shell, t_const *example)
 		cmd = ft_strdup(token->data);
 	ft_chdir(shell, cmd);
 	free(cmd);
-	to_free = ft_getenv(shell, "PWD");
-	if (token && token->data[0] == '-' && !token->data[1] && !g_error_status)
-		printf("%s\n", to_free);
-	free(to_free);
-	close_file(shell->fd);
+	cd_helper(shell, token);
 }

@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+char	*helper(char *result)
+{
+	free(result);
+	return (ft_strdup("$"));
+}
+
 char	*ft_get_value(t_shell *shell, char *str, int *k)
 {
 	char	*result;
@@ -30,7 +36,7 @@ char	*ft_get_value(t_shell *shell, char *str, int *k)
 	{
 		result = ft_mystrjoin2(result, ft_getenv(shell, path));
 		if (!path[0])
-			result = ft_strdup("$");
+			result = helper(result);
 		if (path[0] == '?')
 		{
 			result = ft_mystrjoin2(result, ft_itoa(g_error_status));

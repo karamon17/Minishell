@@ -21,3 +21,9 @@ void	sigint_handler(int signum)
 	rl_redisplay();
 	(void)signum;
 }
+
+void	sigint_handler2(int signum)
+{
+	printf("\n");
+	(void)signum;
+}

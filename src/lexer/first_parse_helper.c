@@ -75,7 +75,8 @@ t_token	*check_redirects(t_token *new)
 
 	tmp = new;
 	if (ft_token_size(tmp) == 1 && (!ft_strncmp(tmp->data, "<", 2) || \
-	!ft_strncmp(tmp->data, ">", 2) || !ft_strncmp(tmp->data, ">>", 3)))
+	!ft_strncmp(tmp->data, ">", 2) || !ft_strncmp(tmp->data, "<<", 3) \
+	|| !ft_strncmp(tmp->data, ">>", 3)))
 		tmp->type = message_status();
 	while (tmp)
 	{
@@ -87,6 +88,14 @@ t_token	*check_redirects(t_token *new)
 		|| !ft_strncmp(tmp->next->data, ">", 2) \
 		|| !ft_strncmp(tmp->next->data, ">>", 3) \
 		|| !ft_strncmp(tmp->next->data, "<<", 3)))
+		{
+			tmp->type = message_status();
+			break ;
+		}
+		if (!tmp->next && (!ft_strncmp(tmp->data, "<", 2) \
+		|| !ft_strncmp(tmp->data, ">", 2) \
+		|| !ft_strncmp(tmp->data, ">>", 3) \
+		|| !ft_strncmp(tmp->data, "<<", 3)))
 		{
 			tmp->type = message_status();
 			break ;

@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+static void	exit_helper(void)
+{
+	g_error_status = 1;
+	ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
+}
+
 int	ft_check_longlong(char *str)
 {
 	int					i;
@@ -62,7 +68,10 @@ static void	print_error_message(t_shell *shell)
 void	ft_exit(t_shell *shell, int *flag, t_const *example)
 {
 	*flag = 1;
-	shell->fd = file_check(example, shell->fd, &shell->flag);
+	if (example->command && example->command[0] == '<')
+		shell->fd = file_check(example, shell->fd, &shell->flag);
+	if (shell->fd == -1)
+		return ;
 	printf("exit\n");
 	if (!shell->tokens->next || !ft_strncmp(shell->tokens->next->data, "|", 2))
 		exit(0);
@@ -78,11 +87,7 @@ void	ft_exit(t_shell *shell, int *flag, t_const *example)
 		exit(255);
 	}
 	else
-	{
-		g_error_status = 1;
-		ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
-	}
-	if (shell->fd != 1)
-		close (shell->fd);
+	exit_helper();
+	close_file(shell->fd);
 	return ;
 }

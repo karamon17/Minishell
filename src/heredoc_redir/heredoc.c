@@ -12,16 +12,18 @@
 
 #include "minishell.h"
 
-void	heredoc_helper(int tmp_fd, char *line, char **str, int flag)
+void	heredoc_helper(int tmp_fd, char *line, char *str, int flag)
 {
 	if (flag == 1)
 	{
 		write(tmp_fd, line, ft_strlen(line));
 		write(tmp_fd, "\n", 1);
+		free(line);
 	}
 	else if (flag == 0)
 	{
-		free(*str);
+		free(str);
+		free(line);
 		close(tmp_fd);
 	}
 }
@@ -63,30 +65,31 @@ int	check_next_node(t_token *tmp)
 int	exec_heredoc(t_shell **shell, t_token *tokens)
 {
 	int		tmp_fd;
-	char	*random_name;
 	char	*limit;
 	char	*line;
 	char	*file_name;
 
-	random_name = NULL;
-	limit = tokens->next->data;
-	if (random_name)
-		free(random_name);
-	random_name = gen_random_name();
-	file_name = ft_strdup("_heredoc_tmp");
-	file_name = ft_strjoin(random_name, file_name);
+	if (tokens->next)
+		limit = tokens->next->data;
+	file_name = ft_mystrjoin2(gen_random_name(), ft_strdup("_heredoc_tmp"));
 	tmp_fd = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (tmp_fd == -1)
 	{
 		ft_putstr_fd("heredoc error\n", 2);
 		return (-1);
 	}
-	line = readline("> ");
-	while ((ft_strncmp(limit, line, ft_strlen(limit)) != 0))
+	while (1)
+	{
+		signal(SIGINT, sigint_handler);
+		signal(SIGQUIT, SIG_IGN);
+		line = readline(">");
+		if (!line || (line && !ft_strncmp(limit, line, ft_strlen(limit))))
+			break ;
 		heredoc_helper(tmp_fd, line, NULL, 1);
+	}
 	(*shell)->heredoc_name = ft_strdup(file_name);
-	heredoc_helper(tmp_fd, NULL, &file_name, 0);
-	return (free(random_name), 0);
+	heredoc_helper(tmp_fd, line, file_name, 0);
+	return (0);
 }
 
 t_token	*kani_heredoc(t_shell **shell)

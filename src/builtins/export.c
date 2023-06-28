@@ -20,7 +20,10 @@ void	check_add(t_shell *shell, char *key, char *value, int *cat)
 	while (env)
 	{
 		if (!ft_strncmp(env->key, key, ft_strlen(key)))
+		{
+			free(key);
 			break ;
+		}	
 		env = env->next;
 	}
 	if (!env)
@@ -35,7 +38,7 @@ void	check_add(t_shell *shell, char *key, char *value, int *cat)
 		env->value = ft_mystrjoin2(env->value, value);
 }
 
-void	ft_print_export(t_shell *shell, char **tmp)
+void	ft_print_export(t_shell *shell, char **tmp, t_const *example)
 {
 	t_env	*current;
 
@@ -52,6 +55,10 @@ void	ft_print_export(t_shell *shell, char **tmp)
 			current = current->next;
 		}
 	}
+	if (example->command && example->command[0] == '<')
+		shell->fd = file_check(example, shell->fd, &shell->flag);
+	if (shell->fd == -1)
+		return ;
 }
 
 int	ft_checkletter(char *arg, int *cat)
@@ -108,16 +115,17 @@ void	ft_export(t_shell *shell, int *flag, t_const *example)
 
 	*flag = 1;
 	*cat = 0;
+	value = NULL;
 	tmp = ft_split(shell->constrs->data, ' ');
 	i = 0;
-	ft_print_export(shell, tmp);
-	shell->fd = file_check(example, shell->fd, &shell->flag);
+	ft_print_export(shell, tmp, example);
 	while (tmp[++i])
 	{
 		if (!ft_strchr(tmp[i], '='))
 			value = NULL;
 		else
 		{
+			free(value);
 			value = ft_strdup(ft_strchr(tmp[i], '=') + 1);
 			*(ft_strchr(tmp[i], '=')) = 0;
 		}

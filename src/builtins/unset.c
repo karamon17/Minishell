@@ -57,7 +57,10 @@ t_token	*unset_helper(t_shell *shell, int *flag, t_const *example)
 	t_token		*tmp;
 
 	tmp = shell->tokens->next;
-	shell->fd = file_check(example, shell->fd, &shell->flag);
+	if (example->command && example->command[0] == '<')
+		shell->fd = file_check(example, shell->fd, &shell->flag);
+	if (shell->fd == -1)
+		return (tmp);
 	*flag = 1;
 	return (tmp);
 }

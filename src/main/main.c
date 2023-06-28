@@ -62,6 +62,7 @@ int	shell_loop(t_shell **shell)
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
 		input = readline("Minishell $>");
+		(*shell)->fd = 1;
 		(*shell)->constrs = NULL;
 		(*shell)->tokens = NULL;
 		if (!input)
@@ -71,7 +72,11 @@ int	shell_loop(t_shell **shell)
 		else
 			free(input);
 		if ((*shell)->heredoc_name)
+		{
 			unlink((*shell)->heredoc_name);
+			free((*shell)->heredoc_name);
+			(*shell)->heredoc_name = NULL;
+		}
 	}
 }
 
@@ -84,6 +89,7 @@ void	init_shell(t_shell **shell)
 	(*shell)->env_lst = NULL;
 	(*shell)->fd = 1;
 	(*shell)->flag = 1;
+	(*shell)->heredoc_name = NULL;
 }
 
 int	main(int ac, char **av, char **envp)

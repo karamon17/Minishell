@@ -21,7 +21,10 @@ void	ft_pwd(int *flag, t_const *example)
 	chk_flg = 1;
 	fd = 1;
 	*flag = 1;
-	fd = file_check(example, fd, &chk_flg);
+	if (example->command && example->command[0] == '<')
+		fd = file_check(example, fd, &chk_flg);
+	if (fd == -1)
+		return ;
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		ft_putstr_fd(cwd, fd);
