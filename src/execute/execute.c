@@ -14,8 +14,6 @@
 
 void	ft_child_exec(t_shell *shell)
 {
-	if (shell->fd != 1)
-		dup2(shell->fd, 1);
 	if (!shell->constrs->command && shell->constrs->prev
 		&& shell->constrs->prev->command && !g_error_status)
 	{
@@ -28,10 +26,8 @@ void	open_stuff(t_shell *shell, char *path, char **argv, char **env2darray)
 {
 	int			pid;
 	t_const		*example;
-	//int			fd;
 	int			status;
 
-	//fd = 1;
 	example = shell->constrs;
 	pid = fork();
 	signal(SIGINT, sigint_handler2);
