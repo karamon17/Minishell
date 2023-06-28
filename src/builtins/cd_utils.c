@@ -20,6 +20,14 @@ void	ft_cdprint_error2(char *cmd)
 	ft_putstr_fd(": No such file or directory\n", 2);
 }
 
+void	ft_print_error_red(char *cmd)
+{
+	g_error_status = 1;
+	ft_putstr_fd("Minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
+}
+
 void	ft_cdprint_error(char *cmd)
 {
 	g_error_status = 1;
@@ -41,4 +49,15 @@ void	ft_oldpwd_notset(void)
 {
 	g_error_status = 1;
 	ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
+}
+
+void	cd_helper(t_shell *shell, t_token *token)
+{
+	char	*to_free;
+
+	to_free = ft_getenv(shell, "PWD");
+	if (token && token->data[0] == '-' && !token->data[1] && !g_error_status)
+		printf("%s\n", to_free);
+	free(to_free);
+	close_file(shell->fd);
 }

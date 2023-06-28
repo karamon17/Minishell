@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_resources.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/03 14:47:08 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/20 17:48:34 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/06/27 13:59:37 by jfrances          #+#    #+#             */
+/*   Updated: 2023/06/27 13:59:39 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void	free_tokens(t_token	*tokens)
 	free(tokens);
 }
 
-void	free_constrs(t_constr	*constrs)
+void	free_constrs(t_const	*constrs)
 {
-	t_constr	*tmp;
+	t_const	*tmp;
 
 	tmp = constrs;
 	if (!constrs)
@@ -101,11 +101,3 @@ void	ft_free_path(char **path)
 	}
 	free(path);
 }
-
-// void    free_shell(t_shell *shell)
-// {
-//     free_tokens(shell->tokens);
-//     free_env_list(shell);
-//     free(shell);
-//     exit (g_error_status);
-// }

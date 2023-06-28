@@ -6,11 +6,17 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 14:16:45 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/20 12:07:50 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/27 16:04:09 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	exit_helper(void)
+{
+	g_error_status = 1;
+	ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
+}
 
 int	ft_check_longlong(char *str)
 {
@@ -52,25 +58,36 @@ int	check(char *str)
 	return (0);
 }
 
-void	ft_exit(t_shell *shell, int *flag)
+static void	print_error_message(t_shell *shell)
+{
+	ft_putstr_fd("Minishell: exit: ", 2);
+	ft_putstr_fd(shell->tokens->next->data, 2);
+	ft_putstr_fd(" numeric argument required\n", 2);
+}
+
+void	ft_exit(t_shell *shell, int *flag, t_const *example)
 {
 	*flag = 1;
+	if (example->command && example->command[0] == '<')
+		shell->fd = file_check(example, shell->fd, &shell->flag);
+	if (shell->fd == -1)
+		return ;
 	printf("exit\n");
-	if (!shell->tokens->next)
+	if (!shell->tokens->next || !ft_strncmp(shell->tokens->next->data, "|", 2))
 		exit(0);
+	else if ((shell->tokens->next && !shell->tokens->next->next && \
+			!check(shell->tokens->next->data)) || (shell->tokens->next && \
+			!ft_strncmp(shell->tokens->next->data, "|", 2)) || \
+			(shell->tokens->next->next && !check(shell->tokens->next->data) && \
+			!ft_strncmp(shell->tokens->next->next->data, "|", 2)))
+		exit(ft_atoi(shell->tokens->next->data));
 	else if (shell->tokens->next && check(shell->tokens->next->data))
 	{
-		ft_putstr_fd("Minishell: exit: ", 2);
-		ft_putstr_fd(shell->tokens->next->data, 2);
-		ft_putstr_fd(" numeric argument required\n", 2);
+		print_error_message(shell);
 		exit(255);
 	}
-	else if (shell->tokens->next && !shell->tokens->next->next)
-		exit(ft_atoi(shell->tokens->next->data));
 	else
-	{
-		g_error_status = 1;
-		ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
-	}
+		exit_helper();
+	close_file(shell->fd);
 	return ;
 }

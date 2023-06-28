@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   first_parse_helper.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/14 15:03:10 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/20 17:19:32 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/06/27 14:00:16 by jfrances          #+#    #+#             */
+/*   Updated: 2023/06/27 14:00:18 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// void	clean_shell(t_shell **shell)
-// {
-// 	free_shell(*shell);
-// }
 
 int	parse_norm_helper(char *tmp, t_token *new, int i)
 {
@@ -35,8 +30,7 @@ int	parse_norm_helper(char *tmp, t_token *new, int i)
 		if (tmp[i + 1] == tmp[i])
 		{
 			free(new);
-			new = ft_new_token(ft_substr(tmp, i, 2));
-			i++;
+			new = ft_new_token(ft_substr(tmp, i++, 2));
 		}
 		else
 		{
@@ -66,4 +60,37 @@ void	cut_spaces(t_token **tokens)
 int	is_special_token(char *token)
 {
 	return (ft_strcmp(token, "<<") == 0 || ft_strcmp(token, ">>") == 0);
+}
+
+char	message_status(void)
+{
+	g_error_status = 258;
+	ft_putstr_fd("Minishell : syntax error: unexpected end of file\n", 2);
+	return ('E');
+}
+
+t_token	*check_redirects(t_token *new)
+{
+	t_token	*tmp;
+
+	tmp = new;
+	if (ft_token_size(tmp) == 1 && (!ft_strncmp(tmp->data, "<", 2) || \
+	!ft_strncmp(tmp->data, ">", 2) || !ft_strncmp(tmp->data, "<<", 3) \
+	|| !ft_strncmp(tmp->data, ">>", 3)))
+		tmp->type = message_status();
+	while (tmp)
+	{
+		if (check_redirects_helper(tmp, 1) == 1)
+		{
+			tmp->type = message_status();
+			break ;
+		}
+		if (check_redirects_helper(tmp, 2) == 2)
+		{
+			tmp->type = message_status();
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	return (new);
 }

@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   main_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/18 17:28:14 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/02 18:26:53 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/06/28 14:54:53 by jfrances          #+#    #+#             */
+/*   Updated: 2023/06/28 14:54:54 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlen(const char *str)
+void	free_heredocs(t_shell **shell)
 {
-	size_t	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
+	if ((*shell)->heredoc_name)
+	{
+		unlink((*shell)->heredoc_name);
+		free((*shell)->heredoc_name);
+		(*shell)->heredoc_name = NULL;
+	}
 }

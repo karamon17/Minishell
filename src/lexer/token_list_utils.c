@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/11 12:44:48 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/19 18:54:55 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/06/27 14:01:03 by jfrances          #+#    #+#             */
+/*   Updated: 2023/06/27 14:01:05 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_token	*ft_new_token(char *content)
 	if (!new)
 		return (NULL);
 	new->data = ft_strdup(content);
+	new->type = 0;
 	new->next = NULL;
 	free(content);
 	return (new);

@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/18 17:28:14 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/02 18:26:53 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/06/28 14:25:12 by jfrances          #+#    #+#             */
+/*   Updated: 2023/06/28 14:25:14 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlen(const char *str)
+void	export_helper(char *tmp, t_shell *shell, char *value, int *cat)
 {
-	size_t	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
+	if (ft_checkletter(tmp, cat))
+		check_add(shell, ft_strdup(tmp), value, cat);
+	else
+		ft_printerror(tmp, value);
 }

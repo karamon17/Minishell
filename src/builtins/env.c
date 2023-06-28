@@ -12,19 +12,28 @@
 
 #include "minishell.h"
 
-void	ft_env(t_shell *shell, int *flag)
+void	ft_env(t_shell *shell, int *flag, t_const *example)
 {
 	t_env	*current;
 
+	shell->fd = 1;
 	*flag = 1;
 	current = shell->env_lst;
+	if (example->command && example->command[0] == '<')
+		shell->fd = file_check(example, shell->fd, &shell->flag);
+	if (shell->fd == -1)
+		return ;
 	while (current)
 	{
 		if (current->value)
 		{
-			printf("%s", current->key);
-			printf("=%s\n", current->value);
+			ft_putstr_fd(current->key, shell->fd);
+			ft_putstr_fd("=", shell->fd);
+			ft_putstr_fd(current->value, shell->fd);
+			ft_putstr_fd("\n", shell->fd);
 		}
 			current = current->next;
 	}
+	if (shell->fd != 1)
+		close(shell->fd);
 }

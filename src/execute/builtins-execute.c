@@ -6,7 +6,7 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 19:24:02 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/17 14:55:12 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:31:36 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,44 @@ char	*str_lower(char *str)
 	return (res);
 }
 
-int	execute_builtin(t_shell *shell)
+int	builtin_conditonals(t_shell *shell, t_token *tmp, t_const *example)
 {
-	t_token	*tmp;
 	int		flag[1];
 	char	*low;
 
 	*flag = 0;
-	tmp = shell->tokens;
 	low = str_lower(tmp->data);
 	if (!ft_strncmp(low, "pwd", 4))
-		ft_pwd(flag);
+		ft_pwd(flag, example);
 	else if (!ft_strncmp(tmp->data, "cd", 3))
-		ft_cd(shell, flag);
+		ft_cd(shell, example);
 	else if (!ft_strncmp(low, "env", 4))
-		ft_env(shell, flag);
+		ft_env(shell, flag, example);
 	else if (!ft_strncmp(tmp->data, "exit", 5))
-		ft_exit(shell, flag);
+		ft_exit(shell, flag, example);
 	else if (!ft_strncmp(tmp->data, "unset", 6))
 		ft_unset(shell, flag);
 	else if (!ft_strncmp(tmp->data, "export", 7))
-		ft_export(shell, flag);
+		ft_export(shell, flag, example);
 	else if (!ft_strncmp(low, "echo", 5))
-		ft_echo(shell, flag);
+		ft_echo(shell, flag, example);
 	free(low);
-	// else if (!ft_strncmp(tmp->data, ">", 2) || !ft_strncmp(tmp->data, ">>", 3))
-	// 		redirect_output(shell->constrs);
+	return (*flag);
+}
+
+int	execute_builtin(t_shell *shell)
+{
+	t_token		*tmp;
+	int			flag[1];
+	t_const		*example;
+	int			fd;
+
+	fd = 1;
+	example = shell->constrs;
+	*flag = 0;
+	tmp = shell->tokens;
+	if (file_check(example, shell->fd, &shell->flag) == -1)
+		return (*flag);
+	*flag = builtin_conditonals(shell, tmp, example);
 	return (*flag);
 }

@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   execute_helper_b.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/18 17:28:14 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/02 18:26:53 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/06/28 09:37:54 by jfrances          #+#    #+#             */
+/*   Updated: 2023/06/28 09:37:55 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlen(const char *str)
+char	*prev_node(t_token *head, t_token *token)
 {
-	size_t	i;
+	t_token	*tmp;
 
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
+	tmp = head;
+	if (tmp == token)
+		return (NULL);
+	while (tmp)
+	{
+		if (tmp->next == token)
+			return (tmp->data);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }

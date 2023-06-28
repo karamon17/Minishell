@@ -3,41 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   second_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jfrances <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/27 19:38:27 by jfrances          #+#    #+#             */
-/*   Updated: 2023/06/20 19:10:33 by gkhaishb         ###   ########.fr       */
+/*   Created: 2023/06/27 14:02:19 by jfrances          #+#    #+#             */
+/*   Updated: 2023/06/27 14:02:33 by jfrances         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*cut_command_quotes(t_token *tokens)
+void	cut_command_quotes(t_token *tmp, int i, int count_d, int count_s)
 {
-	int		i;
 	char	*cpy;
-	t_token	*tmp;
 	char	*to_free;
 
-	tmp = tokens;
 	while (tmp != NULL)
 	{
 		i = -1;
 		cpy = ft_calloc(1, sizeof(char));
 		while (tmp->data[++i])
 		{
-			if (tmp->data[i] == '\'' || tmp->data[i] == '"')
+			if (tmp->data[i] == '\'' && !(count_d % 2) && ++count_s)
 				continue ;
-			to_free = ft_substr(tmp->data, i, 1);
-			cpy = ft_mystrjoin(cpy, to_free);
-			free(to_free);
+			if (tmp->data[i] == '"' && !(count_s % 2) && ++count_d)
+				continue ;
+			cpy = ft_mystrjoin2(cpy, ft_substr(tmp->data, i, 1));
 		}
 		to_free = tmp->data;
 		tmp->data = cpy;
 		free(to_free);
 		tmp = tmp->next;
 	}
-	return (tokens);
 }
 
 t_token	*delete_token(t_token **head, t_token *to_delete)
@@ -48,10 +44,10 @@ t_token	*delete_token(t_token **head, t_token *to_delete)
 		return (NULL);
 	if (*head == to_delete)
 	{
-		(*head)->next = to_delete->next;
+		(*head) = to_delete->next;
 		free(to_delete->data);
 		free(to_delete);
-		return (NULL);
+		return ((*head));
 	}
 	prev_node = *head;
 	while (prev_node->next != NULL && prev_node->next != to_delete)
@@ -69,6 +65,8 @@ void	ft_check_options_help(t_token	*tmp, t_token *tokens)
 	char	*to_free;
 	t_token	*to_delete;
 
+	if (!tmp)
+		return ;
 	to_free = ft_strtrim(tmp->data, "n");
 	while (tmp && tmp->data[0] == '-'
 		&& !ft_strncmp(to_free, "-", 2))
@@ -92,8 +90,7 @@ t_token	*check_options(t_token *tokens)
 	to_free = NULL;
 	if (tmp)
 		to_free = ft_strtrim(tmp->data, "n");
-	if (tmp && tmp->data[0] == '-'
-		&& !ft_strncmp(to_free, "-", 2))
+	if (tmp && tmp->data[0] == '-' && !ft_strncmp(to_free, "-", 2))
 	{
 		temp_str = tmp->data;
 		tmp->data = ft_strdup("-n");
@@ -112,6 +109,9 @@ t_token	*stugel(t_token *tokens)
 	t_token	*tmp;
 	int		i;
 
+	if (!tokens)
+		return (NULL);
+	cut_command_quotes(tokens, 0, 0, 0);
 	tmp = tokens;
 	i = 0;
 	while (tmp)
@@ -121,7 +121,5 @@ t_token	*stugel(t_token *tokens)
 		tmp = tmp->next;
 		i++;
 	}
-	tmp = tokens;
-	tokens = cut_command_quotes(tmp);
 	return (tokens);
 }

@@ -6,13 +6,13 @@
 /*   By: gkhaishb <gkhaishb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 13:42:34 by gkhaishb          #+#    #+#             */
-/*   Updated: 2023/06/21 13:04:42 by gkhaishb         ###   ########.fr       */
+/*   Updated: 2023/06/23 17:00:30 by gkhaishb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_child(t_shell *shell, t_constr *constr, int *pid)
+void	ft_child(t_shell *shell, t_const *constr, int *pid)
 {
 	*pid = fork();
 	if (*pid == -1)
@@ -41,7 +41,7 @@ void	ft_child(t_shell *shell, t_constr *constr, int *pid)
 	}
 }
 
-int	ft_emptypipe(t_constr *constr)
+int	ft_emptypipe(t_const *constr)
 {
 	if (constr->command && !ft_strncmp(constr->command, "|", 2)
 		&& !constr->next)
@@ -72,25 +72,25 @@ int	check_builtin(t_shell *shell)
 
 	tmp = shell->tokens;
 	low = str_lower(tmp->data);
-	res = (ft_strncmp(low, "pwd", 4)
-			|| ft_strncmp(tmp->data, "cd", 3)
-			|| ft_strncmp(low, "env", 4)
-			|| ft_strncmp(tmp->data, "exit", 5)
-			|| ft_strncmp(tmp->data, "unset", 6)
-			|| ft_strncmp(tmp->data, "export", 7)
-			|| ft_strncmp(low, "echo", 5));
+	res = (!ft_strncmp(low, "pwd", 4)
+			|| !ft_strncmp(tmp->data, "cd", 3)
+			|| !ft_strncmp(low, "env", 4)
+			|| !ft_strncmp(tmp->data, "exit", 5)
+			|| !ft_strncmp(tmp->data, "unset", 6)
+			|| !ft_strncmp(tmp->data, "export", 7)
+			|| !ft_strncmp(low, "echo", 5));
 	free(low);
 	return (res);
 }
 
-void	ft_mainpipe(t_shell *shell, t_constr *constr)
+void	ft_mainpipe(t_shell *shell, t_const *c)
 {
 	char	*path;
 	pid_t	pid;
 
-	if ((constr->command && !ft_strncmp(constr->command, "|", 2)) || \
-		(constr->prev && constr->prev->command
-			&& !ft_strncmp(constr->prev->command, "|", 2)))
+	if ((c->command && !ft_strncmp(c->command, "|", 2)) || \
+	(c->prev && c->prev->command \
+	&& !ft_strncmp(c->prev->command, "|", 2)))
 	{
 		path = check_path(shell);
 		if (!path && !check_builtin(shell))
@@ -100,18 +100,21 @@ void	ft_mainpipe(t_shell *shell, t_constr *constr)
 			free(path);
 			if (!g_error_status)
 			{
-				pipe(constr->fd);
-				ft_child(shell, constr, &pid);
+				pipe(c->fd);
+				ft_child(shell, c, &pid);
 			}
 		}
 	}
-	else if (!constr->command && !execute_builtin(shell))
-		execute(shell);
+	else if (c->prev && c->prev->command \
+	&& ft_strncmp(c->prev->command, "|", 2))
+		return ;
+	else if (!c->command || (c->command && ft_strncmp(c->command, "|", 2)))
+		pipex_helper(shell);
 }
 
 void	ft_pipex(t_shell *shell)
 {
-	t_constr	*constr;
+	t_const	*constr;
 
 	constr = shell->constrs;
 	while (constr)
@@ -119,8 +122,11 @@ void	ft_pipex(t_shell *shell)
 		if (ft_emptypipe(constr))
 			return ;
 		ft_mainpipe(shell, constr);
+		if (g_error_status)
+			return ;
 		move_shell_tokens(shell);
-		if (constr->prev && constr->prev->command && !g_error_status)
+		if (constr->prev && \
+		!ft_strncmp(constr->prev->command, "|", 2) && !g_error_status)
 			ft_close_pipe(constr->prev->fd);
 		shell->constrs = constr->next;
 		constr = shell->constrs;
