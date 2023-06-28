@@ -37,7 +37,7 @@
 # include <readline/history.h>
 # include <errno.h>
 
-int g_error_status;
+int	g_error_status;
 
 typedef struct s_helper
 {
