@@ -1,6 +1,6 @@
 # Minishell
 
-Minishell is a simplified version of bash developed as part of the main curriculum for Hive Helsinki. It provides basic shell functionality, including executing commands, managing environment variables, and handling input/output redirection.
+Minishell is a simplified version of bash developed as part of the main curriculum 42 school. It provides basic shell functionality, including executing commands, managing environment variables, and handling input/output redirection.
 
 ## Features
 
